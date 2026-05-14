@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://debtpayoffcalculator.app/sitemap.xml
+Sitemap: https://debt-calculator-ten.vercel.app/sitemap.xml
