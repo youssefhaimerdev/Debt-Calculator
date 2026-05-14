@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debt Payoff Calculator — See Exactly When You'll Be Debt-Free</title>
+  <meta name="description" content="Free debt payoff calculator: enter your balance, interest rate, and monthly payment to instantly see your payoff date, total interest, and a full month-by-month amortization schedule.">
+  <meta name="google-adsense-account" content="ca-pub-3379075069129713">
+  <link rel="canonical" href="https://debtpayoffcalculator.app/">
+  <meta property="og:title" content="Debt Payoff Calculator — See Exactly When You'll Be Debt-Free">
+  <meta property="og:description" content="Free debt payoff calculator: enter your balance, interest rate, and monthly payment to instantly see your payoff date, total interest, and a full month-by-month amortization schedule.">
+  <meta property="og:url" content="https://debtpayoffcalculator.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://debtpayoffcalculator.app/og-image.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="hreflang" hreflang="en" href="https://debtpayoffcalculator.app/">
+  <link rel="alternate" hreflang="x-default" href="https://debtpayoffcalculator.app/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Debt Payoff Calculator",
+    "url": "https://debtpayoffcalculator.app/",
+    "description": "Calculate exactly how long it will take to pay off your debt, how much interest you'll pay, and see a complete month-by-month amortization schedule.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": [
+      "Months to payoff calculation",
+      "Total interest calculation",
+      "Month-by-month amortization table",
+      "What-if payment comparison"
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<header class="site-header">
+  <nav class="nav-container">
+    <a href="/" class="nav-logo">
+      <div class="logo-mark">$</div>
+      Debt<em>Free</em>Calc
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/" class="active">Calculator</a></li>
+      <li><a href="/multi-debt" class="nav-cta">Multi-Debt ✦</a></li>
+      <li><a href="/how-it-works">How It Works</a></li>
+      <li><a href="/tips">Payoff Tips</a></li>
+      <li><a href="/faq">FAQ</a></li>
+      <li><a href="/alternatives">Alternatives</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow animate-in">
+      <span>●</span> Free · No sign-up required
+    </div>
+    <h1 class="animate-in delay-1">See exactly when you'll be<br><em>debt-free</em></h1>
+    <p class="hero-sub animate-in delay-2">Enter your balance, interest rate, and monthly payment. Get your payoff date, total interest cost, and a full month-by-month breakdown — instantly.</p>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="section-sm">
+  <div class="container">
+
+    <div class="calc-grid">
+      <!-- Inputs -->
+      <div class="calc-inputs-panel">
+        <div class="panel-title">Your Debt Details</div>
+
+        <div class="form-group">
+          <label class="form-label" for="inp-debt">
+            <span>💳</span> Total Debt Balance
+          </label>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input type="number" id="inp-debt" class="has-prefix" placeholder="5,000" min="1" step="1" aria-label="Total debt balance in dollars">
+          </div>
+          <p class="form-hint">Enter the total amount you currently owe</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inp-apr">
+            <span>📊</span> Annual Interest Rate (APR)
+          </label>
+          <div class="input-wrap">
+            <input type="number" id="inp-apr" class="has-suffix" placeholder="24.99" min="0" max="100" step="0.01" aria-label="Annual percentage rate">
+            <span class="input-suffix">%</span>
+          </div>
+          <p class="form-hint">Find this on your credit card statement or account dashboard</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inp-payment">
+            <span>💰</span> Monthly Payment
+          </label>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input type="number" id="inp-payment" class="has-prefix" placeholder="200" min="1" step="1" aria-label="Monthly payment amount">
+          </div>
+          <p class="form-hint">The amount you plan to pay each month</p>
+        </div>
+
+        <div class="calc-error" id="calcError" role="alert">
+          <span>⚠</span>
+          <span id="calcErrorMsg">Your payment is too low to cover monthly interest.</span>
+        </div>
+
+        <button class="btn btn-primary btn-full" id="calcBtn" style="margin-top:8px;" onclick="runCalculation()">
+          Calculate My Payoff Plan →
+        </button>
+
+        <p style="font-size:0.75rem;color:var(--text-muted);text-align:center;margin-top:12px;">Results update automatically as you type</p>
+      </div>
+
+      <!-- Results -->
+      <div class="calc-results-panel">
+        <div class="panel-title">Your Payoff Plan</div>
+
+        <div class="results-empty" id="resultsEmpty">
+          <div class="empty-icon">📋</div>
+          <p>Enter your debt details on the left to see your personalized payoff plan.</p>
+        </div>
+
+        <div class="results-grid" id="resultsGrid">
+
+          <div class="metric">
+            <div class="metric-label">Debt-Free Date</div>
+            <div class="metric-value accent" id="res-date">—</div>
+            <div class="metric-sub" id="res-months-sub">—</div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-label">Total Interest You'll Pay</div>
+            <div class="metric-value danger" id="res-interest">—</div>
+            <div class="metric-sub" id="res-interest-sub">—</div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-label">Total Amount Paid</div>
+            <div class="metric-value" id="res-total">—</div>
+            <div class="breakdown-bar">
+              <div class="breakdown-fill" id="res-bar"></div>
+            </div>
+            <div class="breakdown-labels">
+              <span id="res-bar-principal">Principal</span>
+              <span id="res-bar-interest-pct">Interest</span>
+            </div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-label">Monthly Minimum to Break Even</div>
+            <div class="metric-value gold" id="res-min">—</div>
+            <div class="metric-sub">Below this, your debt grows forever</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CHART SECTION -->
+<section class="viz-section" id="vizSection" style="display:none;">
+  <div class="container">
+    <div class="viz-header">
+      <div>
+        <div class="section-label">Balance Over Time</div>
+        <h2 style="margin:0;">Your Debt Payoff Timeline</h2>
+      </div>
+    </div>
+    <div class="chart-container">
+      <canvas id="amort-chart" role="img" aria-label="Debt payoff timeline chart"></canvas>
+      <div class="chart-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--accent);"></div>
+          <span>Remaining Balance</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--gold);"></div>
+          <span>Cumulative Interest Paid</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT-IF SECTION -->
+<section class="whatif-section" id="whatifSection" style="display:none;">
+  <div class="container">
+    <div class="whatif-card">
+      <div class="whatif-header">
+        <div class="section-label">What If I Paid More?</div>
+        <h2>See how extra payments change everything</h2>
+        <p>Drag the slider to see how paying just a little more each month dramatically shortens your payoff timeline and saves you a fortune in interest.</p>
+      </div>
+      <div class="whatif-grid">
+        <div class="whatif-controls">
+          <div class="whatif-slider-row">
+            <span style="font-size:0.82rem;color:var(--text-muted);">Extra monthly payment</span>
+            <span class="whatif-amount" id="wi-amount">+$50</span>
+          </div>
+          <input type="range" id="wi-slider" min="0" max="500" value="50" step="10" aria-label="Extra monthly payment slider">
+          <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-muted);margin-top:6px;">
+            <span>$0 extra</span>
+            <span>$500 extra</span>
+          </div>
+
+          <!-- LUMP SUM -->
+          <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border);">
+            <div style="font-size:0.75rem;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:10px;">One-Time Lump Sum Payment</div>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:12px;">Got a tax refund, bonus, or windfall? Enter it here to see the combined impact with extra monthly payments.</p>
+            <div class="input-wrap">
+              <span class="input-prefix">$</span>
+              <input type="number" id="wi-lump" class="has-prefix" placeholder="0" min="0" step="100" value="0" oninput="updateWhatIf(parseInt(document.getElementById('wi-slider').value))" aria-label="One-time lump sum payment" style="font-size:1rem;">
+            </div>
+          </div>
+
+          <div style="margin-top:20px;padding:16px;background:var(--accent-dim);border:1px solid var(--border-focus);border-radius:var(--radius-md);">
+            <div style="font-size:0.75rem;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:6px;">Total Extra Committed</div>
+            <div style="font-family:var(--font-mono);font-size:1.4rem;color:var(--text-primary);" id="wi-extra-total">—</div>
+            <div style="font-size:0.78rem;color:var(--text-muted);margin-top:4px;">extra monthly × months + lump sum</div>
+          </div>
+        </div>
+        <div>
+          <div class="whatif-results-grid">
+            <div class="whatif-metric">
+              <div class="whatif-metric-label">Months to Payoff</div>
+              <div class="whatif-metric-base" id="wi-months-base">Current: —</div>
+              <div class="whatif-metric-new" id="wi-months-new">—</div>
+              <div class="whatif-metric-save" id="wi-months-save"></div>
+            </div>
+            <div class="whatif-metric">
+              <div class="whatif-metric-label">Payoff Date</div>
+              <div class="whatif-metric-base" id="wi-date-base">Current: —</div>
+              <div class="whatif-metric-new" id="wi-date-new">—</div>
+              <div class="whatif-metric-save" id="wi-date-save"></div>
+            </div>
+            <div class="whatif-metric">
+              <div class="whatif-metric-label">Total Interest</div>
+              <div class="whatif-metric-base" id="wi-interest-base">Current: —</div>
+              <div class="whatif-metric-new" id="wi-interest-new">—</div>
+              <div class="whatif-metric-save" id="wi-interest-save"></div>
+            </div>
+            <div class="whatif-metric">
+              <div class="whatif-metric-label">Total Paid</div>
+              <div class="whatif-metric-base" id="wi-total-base">Current: —</div>
+              <div class="whatif-metric-new" id="wi-total-new">—</div>
+              <div class="whatif-metric-save" id="wi-total-save"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AMORTIZATION TABLE -->
+<section class="table-section" id="tableSection" style="display:none;">
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:8px;">
+      <div>
+        <div class="section-label">Month-by-Month Breakdown</div>
+        <h2 style="margin:0;">Full Amortization Schedule</h2>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+        <button class="table-toggle-btn" id="tableToggleBtn" onclick="toggleTable()">
+          <span id="tableToggleIcon">▼</span> Show Full Schedule
+        </button>
+        <button class="table-toggle-btn" onclick="exportAmortCSV()" title="Download amortization schedule as CSV">
+          ⬇ Export CSV
+        </button>
+      </div>
+    </div>
+    <div class="table-wrapper" id="tableWrapper">
+      <table class="amort-table" id="amortTable" aria-label="Month-by-month amortization schedule">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Payment</th>
+            <th>Principal</th>
+            <th>Interest</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody id="amortTbody"></tbody>
+      </table>
+      <div class="table-pagination" id="tablePagination">
+        <span id="pageInfo">Showing 1–12 of — months</span>
+        <div class="table-pagination-btns">
+          <button class="page-btn" id="prevPage" onclick="changePage(-1)">← Prev</button>
+          <button class="page-btn" id="nextPage" onclick="changePage(1)">Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVERSE CALCULATOR -->
+<section id="reverseCalc" style="padding:20px 0 60px;display:none;">
+  <div class="container">
+    <div class="card" style="background:var(--bg-surface);border-color:rgba(0,214,122,0.15);">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;" id="reverseGrid">
+        <div>
+          <div class="section-label">Reverse Calculator</div>
+          <h2 style="margin-bottom:8px;">What payment do I need<br>to be debt-free by a date?</h2>
+          <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:28px;">Pick a target payoff date and we'll tell you exactly what monthly payment you need to hit it — using your current balance and APR.</p>
+          <div class="form-group">
+            <label class="form-label" for="rev-months">🎯 Target: Pay off in</label>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div class="input-wrap" style="flex:1;">
+                <input type="number" id="rev-months" placeholder="18" min="1" max="600" step="1" style="font-size:1.3rem;" oninput="runReverse()" aria-label="Target months to payoff">
+              </div>
+              <span style="color:var(--text-secondary);font-weight:600;flex-shrink:0;">months</span>
+            </div>
+            <p class="form-hint">Uses the balance and APR entered above</p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
+            <button onclick="setRevMonths(12)" class="page-btn">1 year</button>
+            <button onclick="setRevMonths(18)" class="page-btn">18 months</button>
+            <button onclick="setRevMonths(24)" class="page-btn">2 years</button>
+            <button onclick="setRevMonths(36)" class="page-btn">3 years</button>
+            <button onclick="setRevMonths(60)" class="page-btn">5 years</button>
+          </div>
+        </div>
+        <div>
+          <div id="revEmpty" style="color:var(--text-muted);font-size:0.9rem;padding:40px 0;text-align:center;">
+            Enter your target on the left
+          </div>
+          <div id="revResults" style="display:none;">
+            <div class="metric" style="padding:20px 0;">
+              <div class="metric-label">Required Monthly Payment</div>
+              <div class="metric-value accent" id="rev-payment" style="font-size:2.6rem;">—</div>
+              <div class="metric-sub" id="rev-payment-sub">—</div>
+            </div>
+            <div class="metric" style="padding:20px 0;">
+              <div class="metric-label">vs. Your Current Payment</div>
+              <div class="metric-value" id="rev-vs-current">—</div>
+              <div class="metric-sub" id="rev-vs-sub">—</div>
+            </div>
+            <div class="metric" style="padding:20px 0;border-bottom:none;">
+              <div class="metric-label">Total Interest at This Timeline</div>
+              <div class="metric-value gold" id="rev-interest">—</div>
+              <div class="metric-sub" id="rev-interest-sub">Debt-free: <span id="rev-date">—</span></div>
+            </div>
+            <button class="btn btn-outline" style="margin-top:16px;width:100%;" onclick="applyReversePayment()" id="revApplyBtn">
+              Use This Payment in Calculator ↑
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT SECTION (SEO) -->
+<section class="content-section" style="background:var(--bg-surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="content-prose">
+      <div class="section-label">About This Calculator</div>
+      <h2>The Credit Card Debt Payoff Calculator That Gives You the Full Picture</h2>
+      <p>Most people carrying credit card debt have no idea how long it will actually take to pay off — or how much they'll ultimately hand over to their lender in interest. The math is deliberately obscured. Your statement shows you a "minimum payment" that seems manageable, but that number is designed to keep you in debt as long as possible, maximizing the interest you pay over time.</p>
+      <p>This free debt payoff calculator fixes that. Enter three numbers — your current balance, your APR, and the monthly payment you can make — and you'll instantly see your debt-free date, your total interest cost, and a complete month-by-month breakdown of exactly where every dollar goes.</p>
+
+      <h3>How to Use This Debt Calculator</h3>
+      <p><strong>Step 1 — Enter your total balance.</strong> This is the current outstanding balance on your credit card or loan, not your credit limit. You can find it on your latest statement or by logging into your account.</p>
+      <p><strong>Step 2 — Enter your APR.</strong> Your Annual Percentage Rate is the annualized interest rate your lender charges. It will appear on your statement, usually prominently. Credit card APRs in the United States currently average around 22–27% for accounts that carry a balance.</p>
+      <p><strong>Step 3 — Enter your planned monthly payment.</strong> This is the amount you commit to paying every single month. Consistency is key — skipping months dramatically extends your payoff timeline. The higher above your minimum payment, the faster your debt disappears.</p>
+
+      <div class="callout callout-tip">
+        <div class="callout-title">💡 Pro Tip</div>
+        <p>After you see your results, scroll down to the <strong>"What If I Paid More?"</strong> section and drag the slider. Even an extra $25–$50 per month often shaves years off your payoff timeline and saves hundreds or thousands in interest.</p>
+      </div>
+
+      <h3>Understanding Your Results</h3>
+      <p><strong>Months to payoff</strong> is the number of monthly payment cycles until your balance reaches zero. If this number shocks you, you're not alone — at typical credit card interest rates, a $5,000 balance with only the minimum payment can take over a decade to eliminate.</p>
+      <p><strong>Total interest paid</strong> is the single most alarming number for most people. It represents money paid purely to your lender, above and beyond the original amount you borrowed. On a $10,000 balance at 24% APR paying $250/month, you'd pay over $5,000 in interest — 50 cents of pure profit for the bank for every dollar of actual debt.</p>
+      <p><strong>The breakdown bar</strong> visually shows the ratio of principal to interest in your total payments. A bar that's mostly gold (interest) is a clear signal to find ways to pay more each month.</p>
+
+      <h3>Why the Minimum Payment Is a Trap</h3>
+      <p>Credit card companies set minimum payments intentionally low — typically 1–2% of your balance or a flat amount like $25, whichever is greater. This keeps monthly payments "affordable," which means you stay a customer (and a debt payer) for far longer. On a $6,000 balance at 22% APR with a 2% minimum payment, paying only the minimum means it takes over 30 years to pay off and you'll pay more than $10,000 in interest — on a $6,000 debt.</p>
+      <p>This calculator shows you the true cost of that approach and gives you the information to make a different choice.</p>
+
+      <div class="stat-row">
+        <div class="stat-box">
+          <span class="stat-number">$6,501</span>
+          <div class="stat-label">Average American credit card debt (2024)</div>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">22.8%</span>
+          <div class="stat-label">Average credit card APR currently</div>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">$1.17T</span>
+          <div class="stat-label">Total US credit card debt outstanding</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RELATED LINKS -->
+<section class="section-sm">
+  <div class="container">
+    <div class="section-label">Keep Going</div>
+    <h2>Everything You Need to Get Out of Debt</h2>
+    <div class="related-links">
+      <a href="/how-it-works" class="related-link-card">
+        <div class="rl-label">Learn</div>
+        <div class="rl-title">How the Math Works</div>
+        <div class="rl-desc">Understand compound interest, amortization, and why your minimum payment keeps you trapped.</div>
+      </a>
+      <a href="/tips" class="related-link-card">
+        <div class="rl-label">Strategy</div>
+        <div class="rl-title">10 Proven Debt Payoff Tips</div>
+        <div class="rl-desc">The avalanche, the snowball, and 8 other tactics that actually work for eliminating debt faster.</div>
+      </a>
+      <a href="/faq" class="related-link-card">
+        <div class="rl-label">Questions</div>
+        <div class="rl-title">Frequently Asked Questions</div>
+        <div class="rl-desc">Answers to the most common questions about paying off credit card debt.</div>
+      </a>
+      <a href="/alternatives" class="related-link-card">
+        <div class="rl-label">Options</div>
+        <div class="rl-title">Debt Relief Alternatives</div>
+        <div class="rl-desc">Balance transfers, consolidation loans, DMPs, and more — compared honestly.</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo" style="margin-bottom:12px;display:inline-flex;">
+          <div class="logo-mark">$</div>
+          Debt<em>Free</em>Calc
+        </a>
+        <p>A free, no-login debt payoff calculator built to give you honest, actionable clarity about your debt. No upsells, no data collection, no agenda — just math that helps.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="/">Debt Payoff Calculator</a></li>
+          <li><a href="/#whatifSection">What-If Calculator</a></li>
+          <li><a href="/#tableSection">Amortization Table</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/how-it-works">How It Works</a></li>
+          <li><a href="/tips">Debt Payoff Tips</a></li>
+          <li><a href="/faq">FAQ</a></li>
+          <li><a href="/alternatives">Alternatives</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/tips#avalanche">Avalanche Method</a></li>
+          <li><a href="/tips#snowball">Snowball Method</a></li>
+          <li><a href="/alternatives#balance-transfer">Balance Transfers</a></li>
+          <li><a href="/alternatives#consolidation">Debt Consolidation</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-disclaimer">This calculator is for educational and informational purposes only. Results are estimates based on the inputs provided and assume consistent monthly payments with no additional charges. This is not financial advice. Consult a qualified financial advisor for personalized guidance.</p>
+      <span class="footer-copy">© 2025 DebtFreeCalc</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ============================================
+//  CORE CALCULATION ENGINE
+// ============================================
+let currentSchedule = [];
+let currentDebt = 0;
+let currentAPR = 0;
+let currentPayment = 0;
+let tablePage = 0;
+const ROWS_PER_PAGE = 12;
+
+function fmt$(n) {
+  return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+function fmtShort$(n) {
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+function fmtDate(months) {
+  const d = new Date();
+  d.setMonth(d.getMonth() + months);
+  return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+}
+function fmtMonths(m) {
+  const yrs = Math.floor(m / 12);
+  const mos = m % 12;
+  if (yrs === 0) return mos + ' month' + (mos !== 1 ? 's' : '');
+  if (mos === 0) return yrs + ' year' + (yrs !== 1 ? 's' : '');
+  return yrs + 'y ' + mos + 'm';
+}
+
+function calcAmort(principal, apr, payment) {
+  const rate = apr / 100 / 12;
+  if (rate > 0 && payment <= principal * rate) {
+    return { error: true, minPayment: principal * rate };
+  }
+  let balance = principal;
+  let totalInterest = 0;
+  const schedule = [];
+  let month = 0;
+  while (balance > 0.005 && month < 600) {
+    month++;
+    const interest = balance * rate;
+    let principal_paid = payment - interest;
+    if (principal_paid > balance) principal_paid = balance;
+    balance = Math.max(0, balance - principal_paid);
+    totalInterest += interest;
+    schedule.push({
+      month, interest, principal: principal_paid,
+      payment: principal_paid + interest,
+      balance
+    });
+    if (balance <= 0) break;
+  }
+  return {
+    months: month, totalInterest,
+    totalPaid: principal + totalInterest,
+    schedule,
+    minPayment: principal * rate
+  };
+}
+
+// ============================================
+//  REAL-TIME INPUT HANDLER
+// ============================================
+let debounceTimer;
+['inp-debt','inp-apr','inp-payment'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(runCalculation, 300);
+  });
+});
+
+function runCalculation() {
+  const debt    = parseFloat(document.getElementById('inp-debt').value);
+  const apr     = parseFloat(document.getElementById('inp-apr').value);
+  const payment = parseFloat(document.getElementById('inp-payment').value);
+
+  const err = document.getElementById('calcError');
+
+  if (!debt || !apr || !payment || debt <= 0 || payment <= 0) {
+    err.classList.remove('show');
+    return;
+  }
+
+  const result = calcAmort(debt, apr, payment);
+
+  if (result.error) {
+    err.classList.add('show');
+    document.getElementById('calcErrorMsg').textContent =
+      `Your payment of ${fmt$(payment)} doesn't cover the monthly interest of ${fmt$(result.minPayment)}. Increase your payment to at least ${fmt$(result.minPayment + 1)} to start reducing your balance.`;
+    hideResults();
+    return;
+  }
+
+  err.classList.remove('show');
+  currentSchedule = result.schedule;
+  currentDebt = debt;
+  currentAPR = apr;
+  currentPayment = payment;
+
+  showResults(result, debt, payment);
+  drawChart(result.schedule, debt);
+  updateWhatIf(50);
+  renderTablePage(0);
+  tablePage = 0;
+
+  document.getElementById('vizSection').style.display = '';
+  document.getElementById('whatifSection').style.display = '';
+  document.getElementById('tableSection').style.display = '';
+  document.getElementById('reverseCalc').style.display = '';
+  runReverse();
+}
+
+function hideResults() {
+  document.getElementById('resultsEmpty').style.display = 'flex';
+  document.getElementById('resultsGrid').classList.remove('visible');
+  document.getElementById('vizSection').style.display = 'none';
+  document.getElementById('whatifSection').style.display = 'none';
+  document.getElementById('tableSection').style.display = 'none';
+  document.getElementById('reverseCalc').style.display = 'none';
+}
+
+function showResults(result, debt, payment) {
+  document.getElementById('resultsEmpty').style.display = 'none';
+  document.getElementById('resultsGrid').classList.add('visible');
+
+  animateValue('res-date', fmtDate(result.months));
+  document.getElementById('res-months-sub').textContent = fmtMonths(result.months) + ' from today';
+
+  animateValue('res-interest', fmt$(result.totalInterest));
+  const interestPct = Math.round((result.totalInterest / result.totalPaid) * 100);
+  document.getElementById('res-interest-sub').textContent =
+    interestPct + '% of total payments go to interest';
+
+  animateValue('res-total', fmt$(result.totalPaid));
+
+  setTimeout(() => {
+    document.getElementById('res-bar').style.width = interestPct + '%';
+  }, 200);
+  const principalPct = 100 - interestPct;
+  document.getElementById('res-bar-principal').textContent = 'Principal ' + principalPct + '%';
+  document.getElementById('res-bar-interest-pct').textContent = 'Interest ' + interestPct + '%';
+
+  const monthlyRate = currentAPR / 100 / 12;
+  const minPay = debt * monthlyRate;
+  animateValue('res-min', fmt$(minPay));
+}
+
+function animateValue(id, value) {
+  const el = document.getElementById(id);
+  el.style.animation = 'none';
+  el.offsetHeight;
+  el.style.animation = 'countUp 0.4s cubic-bezier(0.4,0,0.2,1) both';
+  el.textContent = value;
+}
+
+// ============================================
+//  SVG CHART
+// ============================================
+function drawChart(schedule, originalDebt) {
+  const canvas = document.getElementById('amort-chart');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.offsetWidth;
+  const H = 280;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.height = H + 'px';
+  ctx.scale(dpr, dpr);
+
+  const padL = 70, padR = 20, padT = 20, padB = 40;
+  const chartW = W - padL - padR;
+  const chartH = H - padT - padB;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Sample points (max 60 points for performance)
+  const step = Math.max(1, Math.floor(schedule.length / 60));
+  const points = [];
+  for (let i = 0; i < schedule.length; i += step) {
+    points.push(schedule[i]);
+  }
+  if (points[points.length - 1] !== schedule[schedule.length - 1]) {
+    points.push(schedule[schedule.length - 1]);
+  }
+
+  const maxVal = originalDebt;
+  const totalMonths = schedule.length;
+
+  function xPos(month) { return padL + (month / totalMonths) * chartW; }
+  function yPos(val)   { return padT + chartH - (val / maxVal) * chartH; }
+
+  // Grid lines
+  ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = padT + (i / 4) * chartH;
+    ctx.beginPath();
+    ctx.moveTo(padL, y);
+    ctx.lineTo(padL + chartW, y);
+    ctx.stroke();
+    const val = maxVal * (1 - i / 4);
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
+    ctx.font = '11px DM Mono, monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText('$' + Math.round(val / 1000) + 'k', padL - 8, y + 4);
+  }
+
+  // Cumulative interest area
+  let cumInterest = 0;
+  ctx.beginPath();
+  ctx.moveTo(xPos(0), yPos(0));
+  points.forEach(p => {
+    cumInterest += p.interest;
+    ctx.lineTo(xPos(p.month), yPos(Math.min(cumInterest, maxVal)));
+  });
+  ctx.lineTo(xPos(schedule.length), padT + chartH);
+  ctx.lineTo(padL, padT + chartH);
+  ctx.closePath();
+  const goldGrad = ctx.createLinearGradient(0, padT, 0, padT + chartH);
+  goldGrad.addColorStop(0, 'rgba(245,166,35,0.25)');
+  goldGrad.addColorStop(1, 'rgba(245,166,35,0.04)');
+  ctx.fillStyle = goldGrad;
+  ctx.fill();
+
+  // Balance area
+  ctx.beginPath();
+  ctx.moveTo(xPos(0), yPos(originalDebt));
+  points.forEach(p => { ctx.lineTo(xPos(p.month), yPos(p.balance)); });
+  ctx.lineTo(xPos(schedule.length), padT + chartH);
+  ctx.lineTo(padL, padT + chartH);
+  ctx.closePath();
+  const greenGrad = ctx.createLinearGradient(0, padT, 0, padT + chartH);
+  greenGrad.addColorStop(0, 'rgba(0,214,122,0.3)');
+  greenGrad.addColorStop(1, 'rgba(0,214,122,0.03)');
+  ctx.fillStyle = greenGrad;
+  ctx.fill();
+
+  // Balance line
+  ctx.beginPath();
+  ctx.moveTo(xPos(0), yPos(originalDebt));
+  points.forEach(p => { ctx.lineTo(xPos(p.month), yPos(p.balance)); });
+  ctx.strokeStyle = '#00D67A';
+  ctx.lineWidth = 2.5;
+  ctx.lineJoin = 'round';
+  ctx.stroke();
+
+  // Cumulative interest line
+  cumInterest = 0;
+  ctx.beginPath();
+  ctx.moveTo(xPos(0), yPos(0));
+  points.forEach(p => {
+    cumInterest += p.interest;
+    ctx.lineTo(xPos(p.month), yPos(Math.min(cumInterest, maxVal)));
+  });
+  ctx.strokeStyle = '#F5A623';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // X axis labels
+  ctx.fillStyle = 'rgba(255,255,255,0.25)';
+  ctx.font = '11px DM Mono, monospace';
+  ctx.textAlign = 'center';
+  const labelCount = Math.min(6, Math.ceil(totalMonths / 12));
+  for (let i = 0; i <= labelCount; i++) {
+    const m = Math.round((i / labelCount) * totalMonths);
+    const label = m >= 12 ? Math.round(m / 12) + 'y' : m + 'm';
+    ctx.fillText(label, xPos(m), H - 8);
+  }
+}
+
+// ============================================
+//  WHAT-IF SLIDER (with lump sum)
+// ============================================
+document.getElementById('wi-slider').addEventListener('input', function() {
+  updateWhatIf(parseInt(this.value));
+});
+
+function updateWhatIf(extra) {
+  if (!currentDebt) return;
+  document.getElementById('wi-amount').textContent = '+$' + extra;
+
+  const lump = parseFloat(document.getElementById('wi-lump').value) || 0;
+
+  // Lump sum reduces starting balance for the "new" scenario
+  const adjustedDebt = Math.max(0, currentDebt - lump);
+
+  const base = calcAmort(currentDebt, currentAPR, currentPayment);
+  const newR  = extra > 0 || lump > 0
+    ? calcAmort(adjustedDebt, currentAPR, currentPayment + extra)
+    : base;
+
+  if (newR.error) return;
+
+  document.getElementById('wi-months-base').textContent = 'Current: ' + fmtMonths(base.months);
+  document.getElementById('wi-months-new').textContent = fmtMonths(newR.months);
+  const savedMonths = base.months - newR.months;
+  document.getElementById('wi-months-save').textContent = savedMonths > 0 ? '↑ Save ' + savedMonths + ' months' : '';
+
+  document.getElementById('wi-date-base').textContent = 'Current: ' + fmtDate(base.months);
+  document.getElementById('wi-date-new').textContent = fmtDate(newR.months);
+  document.getElementById('wi-date-save').textContent = savedMonths > 0 ? '↑ ' + savedMonths + ' months sooner' : '';
+
+  document.getElementById('wi-interest-base').textContent = 'Current: ' + fmtShort$(base.totalInterest);
+  document.getElementById('wi-interest-new').textContent = fmtShort$(newR.totalInterest);
+  const savedInterest = base.totalInterest - newR.totalInterest;
+  document.getElementById('wi-interest-save').textContent = savedInterest > 1 ? '↑ Save ' + fmtShort$(savedInterest) : '';
+
+  document.getElementById('wi-total-base').textContent = 'Current: ' + fmtShort$(base.totalPaid);
+  document.getElementById('wi-total-new').textContent = fmtShort$(newR.totalPaid);
+
+  const extraMonthlyTotal = extra * newR.months;
+  document.getElementById('wi-extra-total').textContent = fmtShort$(extraMonthlyTotal + lump);
+}
+
+// ============================================
+//  REVERSE CALCULATOR
+// ============================================
+function runReverse() {
+  if (!currentDebt || !currentAPR) {
+    document.getElementById('revEmpty').style.display = 'block';
+    document.getElementById('revResults').style.display = 'none';
+    return;
+  }
+  const targetMonths = parseInt(document.getElementById('rev-months').value);
+  if (!targetMonths || targetMonths < 1) {
+    document.getElementById('revEmpty').style.display = 'block';
+    document.getElementById('revResults').style.display = 'none';
+    return;
+  }
+
+  const r = currentAPR / 100 / 12;
+  let requiredPayment;
+  if (r === 0) {
+    requiredPayment = currentDebt / targetMonths;
+  } else {
+    // Standard amortization formula: M = P * r(1+r)^n / ((1+r)^n - 1)
+    const pow = Math.pow(1 + r, targetMonths);
+    requiredPayment = currentDebt * (r * pow) / (pow - 1);
+  }
+
+  const totalPaid = requiredPayment * targetMonths;
+  const totalInterest = totalPaid - currentDebt;
+  const payoffDate = fmtDate(targetMonths);
+
+  document.getElementById('revEmpty').style.display = 'none';
+  document.getElementById('revResults').style.display = 'block';
+
+  animateValue('rev-payment', fmt$(requiredPayment));
+  document.getElementById('rev-payment-sub').textContent =
+    'per month for ' + targetMonths + ' months to pay off ' + fmt$(currentDebt);
+
+  const currentPmt = currentPayment || 0;
+  const diff = requiredPayment - currentPmt;
+  document.getElementById('rev-vs-current').textContent =
+    diff > 0 ? '+' + fmt$(diff) + ' more than current' :
+    diff < 0 ? fmt$(Math.abs(diff)) + ' less than current' : 'Same as current payment';
+  document.getElementById('rev-vs-sub').textContent =
+    currentPmt ? 'Your current payment: ' + fmt$(currentPmt) : 'Enter a monthly payment above to compare';
+
+  animateValue('rev-interest', fmt$(totalInterest));
+  document.getElementById('rev-interest-sub').innerHTML =
+    'Debt-free: <span id="rev-date">' + payoffDate + '</span>';
+
+  // Store for apply button
+  document.getElementById('revApplyBtn').dataset.payment = requiredPayment.toFixed(2);
+}
+
+function setRevMonths(m) {
+  document.getElementById('rev-months').value = m;
+  runReverse();
+}
+
+function applyReversePayment() {
+  const btn = document.getElementById('revApplyBtn');
+  const payment = parseFloat(btn.dataset.payment);
+  if (!payment) return;
+  document.getElementById('inp-payment').value = payment.toFixed(0);
+  runCalculation();
+  document.getElementById('inp-payment').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  // Flash the input
+  const input = document.getElementById('inp-payment');
+  input.style.borderColor = 'var(--accent)';
+  input.style.boxShadow = '0 0 0 3px rgba(0,214,122,0.2)';
+  setTimeout(() => { input.style.borderColor = ''; input.style.boxShadow = ''; }, 1500);
+}
+
+// ============================================
+//  CHART HOVER TOOLTIPS
+// ============================================
+let tooltipData = [];
+
+function drawChart(schedule, originalDebt) {
+  const canvas = document.getElementById('amort-chart');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.offsetWidth;
+  const H = 280;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.height = H + 'px';
+  ctx.scale(dpr, dpr);
+
+  const padL = 70, padR = 20, padT = 20, padB = 40;
+  const chartW = W - padL - padR;
+  const chartH = H - padT - padB;
+  ctx.clearRect(0, 0, W, H);
+
+  const step = Math.max(1, Math.floor(schedule.length / 60));
+  const points = [];
+  for (let i = 0; i < schedule.length; i += step) points.push(schedule[i]);
+  if (points[points.length - 1] !== schedule[schedule.length - 1]) {
+    points.push(schedule[schedule.length - 1]);
+  }
+
+  const maxVal = originalDebt;
+  const totalMonths = schedule.length;
+
+  function xPos(month) { return padL + (month / totalMonths) * chartW; }
+  function yPos(val)   { return padT + chartH - (val / maxVal) * chartH; }
+
+  // Store tooltip data mapped to x positions
+  tooltipData = points.map(p => {
+    let cumInt = 0;
+    schedule.slice(0, p.month).forEach(s => { cumInt += s.interest; });
+    return { month: p.month, balance: p.balance, cumInterest: cumInt, x: xPos(p.month) };
+  });
+
+  // Grid lines
+  ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = padT + (i / 4) * chartH;
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + chartW, y); ctx.stroke();
+    const val = maxVal * (1 - i / 4);
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
+    ctx.font = '11px DM Mono, monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText('$' + Math.round(val / 1000) + 'k', padL - 8, y + 4);
+  }
+
+  // Cumulative interest area
+  let cumInterest = 0;
+  ctx.beginPath(); ctx.moveTo(xPos(0), yPos(0));
+  points.forEach(p => { cumInterest += p.interest; ctx.lineTo(xPos(p.month), yPos(Math.min(cumInterest, maxVal))); });
+  ctx.lineTo(xPos(schedule.length), padT + chartH); ctx.lineTo(padL, padT + chartH); ctx.closePath();
+  const goldGrad = ctx.createLinearGradient(0, padT, 0, padT + chartH);
+  goldGrad.addColorStop(0, 'rgba(245,166,35,0.25)'); goldGrad.addColorStop(1, 'rgba(245,166,35,0.04)');
+  ctx.fillStyle = goldGrad; ctx.fill();
+
+  // Balance area
+  ctx.beginPath(); ctx.moveTo(xPos(0), yPos(originalDebt));
+  points.forEach(p => { ctx.lineTo(xPos(p.month), yPos(p.balance)); });
+  ctx.lineTo(xPos(schedule.length), padT + chartH); ctx.lineTo(padL, padT + chartH); ctx.closePath();
+  const greenGrad = ctx.createLinearGradient(0, padT, 0, padT + chartH);
+  greenGrad.addColorStop(0, 'rgba(0,214,122,0.3)'); greenGrad.addColorStop(1, 'rgba(0,214,122,0.03)');
+  ctx.fillStyle = greenGrad; ctx.fill();
+
+  // Balance line
+  ctx.beginPath(); ctx.moveTo(xPos(0), yPos(originalDebt));
+  points.forEach(p => { ctx.lineTo(xPos(p.month), yPos(p.balance)); });
+  ctx.strokeStyle = '#00D67A'; ctx.lineWidth = 2.5; ctx.lineJoin = 'round'; ctx.stroke();
+
+  // Interest line
+  cumInterest = 0;
+  ctx.beginPath(); ctx.moveTo(xPos(0), yPos(0));
+  points.forEach(p => { cumInterest += p.interest; ctx.lineTo(xPos(p.month), yPos(Math.min(cumInterest, maxVal))); });
+  ctx.strokeStyle = '#F5A623'; ctx.lineWidth = 2; ctx.stroke();
+
+  // X axis labels
+  ctx.fillStyle = 'rgba(255,255,255,0.25)';
+  ctx.font = '11px DM Mono, monospace'; ctx.textAlign = 'center';
+  const labelCount = Math.min(6, Math.ceil(totalMonths / 12));
+  for (let i = 0; i <= labelCount; i++) {
+    const m = Math.round((i / labelCount) * totalMonths);
+    const label = m >= 12 ? Math.round(m / 12) + 'y' : m + 'm';
+    ctx.fillText(label, xPos(m), H - 8);
+  }
+
+  // Save for tooltip use
+  canvas._chartMeta = { padL, padR, padT, padB, chartW, chartH, W, H, totalMonths, maxVal, xPos, yPos };
+}
+
+// Tooltip overlay
+(function setupChartTooltip() {
+  const canvas = document.getElementById('amort-chart');
+  const tooltip = document.createElement('div');
+  tooltip.id = 'chartTooltip';
+  tooltip.style.cssText = `
+    position:absolute;pointer-events:none;display:none;
+    background:rgba(7,16,30,0.95);border:1px solid rgba(0,214,122,0.3);
+    border-radius:10px;padding:12px 16px;font-family:'DM Mono',monospace;
+    font-size:0.78rem;color:#ECF1F9;white-space:nowrap;
+    box-shadow:0 8px 30px rgba(0,0,0,0.5);z-index:20;line-height:1.8;`;
+  canvas.parentElement.style.position = 'relative';
+  canvas.parentElement.appendChild(tooltip);
+
+  canvas.addEventListener('mousemove', function(e) {
+    if (!tooltipData.length || !canvas._chartMeta) return;
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+
+    // Find closest data point
+    let closest = tooltipData[0];
+    let minDist = Infinity;
+    tooltipData.forEach(d => {
+      const dist = Math.abs(d.x - mouseX);
+      if (dist < minDist) { minDist = dist; closest = d; }
+    });
+
+    const meta = canvas._chartMeta;
+    const dotX = closest.x;
+    const dotY = meta.yPos(closest.balance);
+    const dpr = window.devicePixelRatio || 1;
+
+    tooltip.style.display = 'block';
+    tooltip.innerHTML = `
+      <div style="color:var(--text-muted);font-size:0.7rem;letter-spacing:0.08em;margin-bottom:4px;">MONTH ${closest.month}</div>
+      <div style="color:#00D67A;">Balance: $${Math.round(closest.balance).toLocaleString()}</div>
+      <div style="color:#F5A623;">Interest paid: $${Math.round(closest.cumInterest).toLocaleString()}</div>
+      <div style="color:var(--text-secondary);">Date: ${fmtDate(closest.month)}</div>`;
+
+    // Position tooltip
+    let tx = dotX + 12;
+    if (tx + 220 > meta.W) tx = dotX - 230;
+    tooltip.style.left = tx + 'px';
+    tooltip.style.top = Math.max(0, dotY - 30) + 'px';
+
+    // Draw crosshair
+    const ctx = canvas.getContext('2d');
+    drawChart(currentSchedule, currentDebt);
+    ctx.save();
+    ctx.scale(dpr, dpr);
+    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(dotX, meta.padT); ctx.lineTo(dotX, meta.padT + meta.chartH); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.beginPath();
+    ctx.arc(dotX, dotY, 5, 0, Math.PI * 2);
+    ctx.fillStyle = '#00D67A';
+    ctx.strokeStyle = '#07101E';
+    ctx.lineWidth = 2;
+    ctx.fill(); ctx.stroke();
+    ctx.restore();
+  });
+
+  canvas.addEventListener('mouseleave', function() {
+    tooltip.style.display = 'none';
+    if (currentSchedule.length) drawChart(currentSchedule, currentDebt);
+  });
+})();
+
+// ============================================
+//  CSV EXPORT — AMORTIZATION TABLE
+// ============================================
+function exportAmortCSV() {
+  if (!currentSchedule.length) return;
+  const rows = [['Month','Payment','Principal','Interest','Balance','Cumulative Interest']];
+  let cumInterest = 0;
+  currentSchedule.forEach(r => {
+    cumInterest += r.interest;
+    rows.push([
+      r.month,
+      r.payment.toFixed(2),
+      r.principal.toFixed(2),
+      r.interest.toFixed(2),
+      r.balance.toFixed(2),
+      cumInterest.toFixed(2)
+    ]);
+  });
+  const csv = rows.map(r => r.join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'amortization-schedule.csv';
+  a.click();
+}
+
+// ============================================
+//  AMORTIZATION TABLE
+// ============================================
+function renderTablePage(page) {
+  const tbody = document.getElementById('amortTbody');
+  const start = page * ROWS_PER_PAGE;
+  const end = Math.min(start + ROWS_PER_PAGE, currentSchedule.length);
+  const total = currentSchedule.length;
+  tbody.innerHTML = '';
+  for (let i = start; i < end; i++) {
+    const r = currentSchedule[i];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${r.month}</td>
+      <td>${fmt$(r.payment)}</td>
+      <td class="td-principal">${fmt$(r.principal)}</td>
+      <td class="td-interest">${fmt$(r.interest)}</td>
+      <td class="td-balance">${fmt$(r.balance)}</td>`;
+    tbody.appendChild(tr);
+  }
+  document.getElementById('pageInfo').textContent =
+    `Showing ${start + 1}–${end} of ${total} months`;
+  document.getElementById('prevPage').disabled = page === 0;
+  document.getElementById('nextPage').disabled = end >= total;
+}
+
+function changePage(dir) {
+  const maxPage = Math.ceil(currentSchedule.length / ROWS_PER_PAGE) - 1;
+  tablePage = Math.max(0, Math.min(maxPage, tablePage + dir));
+  renderTablePage(tablePage);
+}
+
+function toggleTable() {
+  const wrapper = document.getElementById('tableWrapper');
+  const btn = document.getElementById('tableToggleBtn');
+  const icon = document.getElementById('tableToggleIcon');
+  const isOpen = wrapper.classList.toggle('open');
+  btn.innerHTML = `<span>${isOpen ? '▲' : '▼'}</span> ${isOpen ? 'Hide' : 'Show'} Full Schedule`;
+}
+
+// ============================================
+//  MOBILE NAV
+// ============================================
+document.getElementById('navToggle').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+// Resize chart on window resize
+window.addEventListener('resize', () => {
+  if (currentSchedule.length) drawChart(currentSchedule, currentDebt);
+});
+</script>
+
+</body>
+</html>
