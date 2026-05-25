@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debt Relief Calculator — Compare All 6 Debt Relief Options Side by Side</title>
+  <meta name="description" content="Free debt relief calculator: compare debt consolidation, balance transfers, debt management plans, settlement, and bankruptcy side by side. Find your best path out of debt instantly.">
+  <meta name="google-adsense-account" content="ca-pub-3379075069129713">
+  <link rel="canonical" href="https://debt-calculator-ten.vercel.app/debt-relief">
+  <meta property="og:title" content="Debt Relief Calculator — Compare All 6 Relief Options Side by Side">
+  <meta property="og:description" content="Compare every debt relief option: consolidation loans, balance transfers, debt management plans, settlement, and bankruptcy. See total cost, timeline, and credit impact for each.">
+  <meta property="og:url" content="https://debt-calculator-ten.vercel.app/debt-relief">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://debt-calculator-ten.vercel.app/og-image.svg">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="hreflang" hreflang="en" href="https://debt-calculator-ten.vercel.app/debt-relief">
+  <link rel="alternate" hreflang="x-default" href="https://debt-calculator-ten.vercel.app/debt-relief">
+  <link rel="stylesheet" href="/styles.css">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J2TL4H8H5R"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J2TL4H8H5R');
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Debt Relief Calculator",
+    "url": "https://debt-calculator-ten.vercel.app/debt-relief",
+    "description": "Compare all debt relief options side by side: consolidation loans, balance transfers, debt management plans, debt settlement, and bankruptcy. Calculate total cost and timeline for each.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "keywords": ["debt relief calculator", "debt consolidation calculator", "debt management plan calculator", "debt settlement calculator"]
+  }
+  </script>
+  <style>
+    /* ── Debt Relief specific ── */
+    .relief-inputs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 700px) { .relief-inputs { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 420px) { .relief-inputs { grid-template-columns: 1fr; } }
+
+    /* Scenario cards grid */
+    .scenarios-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 32px;
+    }
+    @media (max-width: 1000px) { .scenarios-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 580px)  { .scenarios-grid { grid-template-columns: 1fr; } }
+
+    .scenario-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all var(--transition);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .scenario-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); }
+    .scenario-card.recommended {
+      border-color: rgba(0,214,122,0.4);
+      box-shadow: 0 0 30px rgba(0,214,122,0.12);
+    }
+    .scenario-card.warning-card { border-color: rgba(245,166,35,0.3); }
+    .scenario-card.danger-card  { border-color: rgba(255,77,104,0.3); }
+
+    .rec-badge {
+      position: absolute;
+      top: -1px; right: 16px;
+      background: var(--accent);
+      color: var(--bg-base);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 0 0 8px 8px;
+    }
+
+    .sc-header {
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sc-icon { font-size: 1.6rem; margin-bottom: 8px; display: block; }
+    .sc-name { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+    .sc-tagline { font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; }
+
+    .sc-body { padding: 16px 20px; flex: 1; }
+
+    .sc-stat { margin-bottom: 14px; }
+    .sc-stat-label {
+      font-size: 0.68rem;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+    .sc-stat-val {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    .sc-stat-val.green  { color: var(--accent); }
+    .sc-stat-val.gold   { color: var(--gold); }
+    .sc-stat-val.red    { color: var(--danger); }
+    .sc-stat-val.muted  { color: var(--text-secondary); font-size: 1rem; }
+
+    /* Credit impact indicator */
+    .credit-impact {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .credit-label { font-size: 0.7rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }
+    .credit-dots { display: flex; gap: 3px; margin-left: auto; }
+    .credit-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+    .credit-dot.filled-green  { background: var(--accent); }
+    .credit-dot.filled-yellow { background: var(--gold); }
+    .credit-dot.filled-red    { background: var(--danger); }
+
+    .sc-footer {
+      padding: 14px 20px;
+      background: rgba(255,255,255,0.02);
+      border-top: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Recommendation panel */
+    .rec-panel {
+      margin-top: 32px;
+      background: rgba(0,214,122,0.06);
+      border: 1px solid rgba(0,214,122,0.2);
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+      display: none;
+    }
+    .rec-panel.visible { display: flex; gap: 20px; align-items: flex-start; }
+    .rec-panel-icon { font-size: 2rem; flex-shrink: 0; }
+    .rec-panel h3 { color: var(--accent); margin-bottom: 8px; }
+    .rec-panel p  { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0; }
+
+    /* Savings comparison bar */
+    .savings-bar-section { margin-top: 32px; }
+    .savings-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .savings-row-label { width: 160px; flex-shrink: 0; font-size: 0.82rem; color: var(--text-secondary); text-align: right; }
+    .savings-track { flex: 1; height: 24px; background: rgba(255,255,255,0.04); border-radius: 6px; overflow: hidden; position: relative; }
+    .savings-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; padding: 0 10px; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; color: var(--bg-base); white-space: nowrap; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
+    .savings-row-val { width: 80px; flex-shrink: 0; font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-secondary); }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav-container">
+    <a href="/" class="nav-logo">
+      <div class="logo-mark">$</div>
+      Debt<em>Free</em>Calc
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/multi-debt" class="nav-cta">Multi-Debt ✦</a></li>
+      <li><a href="/calendar">Calendar</a></li>
+      <li><a href="/debt-relief" class="active">Debt Relief</a></li>
+      <li><a href="/tips">Tips</a></li>
+      <li><a href="/faq">FAQ</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+  </nav>
+</header>
+
+<section class="hero" style="padding-bottom:40px;">
+  <div class="container">
+    <div class="hero-eyebrow animate-in"><span>🏦</span> Debt Relief Calculator</div>
+    <h1 class="animate-in delay-1">Every debt relief option,<br><em>compared honestly</em></h1>
+    <p class="hero-sub animate-in delay-2">Enter your debt and we'll calculate all six paths out — from paying it yourself to consolidation to settlement — showing exact costs, timelines, and credit impact for each. No sales pitch. Just math.</p>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container">
+
+    <!-- INPUTS -->
+    <div class="card" style="margin-bottom:12px;">
+      <div class="panel-title">Your Debt Situation</div>
+      <div class="relief-inputs">
+        <div class="form-group" style="margin:0;">
+          <label class="form-label" for="rel-debt">💳 Total Debt Balance</label>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input type="number" id="rel-debt" class="has-prefix" placeholder="8,000" min="1" step="100">
+          </div>
+        </div>
+        <div class="form-group" style="margin:0;">
+          <label class="form-label" for="rel-apr">📊 Current APR</label>
+          <div class="input-wrap">
+            <input type="number" id="rel-apr" class="has-suffix" placeholder="24.99" min="0" max="60" step="0.01">
+            <span class="input-suffix">%</span>
+          </div>
+        </div>
+        <div class="form-group" style="margin:0;">
+          <label class="form-label" for="rel-payment">💰 Current Monthly Payment</label>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input type="number" id="rel-payment" class="has-prefix" placeholder="250" min="1" step="10">
+          </div>
+        </div>
+      </div>
+      <div class="calc-error" id="relError" style="margin-top:12px;"><span>⚠</span><span id="relErrorMsg"></span></div>
+      <button class="btn btn-primary" style="margin-top:20px;min-width:240px;" onclick="runReliefCalc()">
+        Compare All Relief Options →
+      </button>
+    </div>
+
+    <!-- RECOMMENDATION -->
+    <div class="rec-panel" id="recPanel">
+      <div class="rec-panel-icon" id="recIcon">💡</div>
+      <div>
+        <h3 id="recTitle">Recommended Option</h3>
+        <p id="recBody">—</p>
+      </div>
+    </div>
+
+    <!-- SCENARIO CARDS -->
+    <div class="scenarios-grid" id="scenariosGrid" style="display:none;"></div>
+
+    <!-- TOTAL COST COMPARISON -->
+    <div class="savings-bar-section" id="savingsSection" style="display:none;">
+      <div style="margin-bottom:20px;">
+        <div class="section-label">Total Cost Comparison</div>
+        <h2 style="margin:0;">What you'll pay in total — all options</h2>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-top:8px;">Shorter bar = less total money out of pocket. Includes all fees, interest, and costs.</p>
+      </div>
+      <div id="savingsBars"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SEO CONTENT -->
+<section class="content-section" style="background:var(--bg-surface);border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="content-prose">
+      <div class="section-label">Understanding Your Options</div>
+      <h2>What Is a Debt Relief Calculator and Who Is It For?</h2>
+      <p>A debt relief calculator compares every available path out of debt — not just the standard "pay it off" approach — and shows you the real numbers for each: how much you'll pay in total, how long it will take, and what it will do to your credit score. It's designed for people who are looking at their debt and wondering whether there's a smarter way through than simply grinding through monthly payments at a punishing interest rate.</p>
+
+      <p>The answer is: sometimes yes, sometimes no, and the difference between those two answers is math. This calculator does the math for all six options at once so you can compare them with clear eyes, not under sales pressure from a debt consolidation company or a bankruptcy attorney.</p>
+
+      <h3>Option 1: Pay It Yourself (The Baseline)</h3>
+      <p>The baseline scenario — making your current monthly payment at your current interest rate until the debt is gone — is the starting point every other option should be compared against. For many people, especially those with moderate debt loads and reasonable interest rates, this is the right answer. No fees, no credit damage, no third parties involved. You owe the money, you pay the money, you're done.</p>
+
+      <p>The key question is whether your current APR is making this approach unreasonably expensive. At 15% APR, paying it yourself is usually the right call. At 28% APR on a large balance, the math may favor alternatives.</p>
+
+      <h3>Option 2: Negotiate a Lower Rate</h3>
+      <p>Before exploring any external debt relief, call your credit card issuer and ask for a lower rate. This costs nothing and works more often than people expect — studies show roughly 70% of people who ask receive a rate reduction. Even dropping from 24% to 19% APR saves hundreds of dollars and months of payments. This is the first thing to try before any of the other options below.</p>
+
+      <h3>Option 3: Balance Transfer to 0% APR Card</h3>
+      <p>A balance transfer moves your debt to a new card with a 0% introductory APR for 12–21 months. Every dollar you pay during that window goes entirely to principal — no interest whatsoever. For people with good credit (670+) who can realistically pay off the transferred balance before the promotional period ends, this is often the mathematically best option available. The cost is a one-time transfer fee of 3–5% of the balance.</p>
+
+      <div class="callout callout-tip">
+        <div class="callout-title">💡 Balance Transfer Math</div>
+        <p>On an $8,000 debt at 24% APR with $300/month payments: paying it yourself takes 34 months and costs $2,100 in interest. Transferring to a 0% card for 18 months with a 3% fee ($240) and paying $445/month eliminates the debt in 18 months with $240 total cost — saving $1,860. The math is often this dramatic.</p>
+      </div>
+
+      <h3>Option 4: Personal Debt Consolidation Loan</h3>
+      <p>A personal loan from a bank, credit union, or online lender to pay off your credit cards at a lower interest rate. For borrowers with fair-to-good credit, rates of 10–16% are achievable — significantly better than most credit cards. The loan converts revolving debt to installment debt, which can improve your credit utilization score and simplify your finances to a single monthly payment.</p>
+
+      <p>The critical discipline: once your credit cards are paid off by the consolidation loan, do not run them back up. This is the most common failure mode. If you consolidate and then accumulate new credit card debt on top, you've made your situation significantly worse.</p>
+
+      <h3>Option 5: Nonprofit Debt Management Plan (DMP)</h3>
+      <p>Available through nonprofit credit counseling agencies, a DMP negotiates reduced interest rates with your creditors (often 5–8%) and creates a structured 3–5 year repayment plan. You make one monthly payment to the agency, which distributes it to your creditors. This option doesn't require good credit — it's specifically designed for people who can't access balance transfers or consolidation loans. Monthly fees typically run $25–$55.</p>
+
+      <p>A DMP requires closing your credit cards and not applying for new credit during the plan. It's a real commitment, but for people who can't qualify for better-rate alternatives, it's often the best structured path to debt freedom. Work only with NFCC or FCAA member agencies.</p>
+
+      <h3>Option 6: Debt Settlement</h3>
+      <p>Negotiating with creditors to accept less than the full amount owed — typically 40–60 cents on the dollar. This sounds attractive but carries serious consequences: severe credit score damage (accounts reported as "settled for less than full amount"), potential tax liability on forgiven debt, and the requirement to stop paying creditors while accumulating settlement funds — during which time late fees, penalties, and interest accrue and your credit score plummets.</p>
+
+      <p>Settlement is genuinely appropriate only for people in severe financial distress who cannot realistically repay their debt and for whom bankruptcy is the alternative. For anyone who can repay with restructuring, the credit damage and total cost of settlement are rarely worth it.</p>
+
+      <div class="callout callout-danger">
+        <div class="callout-title">🚨 Avoid For-Profit Debt Settlement Companies</div>
+        <p>Many for-profit settlement companies charge 15–25% of enrolled debt in fees, advise you to stop paying creditors (tanking your credit), and cannot guarantee any outcome. Creditors are not required to negotiate. If you're considering settlement, do it yourself or through a nonprofit credit counselor — never through a company that charges high upfront fees.</p>
+      </div>
+
+      <h3>How to Choose the Right Option</h3>
+      <p>The calculator's recommendation is based on your specific numbers, but here's the general framework: If you have good credit and can make consistent payments, try a balance transfer or consolidation loan first. If your credit is damaged or you can't qualify for those, a nonprofit DMP is your best structured option. If you're genuinely insolvent — meaning you cannot repay your debt even with lower rates — debt settlement or bankruptcy may be the most honest path forward. The goal is to match the tool to the situation, not to pick the option that sounds best in a headline.</p>
+
+      <div class="stat-row">
+        <div class="stat-box">
+          <span class="stat-number">$1,860</span>
+          <div class="stat-label">Avg interest saved by balance transfer vs paying at 24%</div>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">38%</span>
+          <div class="stat-label">Average rate reduction achieved through DMP</div>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">7–10yr</span>
+          <div class="stat-label">How long settlement/bankruptcy stays on credit report</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section-label">Related Tools</div>
+      <div class="related-links">
+        <a href="/" class="related-link-card">
+          <div class="rl-label">Calculator</div>
+          <div class="rl-title">Debt Payoff Calculator</div>
+          <div class="rl-desc">Model the baseline — your payoff date and total interest at current rate.</div>
+        </a>
+        <a href="/multi-debt" class="related-link-card">
+          <div class="rl-label">Multi-Debt</div>
+          <div class="rl-title">Avalanche & Snowball Planner</div>
+          <div class="rl-desc">Multiple cards? Build an optimized payoff order with strategy comparison.</div>
+        </a>
+        <a href="/calendar" class="related-link-card">
+          <div class="rl-label">Calendar</div>
+          <div class="rl-title">Repayment Calendar</div>
+          <div class="rl-desc">Visual month-by-month payment calendar from today to debt-free.</div>
+        </a>
+        <a href="/alternatives" class="related-link-card">
+          <div class="rl-label">Guide</div>
+          <div class="rl-title">Debt Relief Alternatives</div>
+          <div class="rl-desc">Deep-dive written guide to every debt relief path with honest pros and cons.</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo" style="margin-bottom:12px;display:inline-flex;">
+          <div class="logo-mark">$</div>
+          Debt<em>Free</em>Calc
+        </a>
+        <p>Free debt payoff tools — calculator, calendar, multi-debt planner, and debt relief calculator. No sign-up, no agenda.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="/">Debt Payoff Calculator</a></li>
+          <li><a href="/multi-debt">Multi-Debt Planner</a></li>
+          <li><a href="/calendar">Repayment Calendar</a></li>
+          <li><a href="/debt-relief">Debt Relief Calculator</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/how-it-works">How It Works</a></li>
+          <li><a href="/tips">Debt Payoff Tips</a></li>
+          <li><a href="/faq">FAQ</a></li>
+          <li><a href="/alternatives">Alternatives</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Debt Relief</h4>
+        <ul>
+          <li><a href="/alternatives#balance-transfer">Balance Transfers</a></li>
+          <li><a href="/alternatives#consolidation">Debt Consolidation</a></li>
+          <li><a href="/alternatives#dmp">Debt Management Plans</a></li>
+          <li><a href="/alternatives#settlement">Debt Settlement</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-disclaimer">For educational purposes only. Not financial or legal advice. Consult qualified professionals before making significant financial decisions.</p>
+      <span class="footer-copy">© 2025 DebtFreeCalc</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function fmt$(n){ return '$'+Math.round(Math.abs(n)).toLocaleString('en-US'); }
+function fmtEx$(n){ return '$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtDate(m){ const d=new Date(); d.setMonth(d.getMonth()+m); return d.toLocaleDateString('en-US',{month:'short',year:'numeric'}); }
+function fmtMo(m){ const y=Math.floor(m/12),mo=m%12; if(!y) return mo+'mo'; if(!mo) return y+'yr'; return y+'yr '+mo+'mo'; }
+
+function calcAmort(principal, apr, payment, maxMonths=600) {
+  const rate = apr / 100 / 12;
+  if (rate > 0 && payment <= principal * rate) return { error: true };
+  let balance = principal, totalInterest = 0, month = 0;
+  while (balance > 0.005 && month < maxMonths) {
+    month++;
+    const interest = balance * rate;
+    balance = Math.max(0, balance - Math.min(payment - interest, balance));
+    totalInterest += interest;
+  }
+  return { months: month, totalInterest, totalPaid: principal + totalInterest };
+}
+
+function runReliefCalc() {
+  const debt    = parseFloat(document.getElementById('rel-debt').value);
+  const apr     = parseFloat(document.getElementById('rel-apr').value);
+  const payment = parseFloat(document.getElementById('rel-payment').value);
+  const err = document.getElementById('relError');
+
+  if (!debt || !apr || !payment) {
+    err.classList.add('show');
+    document.getElementById('relErrorMsg').textContent = 'Please fill in all three fields.';
+    return;
+  }
+  err.classList.remove('show');
+
+  const monthlyRate = apr / 100 / 12;
+  if (payment <= debt * monthlyRate) {
+    err.classList.add('show');
+    document.getElementById('relErrorMsg').textContent = `Your payment of ${fmtEx$(payment)} doesn't cover monthly interest of ${fmtEx$(debt * monthlyRate)}. Increase it to at least ${fmtEx$(debt * monthlyRate + 1)}.`;
+    return;
+  }
+
+  // === CALCULATE ALL 6 SCENARIOS ===
+
+  // 1. Pay it yourself (baseline)
+  const baseline = calcAmort(debt, apr, payment);
+
+  // 2. Negotiate lower rate (simulate -5% APR, min 10%)
+  const negotiatedAPR = Math.max(10, apr - 5);
+  const negotiate = calcAmort(debt, negotiatedAPR, payment);
+
+  // 3. Balance transfer: 0% for 18 months, 3% fee, then apr% on remainder
+  const btFee = debt * 0.03;
+  const btBalance = debt + btFee;
+  const btMonths18 = 18;
+  const btPayment18 = Math.max(payment, btBalance / btMonths18);
+  let btRemainder = Math.max(0, btBalance - btPayment18 * btMonths18);
+  let btInterest = btFee;
+  let btMonths = btMonths18;
+  if (btRemainder > 0.01) {
+    const remainder = calcAmort(btRemainder, apr, payment);
+    if (!remainder.error) {
+      btInterest += remainder.totalInterest;
+      btMonths += remainder.months;
+    }
+  }
+  const balanceTransfer = {
+    months: btMonths,
+    totalInterest: btInterest,
+    totalPaid: debt + btInterest,
+    payment: btPayment18,
+    note: `3% transfer fee + 0% for 18 months`
+  };
+
+  // 4. Consolidation loan: 13% APR
+  const consolidationAPR = Math.min(apr - 2, 13);
+  const consol = calcAmort(debt, Math.max(8, consolidationAPR), payment);
+  consol.note = `${Math.max(8, consolidationAPR).toFixed(1)}% personal loan rate`;
+
+  // 5. Debt Management Plan: 8% APR, $35/mo fee, max 60 months
+  const dmpMonthlyFee = 35;
+  const dmpResult = calcAmort(debt, 8, Math.max(payment, debt / 60));
+  const dmpFees = dmpResult.months * dmpMonthlyFee;
+  const dmp = {
+    months: Math.min(dmpResult.months, 60),
+    totalInterest: dmpResult.totalInterest,
+    totalPaid: debt + dmpResult.totalInterest + dmpFees,
+    fees: dmpFees,
+    payment: Math.max(payment, debt / 60) + dmpMonthlyFee,
+    note: `8% APR + $35/mo agency fee`
+  };
+
+  // 6. Debt Settlement: pay 50% lump sum (need to save it)
+  const settlementAmt = debt * 0.50;
+  const monthsToSave = Math.ceil(settlementAmt / payment);
+  const settlement = {
+    months: monthsToSave,
+    totalInterest: 0,
+    totalPaid: settlementAmt,
+    savings: debt - settlementAmt,
+    note: `~50% of balance accepted`,
+    creditImpact: 'severe'
+  };
+
+  const scenarios = [
+    {
+      id: 'baseline',
+      icon: '💳',
+      name: 'Pay It Yourself',
+      tagline: 'No changes — your current rate and payment',
+      ...baseline,
+      creditImpact: 0,
+      creditLabel: 'No impact',
+      bestFor: 'Anyone who can sustain current payments and prefers simplicity.',
+      color: 'normal',
+      note: `Current ${apr}% APR`
+    },
+    {
+      id: 'negotiate',
+      icon: '📞',
+      name: 'Negotiate Lower Rate',
+      tagline: 'Call your issuer — free, works 70% of the time',
+      ...negotiate,
+      creditImpact: 0,
+      creditLabel: 'No impact',
+      bestFor: 'Everyone. Try this before any other option.',
+      color: 'normal',
+      note: `${negotiatedAPR}% APR (simulated -5% reduction)`
+    },
+    {
+      id: 'bt',
+      icon: '🔄',
+      name: 'Balance Transfer',
+      tagline: '0% intro APR for 18 months + 3% fee',
+      ...balanceTransfer,
+      creditImpact: 1,
+      creditLabel: 'Minor short-term dip',
+      bestFor: 'Good credit (670+) who can pay off within 18 months.',
+      color: 'normal',
+      note: balanceTransfer.note
+    },
+    {
+      id: 'consol',
+      icon: '🏦',
+      name: 'Consolidation Loan',
+      tagline: `Lower-rate personal loan replaces card debt`,
+      ...consol,
+      creditImpact: 1,
+      creditLabel: 'Neutral to positive',
+      bestFor: 'Fair-to-good credit seeking one lower payment.',
+      color: 'normal',
+      note: consol.note
+    },
+    {
+      id: 'dmp',
+      icon: '🤝',
+      name: 'Debt Management Plan',
+      tagline: 'Nonprofit agency negotiates 8% rate for you',
+      ...dmp,
+      creditImpact: 1,
+      creditLabel: 'Neutral (accounts stay open)',
+      bestFor: 'Poor credit who can\'t qualify for transfers or loans.',
+      color: 'warning',
+      note: dmp.note
+    },
+    {
+      id: 'settlement',
+      icon: '⚠️',
+      name: 'Debt Settlement',
+      tagline: 'Negotiate to pay ~50% of balance as lump sum',
+      ...settlement,
+      creditImpact: 3,
+      creditLabel: 'Severe — 7 years on report',
+      bestFor: 'Genuinely insolvent — cannot pay even reduced amounts.',
+      color: 'danger',
+      note: settlement.note
+    }
+  ];
+
+  // Find best by total paid (excluding settlement due to credit damage)
+  const comparables = scenarios.filter(s => s.id !== 'settlement' && !s.error);
+  const bestScenario = comparables.reduce((best, s) => s.totalPaid < best.totalPaid ? s : best);
+  const maxTotal = Math.max(...scenarios.map(s => s.totalPaid || 0));
+
+  renderScenarios(scenarios, bestScenario.id, maxTotal);
+  renderSavingsBars(scenarios, maxTotal);
+  renderRecommendation(bestScenario, baseline);
+
+  document.getElementById('scenariosGrid').style.display = 'grid';
+  document.getElementById('savingsSection').style.display = 'block';
+  document.getElementById('scenariosGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderScenarios(scenarios, bestId, maxTotal) {
+  const grid = document.getElementById('scenariosGrid');
+  grid.innerHTML = '';
+
+  scenarios.forEach(s => {
+    const isRec = s.id === bestId;
+    const card = document.createElement('div');
+    card.className = `scenario-card${isRec ? ' recommended' : s.color === 'warning' ? ' warning-card' : s.color === 'danger' ? ' danger-card' : ''}`;
+
+    const dots = Array.from({length:3}, (_,i) => {
+      const cls = s.creditImpact === 0 ? 'filled-green' :
+                  s.creditImpact === 1 ? (i < 1 ? 'filled-yellow' : '') :
+                  s.creditImpact === 3 ? 'filled-red' : '';
+      return `<div class="credit-dot ${cls}"></div>`;
+    }).join('');
+
+    const savings = scenarios[0].totalPaid - s.totalPaid;
+    const savingsBadge = savings > 50 && s.id !== 'baseline'
+      ? `<div style="margin-top:6px;font-size:0.72rem;color:var(--accent);">Saves ${fmt$(savings)} vs baseline</div>` : '';
+
+    const totalDisplay = s.id === 'settlement'
+      ? `<div class="sc-stat-val green">${fmt$(s.totalPaid)}</div><div style="font-size:0.72rem;color:var(--danger);margin-top:3px;">+ severe credit damage + possible taxes</div>`
+      : `<div class="sc-stat-val ${isRec ? 'green' : ''}">${fmt$(s.totalPaid)}</div>${savingsBadge}`;
+
+    card.innerHTML = `
+      ${isRec ? '<div class="rec-badge">✦ Best Option</div>' : ''}
+      <div class="sc-header">
+        <span class="sc-icon">${s.icon}</span>
+        <div class="sc-name">${s.name}</div>
+        <div class="sc-tagline">${s.tagline}</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-stat">
+          <div class="sc-stat-label">Monthly Payment</div>
+          <div class="sc-stat-val">${s.payment ? fmt$(s.payment) : fmt$(parseFloat(document.getElementById('rel-payment').value))}/mo</div>
+        </div>
+        <div class="sc-stat">
+          <div class="sc-stat-label">Total Cost</div>
+          ${totalDisplay}
+        </div>
+        <div class="sc-stat">
+          <div class="sc-stat-label">Time to Debt-Free</div>
+          <div class="sc-stat-val ${isRec ? 'green' : 'muted'}">${fmtMo(s.months)}</div>
+        </div>
+        <div class="sc-stat">
+          <div class="sc-stat-label">Debt-Free Date</div>
+          <div style="font-size:0.9rem;color:var(--text-secondary);font-family:var(--font-mono);">${fmtDate(s.months)}</div>
+        </div>
+        <div class="credit-impact">
+          <span class="credit-label">Credit Impact</span>
+          <div class="credit-dots">${dots}</div>
+        </div>
+      </div>
+      <div class="sc-footer"><strong>Best for:</strong> ${s.bestFor}<br><span style="color:var(--text-muted);">${s.note}</span></div>`;
+    grid.appendChild(card);
+  });
+}
+
+function renderSavingsBars(scenarios, maxTotal) {
+  const container = document.getElementById('savingsBars');
+  container.innerHTML = '';
+  const colors = ['#7A9BB5','#00D67A','#00D67A','#36D399','#F5A623','#FF4D68'];
+  scenarios.forEach((s, i) => {
+    const pct = Math.round((s.totalPaid / maxTotal) * 100);
+    const row = document.createElement('div');
+    row.className = 'savings-row';
+    row.innerHTML = `
+      <div class="savings-row-label">${s.name}</div>
+      <div class="savings-track">
+        <div class="savings-fill" id="sbar-${i}" style="width:0%;background:${colors[i]};">
+          ${pct > 20 ? fmt$(s.totalPaid) : ''}
+        </div>
+      </div>
+      <div class="savings-row-val">${pct <= 20 ? fmt$(s.totalPaid) : ''}</div>`;
+    container.appendChild(row);
+    setTimeout(() => { document.getElementById('sbar-' + i).style.width = pct + '%'; }, 100 + i * 80);
+  });
+}
+
+function renderRecommendation(best, baseline) {
+  const savings = baseline.totalPaid - best.totalPaid;
+  const panel = document.getElementById('recPanel');
+  panel.classList.add('visible');
+  document.getElementById('recIcon').textContent = best.icon;
+  document.getElementById('recTitle').textContent = `Best option for you: ${best.name}`;
+  document.getElementById('recBody').textContent =
+    `Based on your numbers, ${best.name.toLowerCase()} is the most cost-effective path. ` +
+    (savings > 50 ? `Compared to continuing at your current rate, this approach saves you approximately ${fmt$(savings)} in total cost and gets you debt-free ${fmtMo(Math.max(0, baseline.months - best.months))} sooner. ` : '') +
+    best.bestFor;
+}
+
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+</script>
+</body>
+</html>

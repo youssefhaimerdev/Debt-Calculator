@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debt Repayment Calendar 2025 — Free Debt Payoff Calendar Month by Month</title>
+  <meta name="description" content="Free debt repayment calendar: enter your debt, rate, and payment to generate a visual month-by-month payoff calendar showing exactly when each payment lands and when you'll be debt-free.">
+  <meta name="google-adsense-account" content="ca-pub-3379075069129713">
+  <link rel="canonical" href="https://debt-calculator-ten.vercel.app/calendar">
+  <meta property="og:title" content="Debt Repayment Calendar — Free Month-by-Month Payoff Calendar">
+  <meta property="og:description" content="Generate a visual debt payoff calendar showing your exact payment schedule month by month. See when each payment lands and when you'll be completely debt-free.">
+  <meta property="og:url" content="https://debt-calculator-ten.vercel.app/calendar">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://debt-calculator-ten.vercel.app/og-image.svg">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="hreflang" hreflang="en" href="https://debt-calculator-ten.vercel.app/calendar">
+  <link rel="alternate" hreflang="x-default" href="https://debt-calculator-ten.vercel.app/calendar">
+  <link rel="stylesheet" href="/styles.css">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J2TL4H8H5R"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J2TL4H8H5R');
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Debt Repayment Calendar",
+    "url": "https://debt-calculator-ten.vercel.app/calendar",
+    "description": "Generate a free visual debt repayment calendar showing your month-by-month payment schedule, principal vs interest breakdown, and exact debt-free date.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "keywords": ["debt repayment calendar", "debt payoff calendar", "monthly payment calendar", "debt schedule"]
+  }
+  </script>
+  <style>
+    /* ── Calendar-specific styles ── */
+    .cal-controls {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    @media (max-width: 800px) { .cal-controls { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .cal-controls { grid-template-columns: 1fr; } }
+
+    .cal-summary-bar {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin: 28px 0;
+    }
+    @media (max-width: 900px) { .cal-summary-bar { grid-template-columns: repeat(3,1fr); } }
+    @media (max-width: 500px) { .cal-summary-bar { grid-template-columns: 1fr 1fr; } }
+
+    .cal-sum-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+    }
+    .cal-sum-val {
+      font-family: var(--font-mono);
+      font-size: 1.4rem;
+      font-weight: 500;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .cal-sum-label { font-size: 0.7rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }
+
+    /* View toggle */
+    .view-toggle {
+      display: inline-flex;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .view-btn {
+      padding: 8px 18px;
+      border: none;
+      border-radius: 26px;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .view-btn.active { background: var(--accent); color: var(--bg-base); }
+
+    /* Calendar Grid */
+    .cal-year-block { margin-bottom: 40px; }
+    .cal-year-label {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cal-year-total {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 900px) { .cal-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 480px) { .cal-grid { grid-template-columns: 1fr; } }
+
+    .cal-month-card {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: all var(--transition);
+      position: relative;
+    }
+    .cal-month-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-card); }
+    .cal-month-card.is-freedom {
+      border-color: rgba(0,214,122,0.6) !important;
+      box-shadow: 0 0 30px rgba(0,214,122,0.2);
+    }
+    .cal-month-card.is-past { opacity: 0.5; }
+
+    .cal-month-header {
+      padding: 12px 16px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cal-month-name { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; }
+    .cal-month-num { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); }
+
+    .cal-month-body { padding: 0 16px 16px; }
+
+    .cal-payment-amount {
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+
+    /* Split bar */
+    .cal-split-bar {
+      height: 6px;
+      border-radius: 3px;
+      display: flex;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .cal-split-principal { background: var(--accent); transition: flex var(--transition); }
+    .cal-split-interest  { background: var(--gold);   transition: flex var(--transition); }
+
+    .cal-split-labels {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      margin-bottom: 10px;
+    }
+    .cal-split-p { color: var(--accent); }
+    .cal-split-i { color: var(--gold); }
+
+    .cal-balance {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cal-progress-pct { color: var(--accent); font-weight: 500; }
+
+    /* Progress underlay */
+    .cal-progress-bg {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--border);
+    }
+    .cal-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--gold));
+      transition: width 1s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* Freedom card */
+    .freedom-banner {
+      background: linear-gradient(135deg, rgba(0,214,122,0.15) 0%, rgba(0,214,122,0.05) 100%);
+      text-align: center;
+      padding: 16px;
+    }
+    .freedom-emoji { font-size: 2rem; display: block; margin-bottom: 4px; }
+    .freedom-text { color: var(--accent); font-weight: 700; font-size: 1rem; }
+    .freedom-sub  { color: var(--text-muted); font-size: 0.75rem; margin-top: 2px; }
+
+    /* Table view */
+    .cal-table-view { display: none; }
+    .cal-table-view.active { display: block; }
+    .cal-grid-view { display: block; }
+    .cal-grid-view.hidden { display: none; }
+
+    /* Year summary table */
+    .year-summary-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    .year-summary-table th {
+      background: rgba(255,255,255,0.03);
+      padding: 10px 16px;
+      text-align: right;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+    }
+    .year-summary-table th:first-child { text-align: left; }
+    .year-summary-table td {
+      padding: 11px 16px;
+      text-align: right;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .year-summary-table td:first-child { text-align: left; color: var(--text-primary); font-weight: 600; }
+    .year-summary-table tr:last-child td { border-bottom: none; }
+    .year-summary-table .td-p { color: var(--accent); }
+    .year-summary-table .td-i { color: var(--gold); }
+
+    /* Print styles */
+    @media print {
+      .site-header, .hero, .cal-controls-card, .content-section, .site-footer, .view-toggle, .print-btn { display: none !important; }
+      .cal-month-card { break-inside: avoid; }
+      body { background: white; color: black; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav-container">
+    <a href="/" class="nav-logo">
+      <div class="logo-mark">$</div>
+      Debt<em>Free</em>Calc
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/multi-debt" class="nav-cta">Multi-Debt ✦</a></li>
+      <li><a href="/calendar" class="active">Calendar</a></li>
+      <li><a href="/debt-relief">Debt Relief</a></li>
+      <li><a href="/tips">Tips</a></li>
+      <li><a href="/faq">FAQ</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+  </nav>
+</header>
+
+<section class="hero" style="padding-bottom:40px;">
+  <div class="container">
+    <div class="hero-eyebrow animate-in"><span>📅</span> Debt Repayment Calendar</div>
+    <h1 class="animate-in delay-1">Your debt payoff,<br>month by <em>month</em></h1>
+    <p class="hero-sub animate-in delay-2">Enter your debt details and generate a visual payment calendar — every month mapped out from today to your debt-free date. Print it. Pin it. Watch it become reality.</p>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container">
+
+    <!-- INPUTS -->
+    <div class="card cal-controls-card" style="margin-bottom:24px;">
+      <div class="panel-title">Your Debt Details</div>
+      <div class="cal-controls">
+        <div class="form-group" style="margin:0;">
+          <label class="form-label" for="cal-debt">💳 Total Debt Balance</label>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input type="number" id="cal-debt" class="has-prefix" placeholder="5,000" min="1" step="1">
+          </div>
+        </div>
+        <div class="form-group" style="margin:0;">
+          <label class="form-label" for="cal-apr">📊 APR</label>
+          <div class="input-wrap">
+            <input type="number" id="cal-apr" class="has-suffix" placeholder="22.99" min="0" max="100" step="0.01">
+            <span class="input-suffix">%</span>
+          </div>
+        </div>
+        <div class="form-group" style="margin:0;">
+          <label class="form-label" for="cal-payment">💰 Monthly Payment</label>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input type="number" id="cal-payment" class="has-prefix" placeholder="200" min="1" step="1">
+          </div>
+        </div>
+        <div class="form-group" style="margin:0;">
+          <label class="form-label" for="cal-start">📆 Start Month</label>
+          <input type="month" id="cal-start" style="font-family:var(--font-mono);font-size:0.95rem;">
+        </div>
+      </div>
+      <div class="calc-error" id="calError" role="alert" style="margin-top:12px;">
+        <span>⚠</span><span id="calErrorMsg"></span>
+      </div>
+      <button class="btn btn-primary" style="margin-top:16px;min-width:220px;" onclick="generateCalendar()">
+        Generate My Repayment Calendar →
+      </button>
+    </div>
+
+    <!-- SUMMARY BAR -->
+    <div class="cal-summary-bar" id="calSummary" style="display:none;">
+      <div class="cal-sum-card">
+        <div class="cal-sum-val accent" id="cs-months">—</div>
+        <div class="cal-sum-label">Total Months</div>
+      </div>
+      <div class="cal-sum-card">
+        <div class="cal-sum-val" id="cs-freedate">—</div>
+        <div class="cal-sum-label">Debt-Free Date</div>
+      </div>
+      <div class="cal-sum-card">
+        <div class="cal-sum-val danger" id="cs-interest">—</div>
+        <div class="cal-sum-label">Total Interest</div>
+      </div>
+      <div class="cal-sum-card">
+        <div class="cal-sum-val" id="cs-total">—</div>
+        <div class="cal-sum-label">Total Paid</div>
+      </div>
+      <div class="cal-sum-card">
+        <div class="cal-sum-val gold" id="cs-monthly">—</div>
+        <div class="cal-sum-label">Monthly Payment</div>
+      </div>
+    </div>
+
+    <!-- CONTROLS ROW -->
+    <div id="calControls" style="display:none;display:none;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
+      <div class="view-toggle">
+        <button class="view-btn active" id="btnCalView" onclick="setView('calendar')">📅 Calendar</button>
+        <button class="view-btn" id="btnTableView" onclick="setView('table')">📋 Year Summary</button>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="table-toggle-btn print-btn" onclick="window.print()">🖨 Print Calendar</button>
+        <button class="table-toggle-btn" onclick="exportCalCSV()">⬇ Export CSV</button>
+      </div>
+    </div>
+
+    <!-- CALENDAR OUTPUT -->
+    <div class="cal-grid-view" id="calGridView"></div>
+    <div class="cal-table-view" id="calTableView"></div>
+
+  </div>
+</section>
+
+<!-- SEO CONTENT -->
+<section class="content-section" style="background:var(--bg-surface);border-top:1px solid var(--border);" id="calContent">
+  <div class="container">
+    <div class="content-prose">
+      <div class="section-label">About This Tool</div>
+      <h2>What Is a Debt Repayment Calendar and Why Does It Work?</h2>
+      <p>A debt repayment calendar is exactly what the name says — a month-by-month visual representation of every payment you'll make from today until your debt reaches zero. Unlike a simple payoff date estimate, a repayment calendar makes the abstract concrete. You can see March 2026 right there, with your $250 payment, $142 going to principal, $108 going to interest, and your remaining balance dropping to $4,850. Then April. Then May. Month by month, right up to the month that says "Debt Free."</p>
+
+      <p>Why does this matter? Because human beings respond to visual information in a way they don't respond to numbers on a spreadsheet. Behavioral finance research consistently shows that people who can visualize a goal in concrete, time-bound terms are dramatically more likely to reach it. A debt repayment calendar turns your payoff plan from an abstract promise into a literal map. You know exactly where you are on that map at any given moment.</p>
+
+      <h3>How to Read Your Debt Payoff Calendar</h3>
+      <p>Each month card in the calendar shows four pieces of information. The <strong style="color:var(--accent);">green portion</strong> of the split bar is your principal reduction — the part of your payment that actually reduces what you owe. The <strong style="color:var(--gold);">gold portion</strong> is interest — money paid to the lender, not reducing your debt. You'll notice the green portion grows and the gold portion shrinks month by month. That's amortization working in your favor.</p>
+
+      <p>The percentage shown in the bottom right of each card is how much of your original debt you've paid off by that month. Watching this number climb from 2% to 10% to 25% to 50% to 100% is the visual feedback loop that keeps people motivated over a multi-year payoff.</p>
+
+      <h3>How to Use This Calendar to Stay on Track</h3>
+      <p>Print the calendar and put it somewhere you see it daily. Your refrigerator, your bathroom mirror, your desk. Every month when you make your payment, mark that month complete. The physical act of marking progress — crossing off a month, coloring in a cell, checking a box — reinforces the behavior and makes your commitment real. This is sometimes called a "don't break the chain" approach to habit maintenance, and it works for debt payoff in exactly the same way.</p>
+
+      <p>Review your calendar every quarter. If your income has changed, if you've received a windfall, if your expenses have dropped — recalculate. A $500 lump sum applied today moves your debt-free month significantly to the left. Use our <a href="/">main debt payoff calculator</a> with the what-if features to see the impact before regenerating your calendar.</p>
+
+      <div class="callout callout-tip">
+        <div class="callout-title">💡 The Milestone Method</div>
+        <p>Mark specific months on your calendar as milestones: when you hit 25% paid off, 50%, and 75%. Plan small, low-cost celebrations for each milestone. Behavioral research shows that intermediate rewards dramatically improve long-term adherence to financial goals. The celebrations don't need to cost anything — a nice dinner at home, a favorite movie, a day trip. The point is to acknowledge progress.</p>
+      </div>
+
+      <h3>Understanding the Interest Shift Over Time</h3>
+      <p>One of the most powerful things about seeing your debt in calendar format is watching the green and gold bars shift over time. In your first months, the gold bar (interest) may dominate — perhaps 60% or 70% of your payment goes to interest, with only 30–40% actually reducing your balance. This feels discouraging when you experience it without context. But the calendar shows you that this ratio is constantly moving in your favor.</p>
+
+      <p>By the middle of your payoff, the split is typically closer to 50/50. In the final months, the green bar dominates — 80%, 90%, sometimes 95% of your payment goes to principal. You're accelerating. The mathematical momentum that felt so slow at the beginning has reversed entirely. Your last few payments feel like finishing a sprint — they go almost entirely to eliminating the remaining balance.</p>
+
+      <h3>The Debt Repayment Calendar vs a Simple Payoff Date</h3>
+      <p>Most debt calculators give you one number: your payoff date. That number is useful but incomplete. A payoff date tells you the destination. A repayment calendar gives you the entire route — every turn, every mile marker, every rest stop. When you know the route, you know exactly where you are when you're in the middle of it. You don't wonder "am I on track?" You look at the calendar and see that you're in month 14 of 32, exactly where you should be.</p>
+
+      <p>It also makes changes tangible. If you decide to pay $50 more per month, regenerate the calendar. Watch several months disappear from the end. That visual disappearance of months is more motivating than a spreadsheet calculation showing "saves 4 months." The calendar makes the saved months real.</p>
+
+      <h3>Debt Payoff Calendar for Multiple Debts</h3>
+      <p>This calendar is designed for a single debt — one card, one loan. If you have multiple debts, use our <a href="/multi-debt">multi-debt calculator</a> to determine your payoff order and the amount you'll pay toward each debt each month, then generate a separate calendar for each. Start with the debt you're targeting first (highest rate if you're using the avalanche method, smallest balance for the snowball). Once that debt is paid off and you roll its payment to the next debt, generate a new calendar for that debt starting from the month after your first debt was eliminated.</p>
+
+      <div class="stat-row">
+        <div class="stat-box">
+          <span class="stat-number">73%</span>
+          <div class="stat-label">of people who track debt visually pay it off faster</div>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">2×</span>
+          <div class="stat-label">more likely to stay on plan with written schedule</div>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">$1,200</span>
+          <div class="stat-label">average extra interest paid by those without a plan</div>
+        </div>
+      </div>
+
+      <h3>How to Adjust Your Calendar When Life Happens</h3>
+      <p>Life doesn't follow a spreadsheet. Some months you can pay extra — a bonus, a tax refund, a side job payment. Other months are tighter — a car repair, a medical bill, an unexpected expense. The calendar is a plan, not a contract. What matters is the trend over time, not perfection in any individual month.</p>
+
+      <p>When you have extra money: apply it directly to your debt principal as a lump sum, then recalculate and regenerate your calendar. You'll see months drop off the end in a deeply satisfying way. When a month is tight: pay at least the minimum to avoid late fees and penalty APRs, then get back on track the following month. One missed extra payment sets you back weeks, not months. The plan survives imperfect execution.</p>
+
+      <p>What the plan does not survive is giving up entirely. The single most important thing is to maintain the habit — make a payment every single month, even if it's smaller than planned. Consistent imperfect effort beats inconsistent perfect intent every time.</p>
+
+      <div class="divider"></div>
+
+      <div class="section-label">Related Tools</div>
+      <div class="related-links">
+        <a href="/" class="related-link-card">
+          <div class="rl-label">Calculator</div>
+          <div class="rl-title">Debt Payoff Calculator</div>
+          <div class="rl-desc">Full amortization, what-if slider, reverse calculator, and CSV export.</div>
+        </a>
+        <a href="/multi-debt" class="related-link-card">
+          <div class="rl-label">Multi-Debt</div>
+          <div class="rl-title">Avalanche & Snowball Planner</div>
+          <div class="rl-desc">Plan payoff across multiple cards with side-by-side strategy comparison.</div>
+        </a>
+        <a href="/debt-relief" class="related-link-card">
+          <div class="rl-label">Debt Relief</div>
+          <div class="rl-title">Debt Relief Calculator</div>
+          <div class="rl-desc">Compare consolidation, balance transfers, DMPs, and settlement options.</div>
+        </a>
+        <a href="/tips" class="related-link-card">
+          <div class="rl-label">Strategy</div>
+          <div class="rl-title">10 Debt Payoff Tips</div>
+          <div class="rl-desc">Proven tactics to stick to your calendar and pay off faster.</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo" style="margin-bottom:12px;display:inline-flex;">
+          <div class="logo-mark">$</div>
+          Debt<em>Free</em>Calc
+        </a>
+        <p>Free debt payoff tools — calculator, calendar, multi-debt planner, and debt relief calculator. No sign-up, no agenda.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="/">Debt Payoff Calculator</a></li>
+          <li><a href="/multi-debt">Multi-Debt Planner</a></li>
+          <li><a href="/calendar">Repayment Calendar</a></li>
+          <li><a href="/debt-relief">Debt Relief Calculator</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/how-it-works">How It Works</a></li>
+          <li><a href="/tips">Debt Payoff Tips</a></li>
+          <li><a href="/faq">FAQ</a></li>
+          <li><a href="/alternatives">Alternatives</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Strategies</h4>
+        <ul>
+          <li><a href="/tips#avalanche">Avalanche Method</a></li>
+          <li><a href="/tips#snowball">Snowball Method</a></li>
+          <li><a href="/alternatives#balance-transfer">Balance Transfers</a></li>
+          <li><a href="/alternatives#consolidation">Debt Consolidation</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-disclaimer">For educational purposes only. Not financial advice. Results are estimates based on inputs provided.</p>
+      <span class="footer-copy">© 2025 DebtFreeCalc</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+let calSchedule = [];
+let calStartDate = null;
+let calDebt = 0;
+
+// Set default start month to current
+(function() {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth()+1).padStart(2,'0');
+  document.getElementById('cal-start').value = `${y}-${m}`;
+})();
+
+function fmt$(n){ return '$'+Math.round(n).toLocaleString('en-US'); }
+function fmtExact$(n){ return '$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+function calcAmort(principal, apr, payment) {
+  const rate = apr / 100 / 12;
+  if (rate > 0 && payment <= principal * rate) return { error: true, min: principal * rate };
+  let balance = principal, totalInterest = 0;
+  const schedule = [];
+  let month = 0;
+  while (balance > 0.005 && month < 600) {
+    month++;
+    const interest = balance * rate;
+    let principal_paid = Math.min(payment - interest, balance);
+    balance = Math.max(0, balance - principal_paid);
+    totalInterest += interest;
+    schedule.push({ month, interest, principal: principal_paid, payment: principal_paid + interest, balance });
+    if (balance <= 0) break;
+  }
+  return { months: month, totalInterest, totalPaid: principal + totalInterest, schedule };
+}
+
+function generateCalendar() {
+  const debt    = parseFloat(document.getElementById('cal-debt').value);
+  const apr     = parseFloat(document.getElementById('cal-apr').value);
+  const payment = parseFloat(document.getElementById('cal-payment').value);
+  const startVal = document.getElementById('cal-start').value;
+  const err = document.getElementById('calError');
+
+  if (!debt || !apr || !payment || !startVal) {
+    err.classList.add('show');
+    document.getElementById('calErrorMsg').textContent = 'Please fill in all four fields.';
+    return;
+  }
+  const result = calcAmort(debt, apr, payment);
+  if (result.error) {
+    err.classList.add('show');
+    document.getElementById('calErrorMsg').textContent = `Payment too low. Minimum to cover interest: ${fmtExact$(result.min)}`;
+    return;
+  }
+  err.classList.remove('show');
+  calSchedule = result.schedule;
+  calDebt = debt;
+  const [sy, sm] = startVal.split('-').map(Number);
+  calStartDate = { year: sy, month: sm - 1 }; // 0-indexed
+
+  // Summary bar
+  document.getElementById('calSummary').style.display = 'grid';
+  document.getElementById('calControls').style.display = 'flex';
+  document.getElementById('cs-months').textContent = result.months + ' months';
+  const freeDate = new Date(sy, sm - 1 + result.months, 1);
+  document.getElementById('cs-freedate').textContent = MONTHS[freeDate.getMonth()] + ' ' + freeDate.getFullYear();
+  document.getElementById('cs-interest').textContent = fmt$(result.totalInterest);
+  document.getElementById('cs-total').textContent = fmt$(result.totalPaid);
+  document.getElementById('cs-monthly').textContent = fmtExact$(payment);
+
+  renderCalendarGrid();
+  renderYearSummary();
+  document.getElementById('calGridView').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderCalendarGrid() {
+  const container = document.getElementById('calGridView');
+  container.innerHTML = '';
+  const now = new Date();
+  let currentYear = null;
+  let yearBlock = null, yearGrid = null;
+  let yearPrincipal = 0, yearInterest = 0;
+
+  calSchedule.forEach((row, idx) => {
+    const d = new Date(calStartDate.year, calStartDate.month + idx, 1);
+    const year = d.getFullYear();
+    const monthName = MONTHS[d.getMonth()];
+    const paidPct = Math.round(((calDebt - row.balance) / calDebt) * 100);
+    const principalPct = Math.round((row.principal / row.payment) * 100);
+    const isFreedom = idx === calSchedule.length - 1;
+    const isPast = d < now;
+
+    if (year !== currentYear) {
+      // Save year totals to previous block if exists
+      if (yearBlock && yearGrid) {
+        const ytRow = yearBlock.querySelector('.year-totals-row');
+        if (ytRow) {
+          ytRow.querySelector('.yt-p').textContent = fmt$(yearPrincipal);
+          ytRow.querySelector('.yt-i').textContent = fmt$(yearInterest);
+        }
+      }
+      currentYear = year;
+      yearPrincipal = 0;
+      yearInterest = 0;
+
+      yearBlock = document.createElement('div');
+      yearBlock.className = 'cal-year-block';
+
+      const yearLabel = document.createElement('div');
+      yearLabel.className = 'cal-year-label';
+      yearLabel.innerHTML = `<span>${year}</span><span class="cal-year-total"><span class="yt-p" style="color:var(--accent);">—</span> principal &nbsp;·&nbsp; <span class="yt-i" style="color:var(--gold);">—</span> interest</span>`;
+      yearBlock.appendChild(yearLabel);
+
+      yearGrid = document.createElement('div');
+      yearGrid.className = 'cal-grid';
+      yearBlock.appendChild(yearGrid);
+      container.appendChild(yearBlock);
+    }
+
+    yearPrincipal += row.principal;
+    yearInterest  += row.interest;
+
+    const card = document.createElement('div');
+    card.className = 'cal-month-card' + (isFreedom ? ' is-freedom' : '') + (isPast ? ' is-past' : '');
+
+    // Card background tint based on progress
+    const progressColor = `rgba(0,214,122,${(paidPct / 100) * 0.08})`;
+    card.style.background = `linear-gradient(135deg, ${progressColor}, var(--bg-surface))`;
+
+    if (isFreedom) {
+      card.innerHTML = `
+        <div class="cal-month-header" style="background:rgba(0,214,122,0.1);">
+          <span class="cal-month-name" style="color:var(--accent);">${monthName} ${year}</span>
+          <span class="cal-month-num" style="color:var(--accent);">Month ${row.month}</span>
+        </div>
+        <div class="freedom-banner">
+          <span class="freedom-emoji">🎉</span>
+          <div class="freedom-text">DEBT FREE!</div>
+          <div class="freedom-sub">Final payment: ${fmtExact$(row.payment)}</div>
+          <div class="freedom-sub" style="margin-top:4px;color:var(--accent);font-weight:600;">100% paid off</div>
+        </div>
+        <div class="cal-progress-bg"><div class="cal-progress-fill" style="width:100%;"></div></div>`;
+    } else {
+      card.innerHTML = `
+        <div class="cal-month-header">
+          <span class="cal-month-name">${monthName} ${year}</span>
+          <span class="cal-month-num">Month ${row.month}</span>
+        </div>
+        <div class="cal-month-body">
+          <div class="cal-payment-amount">${fmtExact$(row.payment)}</div>
+          <div class="cal-split-bar">
+            <div class="cal-split-principal" style="flex:${principalPct};"></div>
+            <div class="cal-split-interest"  style="flex:${100 - principalPct};"></div>
+          </div>
+          <div class="cal-split-labels">
+            <span class="cal-split-p">${fmt$(row.principal)} principal</span>
+            <span class="cal-split-i">${fmt$(row.interest)} interest</span>
+          </div>
+          <div class="cal-balance">
+            <span>Balance: ${fmtExact$(row.balance)}</span>
+            <span class="cal-progress-pct">${paidPct}% paid</span>
+          </div>
+        </div>
+        <div class="cal-progress-bg"><div class="cal-progress-fill" style="width:${paidPct}%;"></div></div>`;
+    }
+    yearGrid.appendChild(card);
+
+    // Final year totals update
+    if (idx === calSchedule.length - 1) {
+      setTimeout(() => {
+        const ps = yearBlock.querySelectorAll('.yt-p');
+        const is = yearBlock.querySelectorAll('.yt-i');
+        if (ps.length) ps[ps.length-1].textContent = fmt$(yearPrincipal);
+        if (is.length) is[is.length-1].textContent = fmt$(yearInterest);
+      }, 50);
+    }
+  });
+
+  // Update all year labels with correct totals
+  setTimeout(updateYearTotals, 100);
+}
+
+function updateYearTotals() {
+  const now = new Date();
+  let currentYear = null, yP = 0, yI = 0, yearNodes = [];
+
+  calSchedule.forEach((row, idx) => {
+    const d = new Date(calStartDate.year, calStartDate.month + idx, 1);
+    const year = d.getFullYear();
+    if (year !== currentYear) {
+      if (currentYear !== null) yearNodes.push({ year: currentYear, p: yP, i: yI });
+      currentYear = year; yP = 0; yI = 0;
+    }
+    yP += row.principal; yI += row.interest;
+  });
+  if (currentYear) yearNodes.push({ year: currentYear, p: yP, i: yI });
+
+  yearNodes.forEach(({ year, p, i }) => {
+    document.querySelectorAll('.cal-year-label').forEach(el => {
+      if (el.querySelector('span')?.textContent == year) {
+        const ps = el.querySelectorAll('.yt-p');
+        const is = el.querySelectorAll('.yt-i');
+        if (ps.length) ps[0].textContent = fmt$(p);
+        if (is.length) is[0].textContent = fmt$(i);
+      }
+    });
+  });
+}
+
+function renderYearSummary() {
+  const container = document.getElementById('calTableView');
+  const years = {};
+  calSchedule.forEach((row, idx) => {
+    const d = new Date(calStartDate.year, calStartDate.month + idx, 1);
+    const y = d.getFullYear();
+    if (!years[y]) years[y] = { principal: 0, interest: 0, payments: 0, endBalance: 0 };
+    years[y].principal += row.principal;
+    years[y].interest  += row.interest;
+    years[y].payments  += row.payment;
+    years[y].endBalance = row.balance;
+  });
+
+  let html = `<div style="background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;">
+    <table class="year-summary-table">
+      <thead><tr>
+        <th>Year</th><th>Total Paid</th><th>Principal</th><th>Interest</th><th>End Balance</th><th>% Paid</th>
+      </tr></thead><tbody>`;
+
+  Object.entries(years).forEach(([year, d]) => {
+    const pct = Math.round(((calDebt - d.endBalance) / calDebt) * 100);
+    html += `<tr>
+      <td>${year}</td>
+      <td>${fmt$(d.payments)}</td>
+      <td class="td-p">${fmt$(d.principal)}</td>
+      <td class="td-i">${fmt$(d.interest)}</td>
+      <td>${fmt$(d.endBalance)}</td>
+      <td><span class="badge badge-green">${pct}%</span></td>
+    </tr>`;
+  });
+  html += '</tbody></table></div>';
+  container.innerHTML = html;
+}
+
+function setView(view) {
+  document.getElementById('btnCalView').classList.toggle('active', view === 'calendar');
+  document.getElementById('btnTableView').classList.toggle('active', view === 'table');
+  document.getElementById('calGridView').classList.toggle('hidden', view !== 'calendar');
+  document.getElementById('calTableView').classList.toggle('active', view === 'table');
+}
+
+function exportCalCSV() {
+  if (!calSchedule.length) return;
+  const rows = [['Month','Date','Payment','Principal','Interest','Balance','Cumulative Paid','% Paid Off']];
+  let cumPaid = 0;
+  calSchedule.forEach((row, idx) => {
+    const d = new Date(calStartDate.year, calStartDate.month + idx, 1);
+    cumPaid += row.payment;
+    rows.push([
+      row.month,
+      MONTHS[d.getMonth()] + ' ' + d.getFullYear(),
+      row.payment.toFixed(2),
+      row.principal.toFixed(2),
+      row.interest.toFixed(2),
+      row.balance.toFixed(2),
+      cumPaid.toFixed(2),
+      Math.round(((calDebt - row.balance) / calDebt) * 100) + '%'
+    ]);
+  });
+  const csv = rows.map(r => r.join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+  a.download = 'debt-repayment-calendar.csv';
+  a.click();
+}
+
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+</script>
+</body>
+</html>
