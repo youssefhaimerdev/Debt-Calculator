@@ -39,7 +39,7 @@
       ]
     },
     {
-      "source": "/(index|multi-debt|calendar|debt-relief|how-it-works|faq|tips|alternatives)",
+      "source": "/(index|multi-debt|calendar|debt-relief|credit-card-payoff|loan-payoff|minimum-payment|dti-calculator|how-it-works|faq|tips|alternatives|about|contact|privacy)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=3600, s-maxage=86400, stale-while-revalidate=3600" }
       ]

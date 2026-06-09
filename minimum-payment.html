@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimum Payment Calculator — See the True Cost of Paying Only the Minimum</title>
+  <meta name="description" content="Free minimum payment calculator: see exactly how long it takes and how much you'll pay in interest if you only make minimum payments on your credit card debt. The numbers are shocking.">
+  <meta name="google-adsense-account" content="ca-pub-3379075069129713">
+  <link rel="canonical" href="https://debtfreecalc.app/minimum-payment">
+  <meta property="og:title" content="Minimum Payment Calculator — The True Cost of Minimum Payments">
+  <meta property="og:description" content="See exactly how long paying only the minimum keeps you in debt and how much interest you'll pay. Compare 4 payment scenarios side by side.">
+  <meta property="og:url" content="https://debtfreecalc.app/minimum-payment">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://debtfreecalc.app/og-image.svg">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="hreflang" hreflang="en" href="https://debtfreecalc.app/minimum-payment">
+  <link rel="stylesheet" href="/styles.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J2TL4H8H5R"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-J2TL4H8H5R');</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Minimum Payment Calculator","url":"https://debtfreecalc.app/minimum-payment","description":"Calculate the true cost of making only minimum payments on credit card debt.","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <style>
+    .scenarios-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:28px;}
+    @media(max-width:900px){.scenarios-row{grid-template-columns:1fr 1fr;}}
+    @media(max-width:480px){.scenarios-row{grid-template-columns:1fr;}}
+    .sc{border-radius:var(--radius-md);border:1px solid var(--border);overflow:hidden;transition:all var(--transition);}
+    .sc:hover{transform:translateY(-2px);box-shadow:var(--shadow-card);}
+    .sc.danger{border-color:rgba(255,77,104,0.35);}
+    .sc.warning{border-color:rgba(245,166,35,0.3);}
+    .sc.good{border-color:rgba(0,214,122,0.3);}
+    .sc.best{border-color:rgba(0,214,122,0.5);box-shadow:0 0 20px rgba(0,214,122,0.1);}
+    .sc-head{padding:14px 16px;border-bottom:1px solid var(--border);}
+    .sc-name{font-size:0.85rem;font-weight:600;color:var(--text-primary);margin-bottom:2px;}
+    .sc-payment{font-family:var(--font-mono);font-size:1.1rem;}
+    .sc-body{padding:14px 16px;}
+    .sc-stat{margin-bottom:10px;}
+    .sc-stat-l{font-size:0.68rem;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:2px;}
+    .sc-stat-v{font-family:var(--font-mono);font-size:1rem;font-weight:500;}
+    .horror-banner{background:var(--danger-dim);border:1px solid rgba(255,77,104,0.25);border-radius:var(--radius-lg);padding:24px 28px;margin:28px 0;display:none;}
+    .horror-banner.show{display:flex;gap:20px;align-items:flex-start;}
+    .horror-icon{font-size:2rem;flex-shrink:0;}
+    .horror-title{color:var(--danger);font-family:var(--font-display);font-size:1.3rem;margin-bottom:6px;}
+    .horror-body{color:var(--text-secondary);font-size:0.9rem;line-height:1.6;}
+    .interest-bar-wrap{margin:20px 0;}
+    .interest-bar-track{height:12px;background:var(--border);border-radius:6px;overflow:hidden;margin:8px 0;}
+    .interest-bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--accent),var(--gold));transition:width 1s cubic-bezier(0.4,0,0.2,1);}
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav-container">
+    <a href="/" class="nav-logo"><div class="logo-mark">$</div>Debt<em>Free</em>Calc</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/multi-debt" class="nav-cta">Multi-Debt ✦</a></li>
+      <li><a href="/calendar">Calendar</a></li>
+      <li><a href="/debt-relief">Debt Relief</a></li>
+      <li><a href="/tips">Tips</a></li>
+      <li><a href="/faq">FAQ</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+  </nav>
+</header>
+
+<section class="hero" style="padding-bottom:40px;">
+  <div class="container">
+    <div class="hero-eyebrow animate-in"><span>⚠</span> Minimum Payment Calculator</div>
+    <h1 class="animate-in delay-1">The true cost of paying<br><em>only the minimum</em></h1>
+    <p class="hero-sub animate-in delay-2">Credit card minimum payments are designed to keep you in debt as long as possible. Enter your balance and APR to see exactly how long that takes — and compare it to smarter payment strategies.</p>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container">
+    <div class="card" style="max-width:600px;">
+      <div class="panel-title">Your Credit Card</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="form-group" style="margin:0;">
+          <label class="form-label" for="mp-debt">💳 Current Balance</label>
+          <div class="input-wrap"><span class="input-prefix">$</span><input type="number" id="mp-debt" class="has-prefix" placeholder="5,000" min="1" step="1" oninput="runMinPayCalc()"></div>
+        </div>
+        <div class="form-group" style="margin:0;">
+          <label class="form-label" for="mp-apr">📊 APR</label>
+          <div class="input-wrap"><input type="number" id="mp-apr" class="has-suffix" placeholder="22.99" min="0" max="60" step="0.01" oninput="runMinPayCalc()"><span class="input-suffix">%</span></div>
+        </div>
+      </div>
+      <p class="form-hint" style="margin-top:12px;">We calculate your minimum as 2% of balance or $25, whichever is higher — the standard formula most credit cards use.</p>
+    </div>
+
+    <div class="horror-banner" id="horrorBanner">
+      <div class="horror-icon">😱</div>
+      <div>
+        <div class="horror-title" id="horrorTitle">—</div>
+        <div class="horror-body" id="horrorBody">—</div>
+      </div>
+    </div>
+
+    <div class="scenarios-row" id="scenariosRow" style="display:none;"></div>
+
+    <div id="barSection" style="display:none;margin-top:28px;">
+      <div class="chart-container">
+        <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:16px;">Total cost comparison — how much you'll pay in total under each scenario</div>
+        <div id="compBars"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" style="background:var(--bg-surface);border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="content-prose">
+      <div class="section-label">Understanding Minimum Payments</div>
+      <h2>Why Credit Card Minimum Payments Are a Trap</h2>
+      <p>The minimum payment on a credit card is the smallest amount you're allowed to pay without triggering a late fee or penalty. For most credit cards, it's calculated as either 2% of your current balance or $25, whichever is higher. Some cards use 1% of balance plus the monthly interest charge. Either way, the result is a payment that — by design — extends your debt as long as economically possible.</p>
+      <p>The mechanics are quietly devastating. On a $5,000 balance at 22% APR, your first minimum payment is about $100. Of that, roughly $92 goes to interest and only $8 reduces your actual balance. You've paid $100 and your debt is now $4,992. Next month, your minimum payment drops slightly because your balance is slightly lower — maybe $99.80 now. This shrinking payment is the trap's key mechanism. As you dutifully pay, the required minimum falls, which means you're constantly paying a little less, extending your timeline indefinitely.</p>
+      <div class="callout callout-danger">
+        <div class="callout-title">🚨 The Real Numbers</div>
+        <p>A $5,000 balance at 22% APR paying only the minimum: approximately <strong>13–15 years</strong> to pay off and over <strong>$4,000 in interest</strong> — nearly as much as the original debt. The card issuer earns $4,000 in profit from your $5,000 debt.</p>
+      </div>
+      <h3>How the Minimum Payment Is Calculated</h3>
+      <p>Most credit cards use one of two formulas. The percentage method: 2% of your current statement balance, or $25, whichever is greater. The interest-plus method: 1% of your balance plus that month's interest charge, or $25, whichever is greater. Our calculator uses the 2% method, which is the most common. Your actual minimum may differ slightly — always check your card's terms.</p>
+      <h3>What Happens If You Pay Just a Little More</h3>
+      <p>The power of paying above the minimum is extraordinary, and this calculator makes it visible. Adding $50 to your monthly payment doesn't just pay off $50 more of debt this month — it eliminates $50 of balance that would have generated interest every single month going forward. The compounding effect of consistent overpayment is the exact mirror image of the compounding effect that makes minimum payments so expensive.</p>
+      <p>Use our <a href="/">full debt payoff calculator</a> to model exactly what paying a specific fixed amount each month does to your payoff timeline, or our <a href="/multi-debt">multi-debt planner</a> if you have several cards to tackle simultaneously.</p>
+      <div class="stat-row">
+        <div class="stat-box"><span class="stat-number">13yr</span><div class="stat-label">Avg time to pay $5k at min payments</div></div>
+        <div class="stat-box"><span class="stat-number">80%</span><div class="stat-label">Of first minimum payment goes to interest</div></div>
+        <div class="stat-box"><span class="stat-number">2x</span><div class="stat-label">What you end up paying vs what you borrowed</div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="related-links">
+        <a href="/" class="related-link-card"><div class="rl-label">Calculator</div><div class="rl-title">Debt Payoff Calculator</div><div class="rl-desc">Model any fixed monthly payment and see your exact payoff date.</div></a>
+        <a href="/credit-card-payoff" class="related-link-card"><div class="rl-label">Credit Cards</div><div class="rl-title">Credit Card Payoff Calculator</div><div class="rl-desc">Focused specifically on credit card debt payoff strategies.</div></a>
+        <a href="/multi-debt" class="related-link-card"><div class="rl-label">Multi-Debt</div><div class="rl-title">Avalanche & Snowball Planner</div><div class="rl-desc">Multiple cards? Build an optimized payoff plan.</div></a>
+        <a href="/tips" class="related-link-card"><div class="rl-label">Strategy</div><div class="rl-title">10 Debt Payoff Tips</div><div class="rl-desc">Proven tactics to eliminate debt faster.</div></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="/" class="nav-logo" style="margin-bottom:12px;display:inline-flex;"><div class="logo-mark">$</div>Debt<em>Free</em>Calc</a><p>Free debt payoff tools — no sign-up, no data collection.</p></div>
+      <div class="footer-col"><h4>Tools</h4><ul><li><a href="/">Debt Payoff Calculator</a></li><li><a href="/multi-debt">Multi-Debt Planner</a></li><li><a href="/calendar">Repayment Calendar</a></li><li><a href="/debt-relief">Debt Relief Calculator</a></li><li><a href="/minimum-payment">Minimum Payment</a></li><li><a href="/dti-calculator">DTI Calculator</a></li></ul></div>
+      <div class="footer-col"><h4>Learn</h4><ul><li><a href="/how-it-works">How It Works</a></li><li><a href="/tips">Debt Payoff Tips</a></li><li><a href="/faq">FAQ</a></li><li><a href="/alternatives">Alternatives</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li><li><a href="/privacy">Privacy Policy</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p class="footer-disclaimer">For educational purposes only. Not financial advice.</p><span class="footer-copy">© 2025 DebtFreeCalc</span></div>
+  </div>
+</footer>
+
+<script>
+function fmt$(n){return '$'+Math.round(n).toLocaleString('en-US');}
+function fmtMo(m){const y=Math.floor(m/12),mo=m%12;if(!y)return mo+'mo';if(!mo)return y+'yr';return y+'yr '+mo+'mo';}
+function fmtDate(m){const d=new Date();d.setMonth(d.getMonth()+m);return d.toLocaleDateString('en-US',{month:'short',year:'numeric'});}
+
+function calcFixed(bal,apr,pmt){
+  const r=apr/100/12;
+  if(r>0&&pmt<=bal*r)return{error:true};
+  let b=bal,ti=0,mo=0;
+  while(b>0.005&&mo<600){mo++;const i=b*r;b=Math.max(0,b-Math.min(pmt-i,b));ti+=i;}
+  return{months:mo,totalInterest:ti,totalPaid:bal+ti};
+}
+
+function calcMinPayoff(bal,apr){
+  const r=apr/100/12;
+  let b=bal,ti=0,mo=0;
+  while(b>0.005&&mo<600){
+    mo++;
+    const i=b*r;
+    const minPmt=Math.max(25,b*0.02);
+    const actualPmt=Math.min(minPmt,b+i);
+    b=Math.max(0,b-(actualPmt-i));
+    ti+=i;
+  }
+  return{months:mo,totalInterest:ti,totalPaid:bal+ti,firstMin:Math.max(25,bal*0.02)};
+}
+
+function runMinPayCalc(){
+  const bal=parseFloat(document.getElementById('mp-debt').value);
+  const apr=parseFloat(document.getElementById('mp-apr').value);
+  if(!bal||!apr||bal<=0||apr<=0)return;
+
+  const minR=calcMinPayoff(bal,apr);
+  const r=apr/100/12;
+  const firstMin=Math.max(25,bal*0.02);
+
+  const sc2=calcFixed(bal,apr,firstMin*1.5);
+  const sc3=calcFixed(bal,apr,firstMin*2.5);
+  const sc4=calcFixed(bal,apr,Math.max(firstMin*4,bal/24));
+
+  const scenarios=[
+    {name:'Minimum only',payment:firstMin,months:minR.months,totalInterest:minR.totalInterest,totalPaid:minR.totalPaid,cls:'danger',payLabel:'~'+fmt$(firstMin)+'/mo (shrinks)'},
+    {name:'50% above minimum',payment:firstMin*1.5,...sc2,cls:'warning',payLabel:fmt$(firstMin*1.5)+'/mo'},
+    {name:'2.5× minimum',payment:firstMin*2.5,...sc3,cls:'good',payLabel:fmt$(firstMin*2.5)+'/mo'},
+    {name:'Aggressive payoff',payment:sc4.totalPaid/sc4.months,...sc4,cls:'best',payLabel:fmt$(sc4.totalPaid/sc4.months)+'/mo'},
+  ];
+
+  // Horror banner
+  document.getElementById('horrorBanner').classList.add('show');
+  document.getElementById('horrorTitle').textContent=
+    `Minimum payments only: ${fmtMo(minR.months)} and ${fmt$(minR.totalInterest)} in interest`;
+  document.getElementById('horrorBody').textContent=
+    `On a ${fmt$(bal)} balance at ${apr}% APR, paying only the minimum means you'll still be paying in ${fmtDate(minR.months)}. You'll pay a total of ${fmt$(minR.totalPaid)} — ${fmt$(minR.totalInterest)} of which goes straight to your lender as profit. That's ${Math.round((minR.totalInterest/bal)*100)}% of your original balance paid in interest alone.`;
+
+  // Scenarios
+  const grid=document.getElementById('scenariosRow');
+  grid.style.display='grid';
+  grid.innerHTML='';
+  const maxTotal=Math.max(...scenarios.map(s=>s.totalPaid));
+  scenarios.forEach((s,i)=>{
+    const savings=i>0?minR.totalPaid-s.totalPaid:0;
+    const div=document.createElement('div');
+    div.className=`sc ${s.cls}`;
+    div.innerHTML=`
+      <div class="sc-head">
+        <div class="sc-name">${s.name}</div>
+        <div class="sc-payment" style="color:${s.cls==='danger'?'var(--danger)':s.cls==='warning'?'var(--gold)':'var(--accent)'}">${s.payLabel}</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-stat"><div class="sc-stat-l">Time</div><div class="sc-stat-v" style="color:${s.cls==='danger'?'var(--danger)':s.cls==='best'?'var(--accent)':'var(--text-primary)'}">${fmtMo(s.months)}</div></div>
+        <div class="sc-stat"><div class="sc-stat-l">Interest paid</div><div class="sc-stat-v" style="color:var(--gold)">${fmt$(s.totalInterest)}</div></div>
+        <div class="sc-stat"><div class="sc-stat-l">Total paid</div><div class="sc-stat-v">${fmt$(s.totalPaid)}</div></div>
+        ${savings>0?`<div style="font-size:0.72rem;color:var(--accent);margin-top:6px;padding-top:6px;border-top:1px solid var(--border);">Saves ${fmt$(savings)} vs minimum</div>`:''}
+      </div>`;
+    grid.appendChild(div);
+  });
+
+  // Bars
+  document.getElementById('barSection').style.display='block';
+  const bars=document.getElementById('compBars');
+  bars.innerHTML='';
+  const colors=['#FF4D68','#F5A623','#00D67A','#00D67A'];
+  scenarios.forEach((s,i)=>{
+    const pct=Math.round((s.totalPaid/maxTotal)*100);
+    const row=document.createElement('div');
+    row.style.cssText='display:flex;align-items:center;gap:12px;margin-bottom:10px;';
+    row.innerHTML=`
+      <div style="width:130px;flex-shrink:0;font-size:0.78rem;color:var(--text-secondary);text-align:right;">${s.name}</div>
+      <div style="flex:1;height:24px;background:var(--border);border-radius:6px;overflow:hidden;">
+        <div style="height:100%;width:0%;background:${colors[i]};border-radius:6px;transition:width 0.8s cubic-bezier(0.4,0,0.2,1);display:flex;align-items:center;padding:0 8px;font-size:0.72rem;color:var(--bg-base);font-family:var(--font-mono);font-weight:600;white-space:nowrap;" id="mbar${i}">${pct>25?fmt$(s.totalPaid):''}</div>
+      </div>
+      <div style="width:70px;font-size:0.78rem;font-family:var(--font-mono);color:var(--text-muted);">${pct<=25?fmt$(s.totalPaid):''}</div>`;
+    bars.appendChild(row);
+    setTimeout(()=>{document.getElementById('mbar'+i).style.width=pct+'%';},100+i*80);
+  });
+}
+document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+</script>
+</body>
+</html>

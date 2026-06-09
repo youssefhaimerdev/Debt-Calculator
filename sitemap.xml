@@ -4,57 +4,76 @@
   <url>
     <loc>https://debtfreecalc.app/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://debtfreecalc.app/"/>
-    <lastmod>2025-05-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2025-06-08</lastmod><changefreq>weekly</changefreq><priority>1.0</priority>
   </url>
   <url>
     <loc>https://debtfreecalc.app/multi-debt</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://debtfreecalc.app/multi-debt"/>
-    <lastmod>2025-05-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2025-06-08</lastmod><changefreq>monthly</changefreq><priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://debtfreecalc.app/credit-card-payoff</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://debtfreecalc.app/credit-card-payoff"/>
+    <lastmod>2025-06-08</lastmod><changefreq>monthly</changefreq><priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://debtfreecalc.app/loan-payoff</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://debtfreecalc.app/loan-payoff"/>
+    <lastmod>2025-06-08</lastmod><changefreq>monthly</changefreq><priority>0.95</priority>
   </url>
   <url>
     <loc>https://debtfreecalc.app/calendar</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://debtfreecalc.app/calendar"/>
-    <lastmod>2025-05-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2025-06-08</lastmod><changefreq>monthly</changefreq><priority>0.9</priority>
   </url>
   <url>
     <loc>https://debtfreecalc.app/debt-relief</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://debtfreecalc.app/debt-relief"/>
-    <lastmod>2025-05-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2025-06-08</lastmod><changefreq>monthly</changefreq><priority>0.9</priority>
   </url>
   <url>
-    <loc>https://debtfreecalc.app/how-it-works</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://debtfreecalc.app/how-it-works"/>
-    <lastmod>2025-05-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://debtfreecalc.app/minimum-payment</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://debtfreecalc.app/minimum-payment"/>
+    <lastmod>2025-06-08</lastmod><changefreq>monthly</changefreq><priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://debtfreecalc.app/dti-calculator</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://debtfreecalc.app/dti-calculator"/>
+    <lastmod>2025-06-08</lastmod><changefreq>monthly</changefreq><priority>0.9</priority>
   </url>
   <url>
     <loc>https://debtfreecalc.app/tips</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://debtfreecalc.app/tips"/>
-    <lastmod>2025-05-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2025-06-08</lastmod><changefreq>monthly</changefreq><priority>0.85</priority>
   </url>
   <url>
     <loc>https://debtfreecalc.app/faq</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://debtfreecalc.app/faq"/>
-    <lastmod>2025-05-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2025-06-08</lastmod><changefreq>monthly</changefreq><priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://debtfreecalc.app/how-it-works</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://debtfreecalc.app/how-it-works"/>
+    <lastmod>2025-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority>
   </url>
   <url>
     <loc>https://debtfreecalc.app/alternatives</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://debtfreecalc.app/alternatives"/>
-    <lastmod>2025-05-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <lastmod>2025-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://debtfreecalc.app/about</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://debtfreecalc.app/about"/>
+    <lastmod>2025-06-08</lastmod><changefreq>monthly</changefreq><priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://debtfreecalc.app/contact</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://debtfreecalc.app/contact"/>
+    <lastmod>2025-06-08</lastmod><changefreq>monthly</changefreq><priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://debtfreecalc.app/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://debtfreecalc.app/privacy"/>
+    <lastmod>2025-06-08</lastmod><changefreq>yearly</changefreq><priority>0.4</priority>
   </url>
 </urlset>

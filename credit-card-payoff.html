@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Credit Card Payoff Calculator — Free Credit Card Interest & Payoff Planner</title>
+  <meta name="description" content="Free credit card payoff calculator: enter your balance, APR, and monthly payment to see exactly when you'll pay off your credit card and how much interest you'll pay in total.">
+  <meta name="google-adsense-account" content="ca-pub-3379075069129713">
+  <link rel="canonical" href="https://debtfreecalc.app/credit-card-payoff">
+  <meta property="og:title" content="Credit Card Payoff Calculator — Free Credit Card Interest Planner">
+  <meta property="og:description" content="Calculate exactly when you'll pay off your credit card and how much interest you'll pay. Free, instant, no sign-up required.">
+  <meta property="og:url" content="https://debtfreecalc.app/credit-card-payoff">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://debtfreecalc.app/og-image.svg">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="hreflang" hreflang="en" href="https://debtfreecalc.app/credit-card-payoff">
+  <link rel="stylesheet" href="/styles.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J2TL4H8H5R"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-J2TL4H8H5R');</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Credit Card Payoff Calculator","url":"https://debtfreecalc.app/credit-card-payoff","description":"Calculate exactly when you will pay off your credit card debt and how much interest you will pay in total.","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"keywords":["credit card payoff calculator","credit card interest calculator","credit card payment calculator","pay off credit card"]}</script>
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav-container">
+    <a href="/" class="nav-logo"><div class="logo-mark">$</div>Debt<em>Free</em>Calc</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/multi-debt" class="nav-cta">Multi-Debt ✦</a></li>
+      <li><a href="/calendar">Calendar</a></li>
+      <li><a href="/debt-relief">Debt Relief</a></li>
+      <li><a href="/tips">Tips</a></li>
+      <li><a href="/faq">FAQ</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+  </nav>
+</header>
+
+<section class="hero" style="padding-bottom:40px;">
+  <div class="container">
+    <div class="hero-eyebrow animate-in"><span>💳</span> Credit Card Payoff Calculator</div>
+    <h1 class="animate-in delay-1">Pay off your credit card.<br><em>See the exact date.</em></h1>
+    <p class="hero-sub animate-in delay-2">The free credit card payoff calculator that shows you your debt-free date, total interest cost, and a complete month-by-month payment breakdown — instantly, no sign-up required.</p>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container">
+    <div class="calc-grid">
+      <div class="calc-inputs-panel">
+        <div class="panel-title">Your Credit Card Details</div>
+        <div class="form-group">
+          <label class="form-label" for="cc-debt">💳 Credit Card Balance</label>
+          <div class="input-wrap"><span class="input-prefix">$</span><input type="number" id="cc-debt" class="has-prefix" placeholder="3,500" min="1" step="1" aria-label="Credit card balance"></div>
+          <p class="form-hint">Find this on your latest statement or card app</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cc-apr">📊 Credit Card APR</label>
+          <div class="input-wrap"><input type="number" id="cc-apr" class="has-suffix" placeholder="22.99" min="0" max="60" step="0.01" aria-label="Credit card APR"><span class="input-suffix">%</span></div>
+          <p class="form-hint">Your Annual Percentage Rate — on your statement or card's website</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cc-payment">💰 Monthly Payment</label>
+          <div class="input-wrap"><span class="input-prefix">$</span><input type="number" id="cc-payment" class="has-prefix" placeholder="150" min="1" step="1" aria-label="Monthly payment amount"></div>
+          <p class="form-hint">What you can commit to paying every month</p>
+        </div>
+        <div class="calc-error" id="ccError"><span>⚠</span><span id="ccErrorMsg"></span></div>
+        <button class="btn btn-primary btn-full" style="margin-top:8px;" onclick="runCC()">Calculate My Payoff Date →</button>
+        <div style="margin-top:20px;padding:14px;background:var(--accent-dim);border:1px solid rgba(0,214,122,0.2);border-radius:var(--radius-md);">
+          <div style="font-size:0.72rem;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:6px;">Minimum payment on your balance</div>
+          <div style="font-family:var(--font-mono);font-size:1.2rem;color:var(--text-primary);" id="cc-min-display">—</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px);">Paying only the minimum costs you years. See how much: <a href="/minimum-payment" style="color:var(--accent);">minimum payment calculator →</a></div>
+        </div>
+      </div>
+      <div class="calc-results-panel">
+        <div class="panel-title">Your Credit Card Payoff Plan</div>
+        <div class="results-empty" id="ccEmpty"><div class="empty-icon">💳</div><p>Enter your credit card details to see your personalized payoff plan.</p></div>
+        <div id="ccResults" style="display:none;">
+          <div class="metric">
+            <div class="metric-label">Credit Card Paid Off</div>
+            <div class="metric-value accent" id="cc-res-date">—</div>
+            <div class="metric-sub" id="cc-res-months">—</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Total Interest You'll Pay</div>
+            <div class="metric-value danger" id="cc-res-interest">—</div>
+            <div class="metric-sub" id="cc-res-int-pct">—</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Total Amount Paid</div>
+            <div class="metric-value" id="cc-res-total">—</div>
+            <div class="breakdown-bar"><div class="breakdown-fill" id="cc-bar"></div></div>
+            <div class="breakdown-labels"><span id="cc-bar-p">Principal</span><span id="cc-bar-i">Interest</span></div>
+          </div>
+          <div class="metric" style="border-bottom:none;">
+            <div class="metric-label">Interest Saved vs Minimum Payments</div>
+            <div class="metric-value gold" id="cc-res-saved">—</div>
+            <div class="metric-sub">by paying your fixed amount vs minimums only</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;">
+            <a href="/calendar" class="btn btn-outline" style="font-size:0.82rem;">📅 View Calendar</a>
+            <a href="/minimum-payment" class="btn btn-outline" style="font-size:0.82rem;">⚠ Min Payment Cost</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick tips -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px;" id="ccTips" style="display:none;">
+      <div class="card" id="tip1" style="display:none;">
+        <div style="font-size:1.4rem;margin-bottom:8px;">🎯</div>
+        <div style="font-size:0.82rem;font-weight:600;color:var(--text-primary);margin-bottom:4px;">Call and ask for a lower rate</div>
+        <div style="font-size:0.78rem;color:var(--text-muted);">A 5-minute call can reduce your APR by 3–5%. 70% of people who ask receive a rate reduction.</div>
+      </div>
+      <div class="card" id="tip2" style="display:none;">
+        <div style="font-size:1.4rem;margin-bottom:8px;">🔄</div>
+        <div style="font-size:0.82rem;font-weight:600;color:var(--text-primary);margin-bottom:4px;">Consider a balance transfer</div>
+        <div style="font-size:0.78rem;color:var(--text-muted);">A 0% APR balance transfer card eliminates interest for 12–21 months. Every payment goes to principal.</div>
+      </div>
+      <div class="card" id="tip3" style="display:none;">
+        <div style="font-size:1.4rem;margin-bottom:8px;">⚡</div>
+        <div style="font-size:0.82rem;font-weight:600;color:var(--text-primary);margin-bottom:4px;">Pay $50 more per month</div>
+        <div style="font-size:0.78rem;color:var(--text-muted);" id="tip3text">Even a small increase eliminates months from your timeline and saves hundreds in interest.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" style="background:var(--bg-surface);border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="content-prose">
+      <div class="section-label">Credit Card Debt Guide</div>
+      <h2>How to Use This Credit Card Payoff Calculator</h2>
+      <p>This free credit card payoff calculator is designed specifically for credit card debt — the most common and most expensive consumer debt most Americans carry. Enter your current credit card balance, your card's APR, and the monthly payment you can commit to. The calculator instantly shows you your exact payoff date, the total interest you'll pay, and how much you're saving versus making only the minimum payment.</p>
+      <p>Unlike generic loan calculators, this tool accounts for the specific nature of credit card debt: revolving balances, APR-based monthly interest charges, and the critical comparison against what paying only the minimum would actually cost you.</p>
+
+      <h3>Understanding Your Credit Card APR</h3>
+      <p>APR stands for Annual Percentage Rate and is the annualized interest rate your credit card charges on balances you carry from month to month. The average credit card APR in the United States is currently around 22–24%. Many store cards and cards for people with lower credit scores charge 27–30% or higher. Premium rewards cards for people with excellent credit may be closer to 18–22%.</p>
+      <p>You'll find your APR on your monthly statement (usually prominently displayed), in the card's terms and conditions, or by logging into your account online. If you have multiple credit cards, each has its own APR — use this calculator once for each card, or use our <a href="/multi-debt">multi-debt planner</a> to tackle all of them in a coordinated strategy.</p>
+
+      <h3>What Makes a Good Monthly Payment for Credit Card Payoff</h3>
+      <p>The minimum payment is never the right answer for someone trying to eliminate credit card debt — it's the answer for someone who wants to stay in debt as long as possible. A sensible starting point is to pay at least 2–3 times your minimum payment. Better yet: calculate what you'd need to pay to be debt-free within 24–36 months and use that as your target.</p>
+      <p>Our <a href="/#reverseCalc">reverse calculator</a> on the main page does exactly this — enter your target payoff date and it tells you exactly what monthly payment hits that goal. For credit card debt specifically, a 24-month payoff target is a good benchmark: aggressive enough to save significant interest, realistic enough to maintain without financial strain.</p>
+
+      <div class="callout callout-tip">
+        <div class="callout-title">💡 The Balance Transfer Option</div>
+        <p>If your credit score is 670 or above, a balance transfer to a 0% APR card is the most powerful single move for credit card debt. Transferring your balance eliminates interest charges for 12–21 months, meaning every dollar you pay goes directly to principal. See our <a href="/debt-relief">debt relief calculator</a> for a full comparison of what a balance transfer saves versus paying at your current rate.</p>
+      </div>
+
+      <h3>Credit Card Debt vs Other Types of Debt</h3>
+      <p>Credit card debt is typically the most expensive consumer debt you can carry, which is why financial advisors consistently recommend paying it off before other debt types. At 22–28% APR, credit card interest compounds monthly at a rate that outpaces virtually any return you could earn by investing that money instead. Paying off a 24% APR credit card is the equivalent of earning a guaranteed 24% return — better than almost any investment available.</p>
+      <p>This priority changes only for very low-rate debt (mortgages, some student loans, some car loans under 5% APR), where the mathematical case for investing instead of paying down debt early is stronger. For credit card debt at typical rates, payoff always wins.</p>
+
+      <h3>Multiple Credit Cards: Which to Pay Off First</h3>
+      <p>If you carry balances on multiple credit cards, you have two primary strategies: the <a href="/tips#avalanche">debt avalanche</a> (target highest APR first to minimize total interest) or the <a href="/tips#snowball">debt snowball</a> (target smallest balance first for psychological momentum). Use our <a href="/multi-debt">multi-debt calculator</a> to see both strategies applied to your specific cards, with a side-by-side comparison of total cost and payoff timeline for each approach.</p>
+
+      <div class="stat-row">
+        <div class="stat-box"><span class="stat-number">$6,501</span><div class="stat-label">Average American credit card balance (2024)</div></div>
+        <div class="stat-box"><span class="stat-number">22.8%</span><div class="stat-label">Average credit card APR (2024)</div></div>
+        <div class="stat-box"><span class="stat-number">47%</span><div class="stat-label">Of US cardholders carry a balance monthly</div></div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="related-links">
+        <a href="/multi-debt" class="related-link-card"><div class="rl-label">Multi-Card</div><div class="rl-title">Multi-Debt Planner</div><div class="rl-desc">Plan payoff across multiple credit cards with avalanche vs snowball comparison.</div></a>
+        <a href="/minimum-payment" class="related-link-card"><div class="rl-label">Warning</div><div class="rl-title">Minimum Payment Calculator</div><div class="rl-desc">See the shocking true cost of only paying the minimum.</div></a>
+        <a href="/debt-relief" class="related-link-card"><div class="rl-label">Options</div><div class="rl-title">Debt Relief Calculator</div><div class="rl-desc">Compare balance transfers, consolidation, and other paths.</div></a>
+        <a href="/calendar" class="related-link-card"><div class="rl-label">Visual</div><div class="rl-title">Repayment Calendar</div><div class="rl-desc">See your payment schedule as a printable month-by-month calendar.</div></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="/" class="nav-logo" style="margin-bottom:12px;display:inline-flex;"><div class="logo-mark">$</div>Debt<em>Free</em>Calc</a><p>Free debt payoff tools — no sign-up, no data collection, no agenda.</p></div>
+      <div class="footer-col"><h4>Tools</h4><ul><li><a href="/">Debt Payoff Calculator</a></li><li><a href="/multi-debt">Multi-Debt Planner</a></li><li><a href="/calendar">Repayment Calendar</a></li><li><a href="/debt-relief">Debt Relief Calculator</a></li><li><a href="/minimum-payment">Minimum Payment</a></li><li><a href="/dti-calculator">DTI Calculator</a></li></ul></div>
+      <div class="footer-col"><h4>Learn</h4><ul><li><a href="/how-it-works">How It Works</a></li><li><a href="/tips">Debt Payoff Tips</a></li><li><a href="/faq">FAQ</a></li><li><a href="/alternatives">Alternatives</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li><li><a href="/privacy">Privacy Policy</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p class="footer-disclaimer">For educational purposes only. Not financial advice.</p><span class="footer-copy">© 2025 DebtFreeCalc</span></div>
+  </div>
+</footer>
+<script>
+function fmt$(n){return '$'+Math.round(n).toLocaleString('en-US');}
+function fmtDate(m){const d=new Date();d.setMonth(d.getMonth()+m);return d.toLocaleDateString('en-US',{month:'long',year:'numeric'});}
+function fmtMonths(m){const y=Math.floor(m/12),mo=m%12;if(!y)return mo+' months';if(!mo)return y+' year'+(y>1?'s':'');return y+'y '+mo+'m';}
+
+['cc-debt','cc-apr','cc-payment'].forEach(id=>document.getElementById(id).addEventListener('input',runCC));
+
+function runCC(){
+  const debt=parseFloat(document.getElementById('cc-debt').value);
+  const apr=parseFloat(document.getElementById('cc-apr').value);
+  const payment=parseFloat(document.getElementById('cc-payment').value);
+  const r=apr/100/12;
+  const err=document.getElementById('ccError');
+
+  if(debt&&apr){
+    const minPmt=Math.max(25,debt*0.02);
+    document.getElementById('cc-min-display').textContent=fmt$(minPmt)+'/month';
+  }
+
+  if(!debt||!apr||!payment){err.classList.remove('show');return;}
+
+  if(r>0&&payment<=debt*r){
+    err.classList.add('show');
+    document.getElementById('ccErrorMsg').textContent=`Payment too low. Need at least ${fmt$(debt*r+1)}/mo to reduce your balance.`;
+    document.getElementById('ccEmpty').style.display='flex';
+    document.getElementById('ccResults').style.display='none';
+    return;
+  }
+  err.classList.remove('show');
+
+  let b=debt,ti=0,mo=0;
+  while(b>0.005&&mo<600){mo++;const i=b*r;b=Math.max(0,b-Math.min(payment-i,b));ti+=i;}
+  const totalPaid=debt+ti;
+  const iPct=Math.round((ti/totalPaid)*100);
+
+  // Minimum comparison
+  let bm=debt,tim=0,mom=0;
+  while(bm>0.005&&mom<600){mom++;const i=bm*r;const mp=Math.min(Math.max(25,bm*0.02),bm+i);bm=Math.max(0,bm-(mp-i));tim+=i;}
+  const saved=tim-ti;
+
+  document.getElementById('ccEmpty').style.display='none';
+  document.getElementById('ccResults').style.display='block';
+  document.getElementById('cc-res-date').textContent=fmtDate(mo);
+  document.getElementById('cc-res-months').textContent=fmtMonths(mo)+' from today';
+  document.getElementById('cc-res-interest').textContent=fmt$(ti);
+  document.getElementById('cc-res-int-pct').textContent=iPct+'% of total payments go to interest';
+  document.getElementById('cc-res-total').textContent=fmt$(totalPaid);
+  setTimeout(()=>{document.getElementById('cc-bar').style.width=iPct+'%';},200);
+  document.getElementById('cc-bar-p').textContent='Principal '+(100-iPct)+'%';
+  document.getElementById('cc-bar-i').textContent='Interest '+iPct+'%';
+  document.getElementById('cc-res-saved').textContent=saved>0?fmt$(saved):'—';
+
+  // Tips
+  document.getElementById('tip1').style.display='block';
+  document.getElementById('tip2').style.display='block';
+  document.getElementById('tip3').style.display='block';
+  const extra50=()=>{let b2=debt,ti2=0,m2=0;while(b2>0.005&&m2<600){m2++;const i=b2*r;b2=Math.max(0,b2-Math.min((payment+50)-i,b2));ti2+=i;}return{months:m2,interest:ti2};};
+  const e=extra50();
+  document.getElementById('tip3text').textContent=`Paying ${fmt$(payment+50)}/month instead saves ${fmt$(ti-e.interest)} in interest and finishes ${mo-e.months} months sooner.`;
+}
+document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+</script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Loan Payoff Calculator — Pay Off Any Loan Faster & Save on Interest</title>
+  <meta name="description" content="Free loan payoff calculator for any loan type: personal loans, auto loans, student loans, and more. See your payoff date, total interest, and how extra payments accelerate your timeline.">
+  <meta name="google-adsense-account" content="ca-pub-3379075069129713">
+  <link rel="canonical" href="https://debtfreecalc.app/loan-payoff">
+  <meta property="og:title" content="Free Loan Payoff Calculator — Pay Off Any Loan Faster">
+  <meta property="og:description" content="Calculate your loan payoff date, total interest, and see how extra payments save you money. Works for personal loans, auto loans, student loans, and more.">
+  <meta property="og:url" content="https://debtfreecalc.app/loan-payoff">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://debtfreecalc.app/og-image.svg">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="hreflang" hreflang="en" href="https://debtfreecalc.app/loan-payoff">
+  <link rel="stylesheet" href="/styles.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J2TL4H8H5R"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-J2TL4H8H5R');</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Free Loan Payoff Calculator","url":"https://debtfreecalc.app/loan-payoff","description":"Calculate how long it takes to pay off any loan and how much interest you will pay. Works for personal loans, auto loans, student loans, and more.","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"keywords":["loan payoff calculator","free loan payoff calculator","personal loan payoff calculator","auto loan payoff calculator","student loan payoff calculator"]}</script>
+  <style>
+    .loan-type-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+    .loan-tab{padding:8px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text-muted);font-family:var(--font-body);font-size:0.82rem;font-weight:600;cursor:pointer;transition:all var(--transition);}
+    .loan-tab.active,.loan-tab:hover{background:var(--accent-dim);border-color:var(--border-focus);color:var(--accent);}
+    .extra-payment-section{margin-top:20px;padding-top:20px;border-top:1px solid var(--border);}
+    .payoff-scenarios{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px;}
+    @media(max-width:700px){.payoff-scenarios{grid-template-columns:1fr;}}
+    .ps-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px;text-align:center;transition:all var(--transition);}
+    .ps-card:hover{background:var(--bg-card-hover);}
+    .ps-card.highlight{border-color:rgba(0,214,122,0.35);background:rgba(0,214,122,0.05);}
+    .ps-label{font-size:0.7rem;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:8px;}
+    .ps-payment{font-family:var(--font-mono);font-size:1.3rem;font-weight:500;color:var(--text-primary);margin-bottom:12px;}
+    .ps-stat{font-size:0.8rem;color:var(--text-secondary);margin-bottom:4px;font-family:var(--font-mono);}
+    .ps-savings{font-size:0.75rem;color:var(--accent);margin-top:8px;padding-top:8px;border-top:1px solid var(--border);}
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav-container">
+    <a href="/" class="nav-logo"><div class="logo-mark">$</div>Debt<em>Free</em>Calc</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/multi-debt" class="nav-cta">Multi-Debt ✦</a></li>
+      <li><a href="/calendar">Calendar</a></li>
+      <li><a href="/debt-relief">Debt Relief</a></li>
+      <li><a href="/tips">Tips</a></li>
+      <li><a href="/faq">FAQ</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+  </nav>
+</header>
+
+<section class="hero" style="padding-bottom:40px;">
+  <div class="container">
+    <div class="hero-eyebrow animate-in"><span>🏦</span> Free Loan Payoff Calculator</div>
+    <h1 class="animate-in delay-1">Pay off any loan faster.<br><em>See exactly how.</em></h1>
+    <p class="hero-sub animate-in delay-2">The free loan payoff calculator that works for personal loans, auto loans, student loans, and any fixed-rate debt. Enter your balance, rate, and payment to get your payoff date and a complete three-scenario comparison.</p>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container">
+    <div class="card" style="margin-bottom:20px;">
+      <div class="panel-title">Loan Type</div>
+      <div class="loan-type-tabs" id="loanTabs">
+        <button class="loan-tab active" onclick="setLoanType('personal',this)">💼 Personal Loan</button>
+        <button class="loan-tab" onclick="setLoanType('auto',this)">🚗 Auto Loan</button>
+        <button class="loan-tab" onclick="setLoanType('student',this)">🎓 Student Loan</button>
+        <button class="loan-tab" onclick="setLoanType('other',this)">📋 Other</button>
+      </div>
+      <div id="loanTypeHint" style="font-size:0.82rem;color:var(--text-muted);padding:10px 14px;background:var(--bg-card);border-radius:var(--radius-md);border:1px solid var(--border);">
+        Personal loans typically range from 8–20% APR depending on your credit score. Common terms are 2–5 years.
+      </div>
+    </div>
+
+    <div class="calc-grid">
+      <div class="calc-inputs-panel">
+        <div class="panel-title">Your Loan Details</div>
+        <div class="form-group">
+          <label class="form-label" for="lp-balance">Outstanding Balance</label>
+          <div class="input-wrap"><span class="input-prefix">$</span>
+            <input type="number" id="lp-balance" class="has-prefix" placeholder="12,000" min="1" step="1" oninput="runLoan()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="lp-apr">Interest Rate (APR)</label>
+          <div class="input-wrap">
+            <input type="number" id="lp-apr" class="has-suffix" placeholder="11.5" min="0" max="40" step="0.01" oninput="runLoan()">
+            <span class="input-suffix">%</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="lp-payment">Monthly Payment</label>
+          <div class="input-wrap"><span class="input-prefix">$</span>
+            <input type="number" id="lp-payment" class="has-prefix" placeholder="350" min="1" step="1" oninput="runLoan()">
+          </div>
+        </div>
+        <div class="extra-payment-section">
+          <div class="form-label" style="margin-bottom:10px;">⚡ Extra Monthly Payment (optional)</div>
+          <div class="input-wrap"><span class="input-prefix">$</span>
+            <input type="number" id="lp-extra" class="has-prefix" placeholder="0" min="0" step="10" value="0" oninput="runLoan()">
+          </div>
+          <p class="form-hint">See how extra payments accelerate your payoff in the scenarios below</p>
+        </div>
+        <div class="calc-error" id="lpError"><span>⚠</span><span id="lpErrorMsg"></span></div>
+        <button class="btn btn-primary btn-full" style="margin-top:16px;" onclick="runLoan()">Calculate Loan Payoff →</button>
+      </div>
+
+      <div class="calc-results-panel">
+        <div class="panel-title">Payoff Results</div>
+        <div id="lpEmpty" class="results-empty"><div class="empty-icon">🏦</div><p>Enter your loan details to see your payoff plan.</p></div>
+        <div id="lpResults" style="display:none;">
+          <div class="metric">
+            <div class="metric-label">Loan Paid Off</div>
+            <div class="metric-value accent" id="lp-res-date">—</div>
+            <div class="metric-sub" id="lp-res-months">—</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Total Interest</div>
+            <div class="metric-value danger" id="lp-res-interest">—</div>
+            <div class="metric-sub" id="lp-res-int-sub">—</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Total Amount Paid</div>
+            <div class="metric-value" id="lp-res-total">—</div>
+            <div class="breakdown-bar"><div class="breakdown-fill" id="lp-bar"></div></div>
+            <div class="breakdown-labels"><span id="lp-bar-p">Principal</span><span id="lp-bar-i">Interest</span></div>
+          </div>
+          <div class="metric" style="border-bottom:none;">
+            <div class="metric-label">Monthly Interest Charge (Month 1)</div>
+            <div class="metric-value gold" id="lp-res-month1">—</div>
+            <div class="metric-sub">of your payment goes to interest this month</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Three scenarios -->
+    <div id="lpScenarios" style="display:none;margin-top:8px;">
+      <div style="margin-bottom:16px;">
+        <div class="section-label">Payment Scenarios</div>
+        <h2 style="margin:0;">How extra payments change everything</h2>
+      </div>
+      <div class="payoff-scenarios" id="scenarioCards"></div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" style="background:var(--bg-surface);border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="content-prose">
+      <div class="section-label">Loan Payoff Guide</div>
+      <h2>Free Loan Payoff Calculator — Works for Any Loan Type</h2>
+      <p>This free loan payoff calculator handles any fixed-rate installment loan: personal loans, auto loans, student loans, debt consolidation loans, home improvement loans, or any other fixed-payment debt. Enter your current outstanding balance, your interest rate, and your monthly payment — and you'll instantly see your payoff date, total interest cost, and a three-scenario comparison showing how extra payments accelerate your path to debt-free.</p>
+
+      <h3>Personal Loan Payoff Calculator</h3>
+      <p>Personal loans from banks, credit unions, and online lenders typically carry APRs of 8–20% for borrowers with good credit, and 20–36% for those with fair credit. They're commonly used for debt consolidation, home improvements, medical expenses, and major purchases. Because personal loans have fixed interest rates and fixed monthly payments, they're the simplest type of loan to calculate — your payment is the same every month, your interest charge shrinks as your balance falls, and you'll pay exactly the number of payments you calculate here.</p>
+
+      <h3>Auto Loan Payoff Calculator</h3>
+      <p>Auto loans are secured by the vehicle, which is why they typically carry lower interest rates than unsecured personal loans — generally 5–10% for new cars and 7–15% for used vehicles as of 2024–2025. The loan payoff calculation is identical regardless of what's securing the loan: the same amortization math applies. One important consideration with auto loans: if you're "underwater" on your loan (you owe more than the car is worth), paying extra each month to get back above water should be a priority before any other debt strategy.</p>
+
+      <h3>Student Loan Payoff Calculator</h3>
+      <p>Student loans come in two main flavors: federal (typically 5–8% fixed) and private (variable or fixed, typically 4–15%). Federal student loans have additional considerations — income-driven repayment plans, Public Service Loan Forgiveness, deferment options — that this calculator doesn't model. For straightforward payoff planning on standard repayment plans, however, the math here is accurate. For private student loans, the calculation is identical to any other fixed-rate installment loan.</p>
+
+      <div class="callout callout-tip">
+        <div class="callout-title">💡 The Extra Payment Effect</div>
+        <p>On a $15,000 personal loan at 12% APR with a $350/month payment: the standard payoff takes 52 months and costs $3,180 in interest. Adding just $100/month cuts it to 39 months and saves $1,240 in interest. The scenarios section above shows you this calculation for your own numbers.</p>
+      </div>
+
+      <h3>How to Pay Off a Loan Faster — 5 Strategies</h3>
+      <p><strong>Make biweekly payments.</strong> Instead of one monthly payment, make half-payments every two weeks. This results in 26 half-payments (13 full payments) per year versus 12 monthly payments — one extra payment annually with no budget impact.</p>
+      <p><strong>Round up your payment.</strong> If your payment is $347, pay $400. The extra $53/month costs you almost nothing in daily spending but compounds significantly over a multi-year loan term.</p>
+      <p><strong>Apply windfalls directly.</strong> Tax refunds, work bonuses, or any unexpected lump sum applied to your loan principal directly reduces all future interest charges. Even a $500 one-time payment can eliminate several months from your payoff timeline.</p>
+      <p><strong>Refinance to a lower rate.</strong> If your credit score has improved since you took out the loan, or if rates have fallen, refinancing to a lower rate reduces your interest cost significantly. Compare the refinancing costs against the interest savings to verify it's worthwhile.</p>
+      <p><strong>Use the debt avalanche.</strong> If you have multiple loans, target the highest-rate loan first with any extra money while maintaining minimums on the others. Our <a href="/multi-debt">multi-debt planner</a> automates this calculation across all your loans simultaneously.</p>
+
+      <div class="stat-row">
+        <div class="stat-box"><span class="stat-number">$1,240</span><div class="stat-label">Interest saved by adding $100/mo to a 12% loan</div></div>
+        <div class="stat-box"><span class="stat-number">13 mo</span><div class="stat-label">Payoff time eliminated by that extra $100/mo</div></div>
+        <div class="stat-box"><span class="stat-number">1 extra</span><div class="stat-label">Annual payment from switching to biweekly</div></div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="related-links">
+        <a href="/" class="related-link-card"><div class="rl-label">Main Tool</div><div class="rl-title">Debt Payoff Calculator</div><div class="rl-desc">Full amortization, what-if modeling, reverse calculator, and CSV export.</div></a>
+        <a href="/credit-card-payoff" class="related-link-card"><div class="rl-label">Credit Cards</div><div class="rl-title">Credit Card Payoff Calculator</div><div class="rl-desc">Focused specifically on revolving credit card debt.</div></a>
+        <a href="/multi-debt" class="related-link-card"><div class="rl-label">Multiple Loans</div><div class="rl-title">Multi-Debt Planner</div><div class="rl-desc">Avalanche and snowball strategy across all your loans at once.</div></a>
+        <a href="/calendar" class="related-link-card"><div class="rl-label">Visual</div><div class="rl-title">Repayment Calendar</div><div class="rl-desc">See every payment laid out month by month as a printable calendar.</div></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="/" class="nav-logo" style="margin-bottom:12px;display:inline-flex;"><div class="logo-mark">$</div>Debt<em>Free</em>Calc</a><p>Free debt payoff tools — no sign-up, no data collection, no agenda.</p></div>
+      <div class="footer-col"><h4>Tools</h4><ul><li><a href="/">Debt Payoff Calculator</a></li><li><a href="/multi-debt">Multi-Debt Planner</a></li><li><a href="/calendar">Repayment Calendar</a></li><li><a href="/debt-relief">Debt Relief Calculator</a></li><li><a href="/minimum-payment">Minimum Payment</a></li><li><a href="/dti-calculator">DTI Calculator</a></li></ul></div>
+      <div class="footer-col"><h4>Learn</h4><ul><li><a href="/how-it-works">How It Works</a></li><li><a href="/tips">Debt Payoff Tips</a></li><li><a href="/faq">FAQ</a></li><li><a href="/alternatives">Alternatives</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li><li><a href="/privacy">Privacy Policy</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p class="footer-disclaimer">For educational purposes only. Not financial advice.</p><span class="footer-copy">© 2025 DebtFreeCalc</span></div>
+  </div>
+</footer>
+<script>
+const LOAN_HINTS={
+  personal:'Personal loans typically range from 8–20% APR depending on your credit score. Common terms are 2–5 years.',
+  auto:'Auto loans typically range from 5–15% APR. New car loans are usually lower than used car loans.',
+  student:'Federal student loans are 5–8% fixed. Private student loans vary widely from 4–15% depending on credit.',
+  other:'Enter your loan details below. This calculator works for any fixed-rate installment loan.'
+};
+function setLoanType(type,btn){
+  document.querySelectorAll('.loan-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('loanTypeHint').textContent=LOAN_HINTS[type];
+}
+function fmt$(n){return '$'+Math.round(n).toLocaleString('en-US');}
+function fmtDate(m){const d=new Date();d.setMonth(d.getMonth()+m);return d.toLocaleDateString('en-US',{month:'long',year:'numeric'});}
+function fmtMo(m){const y=Math.floor(m/12),mo=m%12;if(!y)return mo+'mo';if(!mo)return y+'yr';return y+'yr '+mo+'mo';}
+function calcLoan(bal,apr,pmt){
+  const r=apr/100/12;
+  if(r>0&&pmt<=bal*r)return{error:true,min:bal*r};
+  let b=bal,ti=0,mo=0;
+  while(b>0.005&&mo<600){mo++;const i=b*r;b=Math.max(0,b-Math.min(pmt-i,b));ti+=i;}
+  return{months:mo,totalInterest:ti,totalPaid:bal+ti};
+}
+function runLoan(){
+  const bal=parseFloat(document.getElementById('lp-balance').value);
+  const apr=parseFloat(document.getElementById('lp-apr').value);
+  const pmt=parseFloat(document.getElementById('lp-payment').value);
+  const extra=parseFloat(document.getElementById('lp-extra').value)||0;
+  const err=document.getElementById('lpError');
+  if(!bal||!apr||!pmt){err.classList.remove('show');return;}
+  const r=apr/100/12;
+  if(r>0&&pmt<=bal*r){
+    err.classList.add('show');
+    document.getElementById('lpErrorMsg').textContent=`Payment too low. Need at least ${fmt$(bal*r+1)}/mo to make progress.`;
+    document.getElementById('lpEmpty').style.display='flex';document.getElementById('lpResults').style.display='none';document.getElementById('lpScenarios').style.display='none';return;
+  }
+  err.classList.remove('show');
+  const res=calcLoan(bal,apr,pmt+extra);
+  const iPct=Math.round((res.totalInterest/res.totalPaid)*100);
+  const month1Interest=bal*r;
+  document.getElementById('lpEmpty').style.display='none';document.getElementById('lpResults').style.display='block';
+  document.getElementById('lp-res-date').textContent=fmtDate(res.months);
+  document.getElementById('lp-res-months').textContent=fmtMo(res.months)+' from today';
+  document.getElementById('lp-res-interest').textContent=fmt$(res.totalInterest);
+  document.getElementById('lp-res-int-sub').textContent=iPct+'% of total payments is interest';
+  document.getElementById('lp-res-total').textContent=fmt$(res.totalPaid);
+  setTimeout(()=>{document.getElementById('lp-bar').style.width=iPct+'%';},200);
+  document.getElementById('lp-bar-p').textContent='Principal '+(100-iPct)+'%';
+  document.getElementById('lp-bar-i').textContent='Interest '+iPct+'%';
+  document.getElementById('lp-res-month1').textContent=fmt$(month1Interest);
+  // Scenarios
+  const sc=[
+    {label:'Current payment',payment:pmt+extra,extra:extra},
+    {label:'+'+(fmt$(50)+' extra'),payment:pmt+extra+50,extra:extra+50},
+    {label:'+'+(fmt$(150)+' extra'),payment:pmt+extra+150,extra:extra+150},
+  ];
+  document.getElementById('lpScenarios').style.display='block';
+  const grid=document.getElementById('scenarioCards');grid.innerHTML='';
+  sc.forEach((s,i)=>{
+    const r2=calcLoan(bal,apr,s.payment);
+    const saved=res.totalPaid-r2.totalPaid;
+    const moSaved=res.months-r2.months;
+    const card=document.createElement('div');
+    card.className='ps-card'+(i===0?' highlight':'');
+    card.innerHTML=`
+      <div class="ps-label">${s.label}</div>
+      <div class="ps-payment">${fmt$(s.payment)}/mo</div>
+      <div class="ps-stat">⏱ ${fmtMo(r2.months)} to pay off</div>
+      <div class="ps-stat">💰 ${fmt$(r2.totalInterest)} interest</div>
+      <div class="ps-stat">📅 Free by ${fmtDate(r2.months)}</div>
+      ${i>0&&saved>0?`<div class="ps-savings">↑ Saves ${fmt$(saved)} · ${moSaved}mo sooner</div>`:''}`;
+    grid.appendChild(card);
+  });
+}
+document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+</script>
+</body>
+</html>

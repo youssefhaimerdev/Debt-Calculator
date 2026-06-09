@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debt-to-Income Ratio Calculator (DTI) — Free DTI Calculator 2025</title>
+  <meta name="description" content="Free DTI calculator: calculate your debt-to-income ratio instantly. See if you qualify for a mortgage or loan and what you need to do to improve your DTI score.">
+  <meta name="google-adsense-account" content="ca-pub-3379075069129713">
+  <link rel="canonical" href="https://debtfreecalc.app/dti-calculator">
+  <meta property="og:title" content="Debt-to-Income Ratio Calculator — Free DTI Calculator">
+  <meta property="og:description" content="Calculate your debt-to-income ratio instantly. See if you qualify for a mortgage or loan and understand what lenders look at.">
+  <meta property="og:url" content="https://debtfreecalc.app/dti-calculator">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://debtfreecalc.app/og-image.svg">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="hreflang" hreflang="en" href="https://debtfreecalc.app/dti-calculator">
+  <link rel="stylesheet" href="/styles.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J2TL4H8H5R"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-J2TL4H8H5R');</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Debt-to-Income Ratio Calculator","url":"https://debtfreecalc.app/dti-calculator","description":"Calculate your debt-to-income (DTI) ratio and see how it affects loan qualification.","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <style>
+    .dti-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+    @media(max-width:700px){.dti-grid{grid-template-columns:1fr;}}
+    .dti-gauge{position:relative;width:200px;height:110px;margin:0 auto 20px;}
+    .dti-big{font-family:var(--font-mono);font-size:3rem;font-weight:500;text-align:center;line-height:1;margin-bottom:6px;}
+    .dti-label{text-align:center;font-size:0.82rem;color:var(--text-muted);margin-bottom:20px;}
+    .dti-bands{display:flex;flex-direction:column;gap:8px;margin-top:16px;}
+    .dti-band{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--radius-md);border:1px solid transparent;transition:all var(--transition);}
+    .dti-band.active{border-color:currentColor!important;}
+    .dti-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+    .dti-band-label{font-size:0.82rem;font-weight:600;flex-shrink:0;width:80px;}
+    .dti-band-desc{font-size:0.78rem;color:var(--text-muted);}
+    .debt-items{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+    .debt-item-row{display:flex;gap:8px;align-items:center;}
+    .debt-item-name{flex:2;}
+    .debt-item-amt{flex:1;}
+    .remove-btn{background:none;border:1px solid var(--border);color:var(--text-muted);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;flex-shrink:0;transition:all var(--transition);}
+    .remove-btn:hover{background:var(--danger-dim);border-color:var(--danger);color:var(--danger);}
+    .add-item-btn{background:none;border:1px dashed rgba(0,214,122,0.3);color:var(--accent);padding:8px 16px;border-radius:var(--radius-md);font-family:var(--font-body);font-size:0.82rem;font-weight:600;cursor:pointer;width:100%;transition:all var(--transition);}
+    .add-item-btn:hover{background:var(--accent-dim);}
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav-container">
+    <a href="/" class="nav-logo"><div class="logo-mark">$</div>Debt<em>Free</em>Calc</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/multi-debt" class="nav-cta">Multi-Debt ✦</a></li>
+      <li><a href="/calendar">Calendar</a></li>
+      <li><a href="/debt-relief">Debt Relief</a></li>
+      <li><a href="/tips">Tips</a></li>
+      <li><a href="/faq">FAQ</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+  </nav>
+</header>
+
+<section class="hero" style="padding-bottom:40px;">
+  <div class="container">
+    <div class="hero-eyebrow animate-in"><span>📊</span> DTI Calculator</div>
+    <h1 class="animate-in delay-1">Debt-to-Income<br><em>Ratio Calculator</em></h1>
+    <p class="hero-sub animate-in delay-2">Calculate your DTI ratio in seconds. See where you stand for mortgage and loan qualification — and exactly what you'd need to do to improve it.</p>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container">
+    <div class="dti-grid">
+      <div>
+        <div class="card">
+          <div class="panel-title">Monthly Income</div>
+          <div class="form-group">
+            <label class="form-label" for="dti-income">Gross Monthly Income (before taxes)</label>
+            <div class="input-wrap"><span class="input-prefix">$</span><input type="number" id="dti-income" class="has-prefix" placeholder="5,000" min="1" step="100" oninput="calcDTI()"></div>
+            <p class="form-hint">Use your gross (pre-tax) monthly income from all sources.</p>
+          </div>
+
+          <div class="panel-title" style="margin-top:24px;">Monthly Debt Payments</div>
+          <div class="debt-items" id="debtItems"></div>
+          <button class="add-item-btn" onclick="addDebtItem()">+ Add another debt payment</button>
+
+          <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:0.85rem;">
+            <span style="color:var(--text-muted);">Total monthly debt payments:</span>
+            <span style="font-family:var(--font-mono);font-weight:600;color:var(--text-primary);" id="totalDebtsLabel">$0</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card" style="text-align:center;">
+          <div class="panel-title" style="justify-content:center;">Your DTI Ratio</div>
+          <div class="dti-big" id="dtiPct" style="color:var(--text-muted);">—</div>
+          <div class="dti-label" id="dtiStatus">Enter your income and debts</div>
+
+          <canvas id="dtiGauge" width="220" height="120" style="display:block;margin:0 auto 16px;"></canvas>
+
+          <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px;margin-bottom:16px;">
+            <div style="font-size:0.7rem;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:6px;">To reach 36% DTI you need to</div>
+            <div style="font-size:0.85rem;color:var(--text-secondary);" id="dtiAdvice">—</div>
+          </div>
+
+          <div class="dti-bands">
+            <div class="dti-band" id="band-excellent" style="background:rgba(0,214,122,0.06);">
+              <div class="dti-dot" style="background:var(--accent);"></div>
+              <span class="dti-band-label" style="color:var(--accent);">Under 20%</span>
+              <span class="dti-band-desc">Excellent. Easy loan qualification.</span>
+            </div>
+            <div class="dti-band" id="band-good" style="background:rgba(0,214,122,0.04);">
+              <div class="dti-dot" style="background:#36D399;"></div>
+              <span class="dti-band-label" style="color:#36D399;">20–36%</span>
+              <span class="dti-band-desc">Good. Most lenders approve.</span>
+            </div>
+            <div class="dti-band" id="band-caution" style="background:rgba(245,166,35,0.04);">
+              <div class="dti-dot" style="background:var(--gold);"></div>
+              <span class="dti-band-label" style="color:var(--gold);">37–43%</span>
+              <span class="dti-band-desc">Caution. Mortgage may be difficult.</span>
+            </div>
+            <div class="dti-band" id="band-high" style="background:rgba(255,77,104,0.04);">
+              <div class="dti-dot" style="background:var(--danger);"></div>
+              <span class="dti-band-label" style="color:var(--danger);">43–50%</span>
+              <span class="dti-band-desc">High. Most lenders will decline.</span>
+            </div>
+            <div class="dti-band" id="band-critical" style="background:rgba(255,77,104,0.08);">
+              <div class="dti-dot" style="background:#CC0033;"></div>
+              <span class="dti-band-label" style="color:#CC0033;">Over 50%</span>
+              <span class="dti-band-desc">Critical. Debt reduction urgent.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" style="background:var(--bg-surface);border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="content-prose">
+      <div class="section-label">Understanding DTI</div>
+      <h2>What Is Debt-to-Income Ratio and Why Does It Matter?</h2>
+      <p>Your debt-to-income ratio (DTI) is the percentage of your gross monthly income that goes toward paying your monthly debt obligations. It's calculated by dividing your total monthly debt payments by your gross monthly income and multiplying by 100. If you earn $5,000 per month before taxes and pay $1,500 per month in debt obligations, your DTI is 30%.</p>
+      <p>DTI is one of the most important numbers lenders look at when you apply for a mortgage, auto loan, personal loan, or credit card. It tells them whether you have enough income to comfortably take on additional debt. A low DTI signals financial health and repayment capacity. A high DTI signals that you're already stretched and may struggle with additional obligations.</p>
+      <h3>Front-End vs Back-End DTI</h3>
+      <p>Lenders often calculate two types of DTI. Front-end DTI (also called the housing ratio) includes only housing-related expenses — mortgage principal and interest, property taxes, homeowner's insurance, and HOA fees. Back-end DTI includes all monthly debt obligations: housing, credit cards, student loans, auto loans, personal loans, and any other recurring debt payments. When lenders talk about DTI qualification thresholds, they typically mean back-end DTI, which is what this calculator computes.</p>
+      <div class="callout callout-tip">
+        <div class="callout-title">💡 The 36% Rule</div>
+        <p>The traditional guideline is to keep your total DTI below 36%, with no more than 28% going toward housing costs. Many conventional mortgage lenders use 43% as their maximum DTI threshold. FHA loans may allow up to 50% DTI in some circumstances. The lower your DTI, the better your terms will be.</p>
+      </div>
+      <h3>What Counts in Your DTI Calculation</h3>
+      <p><strong>Include:</strong> Mortgage or rent payment, credit card minimum payments, auto loan payments, student loan payments, personal loan payments, child support or alimony, any other required monthly debt payment.</p>
+      <p><strong>Do not include:</strong> Utilities, groceries, insurance premiums (non-mortgage), cell phone bills, subscriptions, or any discretionary spending. DTI is specifically about debt obligations, not total expenses.</p>
+      <h3>How to Improve Your DTI</h3>
+      <p>There are only two ways to improve DTI: increase your income or decrease your monthly debt payments. Decreasing debt payments means either paying down balances (which reduces minimum payments) or eliminating debts entirely. Use our <a href="/">debt payoff calculator</a> and <a href="/multi-debt">multi-debt planner</a> to build a plan that systematically reduces your monthly debt obligations. Every debt you eliminate improves your DTI — and using the debt avalanche or snowball method means you're eliminating individual debts completely rather than chipping away at all of them slowly.</p>
+      <div class="stat-row">
+        <div class="stat-box"><span class="stat-number">36%</span><div class="stat-label">Conventional mortgage DTI limit</div></div>
+        <div class="stat-box"><span class="stat-number">43%</span><div class="stat-label">FHA loan maximum DTI</div></div>
+        <div class="stat-box"><span class="stat-number">28%</span><div class="stat-label">Recommended housing cost ratio</div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="related-links">
+        <a href="/" class="related-link-card"><div class="rl-label">Calculator</div><div class="rl-title">Debt Payoff Calculator</div><div class="rl-desc">Reduce your DTI by paying down debt faster.</div></a>
+        <a href="/multi-debt" class="related-link-card"><div class="rl-label">Multi-Debt</div><div class="rl-title">Avalanche & Snowball Planner</div><div class="rl-desc">Eliminate individual debts to improve DTI.</div></a>
+        <a href="/debt-relief" class="related-link-card"><div class="rl-label">Relief</div><div class="rl-title">Debt Relief Calculator</div><div class="rl-desc">Compare consolidation options that lower monthly payments.</div></a>
+        <a href="/minimum-payment" class="related-link-card"><div class="rl-label">Warning</div><div class="rl-title">Minimum Payment Trap</div><div class="rl-desc">See why minimums barely move your DTI.</div></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="/" class="nav-logo" style="margin-bottom:12px;display:inline-flex;"><div class="logo-mark">$</div>Debt<em>Free</em>Calc</a><p>Free debt payoff tools — no sign-up, no data collection.</p></div>
+      <div class="footer-col"><h4>Tools</h4><ul><li><a href="/">Debt Payoff Calculator</a></li><li><a href="/multi-debt">Multi-Debt Planner</a></li><li><a href="/calendar">Repayment Calendar</a></li><li><a href="/debt-relief">Debt Relief Calculator</a></li><li><a href="/minimum-payment">Minimum Payment</a></li><li><a href="/dti-calculator">DTI Calculator</a></li></ul></div>
+      <div class="footer-col"><h4>Learn</h4><ul><li><a href="/how-it-works">How It Works</a></li><li><a href="/tips">Debt Payoff Tips</a></li><li><a href="/faq">FAQ</a></li><li><a href="/alternatives">Alternatives</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li><li><a href="/privacy">Privacy Policy</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p class="footer-disclaimer">For educational purposes only. Not financial advice.</p><span class="footer-copy">© 2025 DebtFreeCalc</span></div>
+  </div>
+</footer>
+<script>
+let debtItemCount=0;
+function addDebtItem(name='',amount=''){
+  const id=++debtItemCount;
+  const row=document.createElement('div');
+  row.className='debt-item-row';
+  row.id='drow'+id;
+  row.innerHTML=`
+    <div class="debt-item-name"><input type="text" placeholder="e.g. Car loan" value="${name}" oninput="calcDTI()" style="font-family:var(--font-body);font-size:0.9rem;"></div>
+    <div class="debt-item-amt input-wrap"><span class="input-prefix" style="font-size:0.85rem;">$</span><input type="number" class="has-prefix" placeholder="350" min="0" step="1" value="${amount}" oninput="calcDTI()"></div>
+    <button class="remove-btn" onclick="document.getElementById('drow${id}').remove();calcDTI();">×</button>`;
+  document.getElementById('debtItems').appendChild(row);
+  calcDTI();
+}
+function getTotalDebt(){
+  let t=0;
+  document.querySelectorAll('.debt-item-row .debt-item-amt input').forEach(i=>{t+=parseFloat(i.value)||0;});
+  return t;
+}
+function calcDTI(){
+  const income=parseFloat(document.getElementById('dti-income').value)||0;
+  const totalDebt=getTotalDebt();
+  document.getElementById('totalDebtsLabel').textContent='$'+Math.round(totalDebt).toLocaleString();
+  if(!income||!totalDebt){
+    document.getElementById('dtiPct').textContent='—';
+    document.getElementById('dtiPct').style.color='var(--text-muted)';
+    document.getElementById('dtiStatus').textContent='Enter your income and debts';
+    drawGauge(0,'#3D5A78');
+    return;
+  }
+  const dti=(totalDebt/income)*100;
+  const dtiR=Math.round(dti*10)/10;
+  document.getElementById('dtiPct').textContent=dtiR+'%';
+  document.getElementById('dtiPct').style.color=dti<20?'var(--accent)':dti<36?'#36D399':dti<43?'var(--gold)':dti<50?'var(--danger)':'#CC0033';
+  const labels=['Excellent','Good','Caution — approaching lender limits','High — most lenders will decline','Critical — debt reduction urgent'];
+  const idx=dti<20?0:dti<36?1:dti<43?2:dti<50?3:4;
+  document.getElementById('dtiStatus').textContent=labels[idx];
+  const colors=['var(--accent)','#36D399','var(--gold)','var(--danger)','#CC0033'];
+  drawGauge(Math.min(dti,70),colors[idx]);
+  // Advice
+  const targetDTI=0.36;
+  const maxDebt=income*targetDTI;
+  const needed=totalDebt-maxDebt;
+  const adv=document.getElementById('dtiAdvice');
+  if(dti<=36){adv.textContent='You\'re already within the recommended range. Great position.';}
+  else{adv.textContent=`Reduce monthly debt payments by ${fmt$(needed)} to reach 36% DTI. Pay off individual debts completely using the multi-debt planner.`;}
+  // Highlight band
+  ['excellent','good','caution','high','critical'].forEach((b,i)=>{
+    document.getElementById('band-'+b).classList.toggle('active',i===idx);
+  });
+}
+function fmt$(n){return '$'+Math.round(n).toLocaleString('en-US');}
+function drawGauge(pct,color){
+  const c=document.getElementById('dtiGauge');
+  const ctx=c.getContext('2d');
+  const W=220,H=120,cx=110,cy=110,r=80;
+  ctx.clearRect(0,0,W,H);
+  // Background arc
+  ctx.beginPath();ctx.arc(cx,cy,r,Math.PI,0);
+  ctx.strokeStyle='rgba(255,255,255,0.08)';ctx.lineWidth=16;ctx.lineCap='round';ctx.stroke();
+  // Fill arc (0% = left, 100% = right, capped at 70% for display)
+  const fillAngle=(pct/70)*Math.PI;
+  ctx.beginPath();ctx.arc(cx,cy,r,Math.PI,Math.PI+fillAngle);
+  ctx.strokeStyle=color.replace('var(--accent)','#00D67A').replace('var(--gold)','#F5A623').replace('var(--danger)','#FF4D68');
+  ctx.lineWidth=16;ctx.stroke();
+  // Labels
+  ctx.fillStyle='rgba(255,255,255,0.3)';ctx.font='11px DM Mono,monospace';ctx.textAlign='center';
+  ctx.fillText('0%',35,H-8);ctx.fillText('36%',110,30);ctx.fillText('70%+',185,H-8);
+}
+// Init with common debts
+document.addEventListener('DOMContentLoaded',()=>{
+  addDebtItem('Credit card(s)','');
+  addDebtItem('Auto loan','');
+  addDebtItem('Rent / mortgage','');
+});
+document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+</script>
+</body>
+</html>

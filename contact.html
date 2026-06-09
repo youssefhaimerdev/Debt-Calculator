@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact DebtFreeCalc — Questions, Bugs & Feedback</title>
+  <meta name="description" content="Get in touch with DebtFreeCalc. Report a bug, suggest a feature, or ask a question about our free debt payoff calculators.">
+  <meta name="google-adsense-account" content="ca-pub-3379075069129713">
+  <link rel="canonical" href="https://debtfreecalc.app/contact">
+  <meta property="og:title" content="Contact DebtFreeCalc">
+  <meta property="og:url" content="https://debtfreecalc.app/contact">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J2TL4H8H5R"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-J2TL4H8H5R');</script>
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav-container">
+    <a href="/" class="nav-logo"><div class="logo-mark">$</div>Debt<em>Free</em>Calc</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/multi-debt" class="nav-cta">Multi-Debt ✦</a></li>
+      <li><a href="/calendar">Calendar</a></li>
+      <li><a href="/debt-relief">Debt Relief</a></li>
+      <li><a href="/tips">Tips</a></li>
+      <li><a href="/faq">FAQ</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+  </nav>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="/">Home</a><span>›</span><span>Contact</span></div>
+    <div class="section-label">Get in Touch</div>
+    <h1>Contact Us</h1>
+    <p style="max-width:520px;font-size:1.1rem;color:var(--text-secondary);margin-top:16px;">Found a bug? Have a suggestion? We read every message and use your feedback to improve the tools.</p>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:900px;" id="contactGrid">
+
+      <div>
+        <div class="card">
+          <div class="panel-title">Send a Message</div>
+          <div id="contactForm">
+            <div class="form-group">
+              <label class="form-label" for="c-name">Your Name</label>
+              <input type="text" id="c-name" placeholder="Jane Smith">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="c-email">Email Address</label>
+              <input type="text" id="c-email" placeholder="jane@example.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="c-subject">Subject</label>
+              <select id="c-subject" style="font-family:var(--font-body);font-size:0.95rem;padding:14px 16px;">
+                <option value="">Select a topic...</option>
+                <option>Bug report</option>
+                <option>Feature suggestion</option>
+                <option>Calculation question</option>
+                <option>General feedback</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="c-message">Message</label>
+              <textarea id="c-message" rows="5" placeholder="Describe your question or feedback..." style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--text-primary);font-family:var(--font-body);font-size:0.95rem;padding:14px 16px;border-radius:var(--radius-md);resize:vertical;outline:none;transition:all var(--transition);" onfocus="this.style.borderColor='var(--border-focus)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+            </div>
+            <button class="btn btn-primary btn-full" onclick="submitForm()">Send Message →</button>
+            <p style="font-size:0.75rem;color:var(--text-muted);text-align:center;margin-top:12px;">We typically respond within 1–2 business days.</p>
+          </div>
+          <div id="contactSuccess" style="display:none;text-align:center;padding:40px 20px;">
+            <div style="font-size:2.5rem;margin-bottom:16px;">✓</div>
+            <h3 style="color:var(--accent);margin-bottom:8px;">Message sent!</h3>
+            <p style="color:var(--text-muted);">Thanks for reaching out. We'll be in touch within 1–2 business days.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="margin-bottom:24px;">
+          <div class="section-label" style="margin-bottom:12px;">Before you write</div>
+          <p style="color:var(--text-secondary);font-size:0.9rem;">Check if your question is already answered:</p>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;">
+            <a href="/faq" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-decoration:none;transition:all var(--transition);" onmouseover="this.style.borderColor='rgba(0,214,122,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+              <span style="font-size:1.2rem;">❓</span>
+              <div><div style="color:var(--text-primary);font-size:0.9rem;font-weight:600;">FAQ</div><div style="color:var(--text-muted);font-size:0.78rem;">Common questions answered</div></div>
+            </a>
+            <a href="/how-it-works" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-decoration:none;transition:all var(--transition);" onmouseover="this.style.borderColor='rgba(0,214,122,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+              <span style="font-size:1.2rem;">📐</span>
+              <div><div style="color:var(--text-primary);font-size:0.9rem;font-weight:600;">How It Works</div><div style="color:var(--text-muted);font-size:0.78rem;">Calculation methodology explained</div></div>
+            </a>
+            <a href="/privacy" style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-decoration:none;transition:all var(--transition);" onmouseover="this.style.borderColor='rgba(0,214,122,0.3)'" onmouseout="this.style.borderColor='var(--border)'">
+              <span style="font-size:1.2rem;">🔒</span>
+              <div><div style="color:var(--text-primary);font-size:0.9rem;font-weight:600;">Privacy Policy</div><div style="color:var(--text-muted);font-size:0.78rem;">What data we do and don't collect</div></div>
+            </a>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:24px;">
+          <div class="panel-title">What we love hearing</div>
+          <div style="display:flex;flex-direction:column;gap:12px;margin-top:4px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--accent);margin-top:2px;">●</span><span style="font-size:0.88rem;color:var(--text-secondary);">Bugs or calculation errors you've spotted</span></div>
+            <div style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--accent);margin-top:2px;">●</span><span style="font-size:0.88rem;color:var(--text-secondary);">Tools or features you wish existed</span></div>
+            <div style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--accent);margin-top:2px;">●</span><span style="font-size:0.88rem;color:var(--text-secondary);">Content that's unclear or could be better</span></div>
+            <div style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--accent);margin-top:2px;">●</span><span style="font-size:0.88rem;color:var(--text-secondary);">Mobile or accessibility issues</span></div>
+            <div style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--accent);margin-top:2px;">●</span><span style="font-size:0.88rem;color:var(--text-secondary);">Stories of using the tools to get debt-free</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="/" class="nav-logo" style="margin-bottom:12px;display:inline-flex;"><div class="logo-mark">$</div>Debt<em>Free</em>Calc</a><p>Free debt payoff tools — no sign-up, no data collection, no agenda.</p></div>
+      <div class="footer-col"><h4>Tools</h4><ul><li><a href="/">Debt Payoff Calculator</a></li><li><a href="/multi-debt">Multi-Debt Planner</a></li><li><a href="/calendar">Repayment Calendar</a></li><li><a href="/debt-relief">Debt Relief Calculator</a></li></ul></div>
+      <div class="footer-col"><h4>Learn</h4><ul><li><a href="/how-it-works">How It Works</a></li><li><a href="/tips">Debt Payoff Tips</a></li><li><a href="/faq">FAQ</a></li><li><a href="/alternatives">Alternatives</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li><li><a href="/privacy">Privacy Policy</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p class="footer-disclaimer">For educational purposes only. Not financial advice.</p><span class="footer-copy">© 2025 DebtFreeCalc</span></div>
+  </div>
+</footer>
+<script>
+document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+function submitForm(){
+  const name=document.getElementById('c-name').value;
+  const email=document.getElementById('c-email').value;
+  const msg=document.getElementById('c-message').value;
+  if(!name||!email||!msg){alert('Please fill in all required fields.');return;}
+  document.getElementById('contactForm').style.display='none';
+  document.getElementById('contactSuccess').style.display='block';
+}
+</script>
+<style>
+@media(max-width:640px){#contactGrid{grid-template-columns:1fr!important;}}
+</style>
+</body>
+</html>
