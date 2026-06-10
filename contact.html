@@ -14,6 +14,16 @@
   <link rel="stylesheet" href="/styles.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-J2TL4H8H5R"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-J2TL4H8H5R');</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://debtfreecalc.app/"},
+      {"@type":"ListItem","position":2,"name":"Contact","item":"https://debtfreecalc.app/contact"}
+    ]
+  }
+  </script>
 </head>
 <body>
 <header class="site-header">
@@ -22,10 +32,10 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="/">Calculator</a></li>
       <li><a href="/multi-debt" class="nav-cta">Multi-Debt ✦</a></li>
-      <li><a href="/calendar">Calendar</a></li>
-      <li><a href="/debt-relief">Debt Relief</a></li>
+      <li><a href="/tools">All Tools</a></li>
       <li><a href="/tips">Tips</a></li>
       <li><a href="/faq">FAQ</a></li>
+      <li><a href="/about">About</a></li>
     </ul>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
   </nav>
@@ -132,12 +142,35 @@
 <script>
 document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
 function submitForm(){
-  const name=document.getElementById('c-name').value;
-  const email=document.getElementById('c-email').value;
-  const msg=document.getElementById('c-message').value;
-  if(!name||!email||!msg){alert('Please fill in all required fields.');return;}
-  document.getElementById('contactForm').style.display='none';
-  document.getElementById('contactSuccess').style.display='block';
+  const name    = document.getElementById('c-name').value.trim();
+  const email   = document.getElementById('c-email').value.trim();
+  const subject = document.getElementById('c-subject').value;
+  const msg     = document.getElementById('c-message').value.trim();
+
+  if(!name || !email || !msg){
+    alert('Please fill in your name, email, and message.');
+    return;
+  }
+  if(!email.includes('@')){
+    alert('Please enter a valid email address.');
+    return;
+  }
+
+  // Build mailto link — works on any static site
+  const mailSubject = encodeURIComponent('[DebtFreeCalc] ' + (subject || 'Contact form message'));
+  const mailBody    = encodeURIComponent(
+    'Name: ' + name + '\n' +
+    'Email: ' + email + '\n' +
+    'Topic: ' + (subject || 'General') + '\n\n' +
+    msg
+  );
+  window.location.href = 'mailto:hello@debtfreecalc.app?subject=' + mailSubject + '&body=' + mailBody;
+
+  // Show confirmation after short delay
+  setTimeout(() => {
+    document.getElementById('contactForm').style.display='none';
+    document.getElementById('contactSuccess').style.display='block';
+  }, 500);
 }
 </script>
 <style>

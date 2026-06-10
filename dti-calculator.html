@@ -39,6 +39,16 @@
     .add-item-btn{background:none;border:1px dashed rgba(0,214,122,0.3);color:var(--accent);padding:8px 16px;border-radius:var(--radius-md);font-family:var(--font-body);font-size:0.82rem;font-weight:600;cursor:pointer;width:100%;transition:all var(--transition);}
     .add-item-btn:hover{background:var(--accent-dim);}
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://debtfreecalc.app/"},
+      {"@type":"ListItem","position":2,"name":"DTI Calculator","item":"https://debtfreecalc.app/dti-calculator"}
+    ]
+  }
+  </script>
 </head>
 <body>
 <header class="site-header">
@@ -47,10 +57,10 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="/">Calculator</a></li>
       <li><a href="/multi-debt" class="nav-cta">Multi-Debt ✦</a></li>
-      <li><a href="/calendar">Calendar</a></li>
-      <li><a href="/debt-relief">Debt Relief</a></li>
+      <li><a href="/tools">All Tools</a></li>
       <li><a href="/tips">Tips</a></li>
       <li><a href="/faq">FAQ</a></li>
+      <li><a href="/about">About</a></li>
     </ul>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
   </nav>
@@ -156,7 +166,36 @@
         <div class="stat-box"><span class="stat-number">43%</span><div class="stat-label">FHA loan maximum DTI</div></div>
         <div class="stat-box"><span class="stat-number">28%</span><div class="stat-label">Recommended housing cost ratio</div></div>
       </div>
-      <div class="divider"></div>
+      
+      <h3>Front-End vs Back-End DTI: What Lenders Actually Check</h3>
+      <p>Lenders evaluate two DTI figures when reviewing loan applications. <strong>Front-end DTI</strong> (also called the housing ratio) counts only housing costs: mortgage principal and interest, property taxes, homeowner's insurance, and HOA fees if applicable. Most conventional mortgage lenders want front-end DTI below 28%. <strong>Back-end DTI</strong> includes all monthly debt payments — housing plus credit cards, student loans, auto loans, personal loans, alimony, child support, and any other required monthly obligation. This is the number our calculator produces, and it's what most lenders mean when they say "DTI limit."</p>
+      <p>For a conventional mortgage, the standard back-end DTI limit is 43%. Fannie Mae's Automated Underwriting System (DU) may approve up to 50% for borrowers with strong compensating factors like significant cash reserves or excellent credit. FHA loans allow up to 57% in some circumstances. VA loans have no official DTI maximum but lenders typically prefer under 41%. Understanding which type your lender is evaluating — and which of your expenses they include — determines whether you qualify.</p>
+
+      <h3>What Counts in Your DTI — And What Doesn't</h3>
+      <p>A common mistake when calculating DTI is including non-debt expenses. Lenders are specific about what counts. <strong>Include</strong> in your DTI: minimum credit card payments (not your actual payment — the required minimum), auto loan payments, student loan payments (even if in deferment — lenders use 1% of the balance or the documented payment, whichever is higher), personal loan payments, alimony and child support, any co-signed loan payments, and your proposed housing payment.</p>
+      <p><strong>Do not include</strong> in DTI: utility bills, cell phone bills, insurance premiums (health, auto, life), subscriptions, groceries, gas, child care, or any discretionary spending. DTI is purely a debt-obligations ratio. Many people overestimate their DTI because they include living expenses that lenders don't count.</p>
+
+      <h3>DTI vs Credit Score: Which Matters More?</h3>
+      <p>They measure different things and both matter — but in different ways. Your credit score primarily tells lenders how reliably you've managed past debt obligations. Your DTI tells lenders whether you have enough current income to take on new ones. A person can have an excellent credit score (800+) but a high DTI, and be declined for a mortgage because their income doesn't support additional debt. Conversely, someone with a moderate credit score but very low DTI may be approved because the income cushion reduces risk.</p>
+      <p>For mortgage applications specifically, DTI often matters more than credit score for the final approval decision, while credit score determines the interest rate you're offered. For credit cards and personal loans, credit score tends to dominate the approval decision, with DTI playing a supporting role. Know which factor is limiting your options before you apply.</p>
+
+      <h3>How to Improve Your DTI Ratio</h3>
+      <p>There are only two levers: increase income or decrease monthly debt payments. Income increases through raises, promotions, second jobs, freelancing, or passive income streams. Debt decreases through strategic payoff using the <a href="/multi-debt">multi-debt planner</a>, consolidation to lower monthly payments, or eliminating debts entirely to remove their monthly obligation from the calculation.</p>
+      <p>The most powerful DTI improvement move is paying off a debt entirely. A $300/month car payment that disappears reduces your DTI by $300/month — permanently. Compare this to paying $100 extra on a balance that reduces your minimum payment by only $2/month — the DTI impact is minimal until the debt is completely gone. This is one reason why the debt snowball method (targeting smallest balance first) can be particularly valuable for people trying to improve their DTI quickly: eliminating small debts entirely removes their monthly payment from the DTI calculation immediately.</p>
+
+      <h3>DTI and the Mortgage Qualification Process</h3>
+      <p>When you apply for a mortgage, lenders run your application through an automated underwriting system that evaluates dozens of factors simultaneously. DTI is one of the most heavily weighted. If your DTI is above 43%, most conventional mortgage applications will be automatically declined regardless of other strengths in your application. If it's between 36–43%, you may be approved but may face stricter requirements around down payment, cash reserves, or credit score.</p>
+      <p>Pre-qualification tip: calculate your back-end DTI including the proposed new mortgage payment before applying. Many people are surprised to discover their DTI disqualifies them from their target home price. If that's the case, use our <a href="/">debt payoff calculator</a> and <a href="/multi-debt">multi-debt planner</a> to build a 12–24 month plan for reducing existing debt before applying. Every debt you eliminate improves your DTI and potentially unlocks a higher loan amount.</p>
+
+      <h3>Debt-to-Income Ratio by Loan Type</h3>
+      <p><strong>Conventional mortgage:</strong> Maximum 43–50% back-end DTI. Under 36% preferred. Under 28% front-end DTI preferred.</p>
+      <p><strong>FHA loan:</strong> Up to 57% back-end DTI with strong compensating factors. 31% front-end preferred.</p>
+      <p><strong>VA loan:</strong> No official maximum, but under 41% strongly preferred by most VA lenders.</p>
+      <p><strong>Auto loan:</strong> Most lenders don't have a strict DTI cutoff, but prefer under 50%. Higher DTI leads to higher rates or down payment requirements.</p>
+      <p><strong>Personal loan:</strong> Varies widely by lender. Online lenders may approve up to 50–55% DTI; traditional banks prefer under 40%.</p>
+      <p><strong>Credit card:</strong> Credit card issuers typically don't calculate DTI directly — they rely more on credit score and income verification. However, high DTI can be inferred from multiple recent applications and high existing credit utilization.</p>
+
+<div class="divider"></div>
       <div class="related-links">
         <a href="/" class="related-link-card"><div class="rl-label">Calculator</div><div class="rl-title">Debt Payoff Calculator</div><div class="rl-desc">Reduce your DTI by paying down debt faster.</div></a>
         <a href="/multi-debt" class="related-link-card"><div class="rl-label">Multi-Debt</div><div class="rl-title">Avalanche & Snowball Planner</div><div class="rl-desc">Eliminate individual debts to improve DTI.</div></a>
@@ -230,22 +269,52 @@ function calcDTI(){
   });
 }
 function fmt$(n){return '$'+Math.round(n).toLocaleString('en-US');}
-function drawGauge(pct,color){
-  const c=document.getElementById('dtiGauge');
-  const ctx=c.getContext('2d');
-  const W=220,H=120,cx=110,cy=110,r=80;
+function drawGauge(pct, colorInput){
+  const canvas = document.getElementById('dtiGauge');
+  const ctx = canvas.getContext('2d');
+  const W=220, H=120, cx=110, cy=110, r=80;
   ctx.clearRect(0,0,W,H);
+
+  // Resolve CSS variable to real hex
+  const colorMap = {
+    'var(--accent)':  '#00D67A',
+    'var(--gold)':    '#F5A623',
+    'var(--danger)':  '#FF4D68',
+    '#36D399':        '#36D399',
+    '#CC0033':        '#CC0033'
+  };
+  const color = colorMap[colorInput] || colorInput;
+
   // Background arc
-  ctx.beginPath();ctx.arc(cx,cy,r,Math.PI,0);
-  ctx.strokeStyle='rgba(255,255,255,0.08)';ctx.lineWidth=16;ctx.lineCap='round';ctx.stroke();
-  // Fill arc (0% = left, 100% = right, capped at 70% for display)
-  const fillAngle=(pct/70)*Math.PI;
-  ctx.beginPath();ctx.arc(cx,cy,r,Math.PI,Math.PI+fillAngle);
-  ctx.strokeStyle=color.replace('var(--accent)','#00D67A').replace('var(--gold)','#F5A623').replace('var(--danger)','#FF4D68');
-  ctx.lineWidth=16;ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, Math.PI, 0);
+  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+  ctx.lineWidth = 16; ctx.lineCap = 'round'; ctx.stroke();
+
+  // Colored fill arc (capped at 70% for display range)
+  if(pct > 0){
+    const fillAngle = (Math.min(pct,70) / 70) * Math.PI;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, Math.PI, Math.PI + fillAngle);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 16; ctx.lineCap = 'round'; ctx.stroke();
+
+    // Glow dot at tip
+    const tipX = cx + r * Math.cos(Math.PI + fillAngle);
+    const tipY = cy + r * Math.sin(Math.PI + fillAngle);
+    ctx.beginPath();
+    ctx.arc(tipX, tipY, 8, 0, Math.PI*2);
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+
   // Labels
-  ctx.fillStyle='rgba(255,255,255,0.3)';ctx.font='11px DM Mono,monospace';ctx.textAlign='center';
-  ctx.fillText('0%',35,H-8);ctx.fillText('36%',110,30);ctx.fillText('70%+',185,H-8);
+  ctx.fillStyle = 'rgba(255,255,255,0.35)';
+  ctx.font = 'bold 11px DM Mono, monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('0%', 32, H-6);
+  ctx.fillText('36%', 110, 26);
+  ctx.fillText('70%+', 188, H-6);
 }
 // Init with common debts
 document.addEventListener('DOMContentLoaded',()=>{

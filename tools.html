@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Debt Payoff Tools — All Calculators in One Place | DebtFreeCalc</title>
+  <meta name="description" content="All free debt calculators in one place: debt payoff calculator, credit card payoff, multi-debt planner, repayment calendar, debt relief comparison, DTI calculator, minimum payment calculator, and loan payoff calculator.">
+  <meta name="google-adsense-account" content="ca-pub-3379075069129713">
+  <link rel="canonical" href="https://debtfreecalc.app/tools">
+  <meta property="og:title" content="Free Debt Payoff Tools — All Calculators in One Place">
+  <meta property="og:description" content="Every free debt calculator you need: payoff planner, credit card calculator, multi-debt avalanche/snowball, repayment calendar, DTI ratio, minimum payment trap, and more.">
+  <meta property="og:url" content="https://debtfreecalc.app/tools">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://debtfreecalc.app/og-image.svg">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="hreflang" hreflang="en" href="https://debtfreecalc.app/tools">
+  <link rel="stylesheet" href="/styles.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J2TL4H8H5R"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-J2TL4H8H5R');</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Free Debt Payoff Tools",
+    "url": "https://debtfreecalc.app/tools",
+    "description": "A complete suite of free debt payoff calculators: debt payoff planner, credit card payoff, multi-debt avalanche and snowball planner, repayment calendar, debt relief comparison, DTI ratio calculator, minimum payment calculator, and loan payoff calculator.",
+    "publisher": { "@type": "Organization", "name": "DebtFreeCalc", "url": "https://debtfreecalc.app" }
+  }
+  </script>
+  <style>
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 40px;
+    }
+    @media (max-width: 900px) { .tools-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 540px)  { .tools-grid { grid-template-columns: 1fr; } }
+
+    .tool-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--card-accent, var(--accent));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--transition);
+    }
+    .tool-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(255,255,255,0.14);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-card);
+      opacity: 1;
+    }
+    .tool-card:hover::before { transform: scaleX(1); }
+    .tool-card.featured {
+      border-color: rgba(0,214,122,0.25);
+      background: rgba(0,214,122,0.04);
+      grid-column: span 2;
+    }
+    @media (max-width: 900px) { .tool-card.featured { grid-column: span 1; } }
+
+    .tool-icon { font-size: 2rem; margin-bottom: 14px; display: block; }
+    .tool-badge {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      width: fit-content;
+    }
+    .badge-popular { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(0,214,122,0.2); }
+    .badge-new     { background: var(--gold-dim);   color: var(--gold);   border: 1px solid rgba(245,166,35,0.2); }
+    .badge-powerful{ background: rgba(123,142,255,0.12); color: #7B8EFF; border: 1px solid rgba(123,142,255,0.2); }
+
+    .tool-name {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .tool-card.featured .tool-name { font-size: 1.4rem; }
+
+    .tool-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 18px;
+    }
+    .tool-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+    .tool-feature-tag {
+      font-size: 0.7rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3px 10px;
+      color: var(--text-muted);
+    }
+    .tool-cta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-top: auto;
+    }
+    .tool-cta-arrow { font-size: 1rem; transition: transform var(--transition); }
+    .tool-card:hover .tool-cta-arrow { transform: translateX(4px); }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 60px 0 8px;
+    }
+    .section-divider-line { flex: 1; height: 1px; background: var(--border); }
+    .section-divider-label {
+      font-size: 0.72rem;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://debtfreecalc.app/"},
+      {"@type":"ListItem","position":2,"name":"All Tools","item":"https://debtfreecalc.app/tools"}
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav-container">
+    <a href="/" class="nav-logo"><div class="logo-mark">$</div>Debt<em>Free</em>Calc</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/multi-debt" class="nav-cta">Multi-Debt ✦</a></li>
+      <li><a href="/tools" class="active">All Tools</a></li>
+      <li><a href="/tips">Tips</a></li>
+      <li><a href="/faq">FAQ</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+  </nav>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="/">Home</a><span>›</span><span>All Tools</span></div>
+    <div class="section-label">Free Debt Calculators</div>
+    <h1>Every tool you need<br>to get out of debt</h1>
+    <p style="max-width:580px;font-size:1.1rem;color:var(--text-secondary);margin-top:16px;">8 free debt payoff calculators — no sign-up, no paywalls, no data collection. Pick the one that matches where you are right now.</p>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container">
+
+    <!-- Payoff Calculators -->
+    <div class="section-divider">
+      <div class="section-divider-line"></div>
+      <div class="section-divider-label">Payoff Calculators</div>
+      <div class="section-divider-line"></div>
+    </div>
+
+    <div class="tools-grid">
+
+      <!-- Featured: Main Calculator -->
+      <a href="/" class="tool-card featured" style="--card-accent:var(--accent);">
+        <span class="tool-icon">📊</span>
+        <div class="tool-badge badge-popular">Most Popular</div>
+        <div class="tool-name">Debt Payoff Calculator</div>
+        <div class="tool-desc">The complete debt payoff planner. Enter your balance, APR, and monthly payment — get your exact debt-free date, total interest cost, visual payoff chart, what-if modeling with lump sum support, reverse calculator, and full month-by-month amortization schedule.</div>
+        <div class="tool-features">
+          <span class="tool-feature-tag">Real-time results</span>
+          <span class="tool-feature-tag">What-if slider</span>
+          <span class="tool-feature-tag">Lump sum modeling</span>
+          <span class="tool-feature-tag">Reverse calculator</span>
+          <span class="tool-feature-tag">CSV export</span>
+        </div>
+        <div class="tool-cta">Start calculating <span class="tool-cta-arrow">→</span></div>
+      </a>
+
+      <!-- Multi-Debt -->
+      <a href="/multi-debt" class="tool-card" style="--card-accent:#7B8EFF;">
+        <span class="tool-icon">🗂️</span>
+        <div class="tool-badge badge-powerful">Most Powerful</div>
+        <div class="tool-name">Multi-Debt Avalanche & Snowball Planner</div>
+        <div class="tool-desc">Multiple credit cards or loans? Enter all of them, set your monthly budget, and get a full avalanche vs snowball strategy comparison — with a gantt-style payoff timeline and per-debt breakdown.</div>
+        <div class="tool-features">
+          <span class="tool-feature-tag">Up to 8 debts</span>
+          <span class="tool-feature-tag">Avalanche vs Snowball</span>
+          <span class="tool-feature-tag">Payoff timeline chart</span>
+          <span class="tool-feature-tag">CSV export</span>
+        </div>
+        <div class="tool-cta">Plan my payoff <span class="tool-cta-arrow">→</span></div>
+      </a>
+
+      <!-- Credit Card -->
+      <a href="/credit-card-payoff" class="tool-card" style="--card-accent:#FF6B9D;">
+        <span class="tool-icon">💳</span>
+        <div class="tool-badge badge-popular">High Demand</div>
+        <div class="tool-name">Credit Card Payoff Calculator</div>
+        <div class="tool-desc">Focused specifically on credit card debt. Shows your payoff date, total interest, minimum payment comparison, and 3 contextual tips for your exact situation.</div>
+        <div class="tool-features">
+          <span class="tool-feature-tag">Min payment comparison</span>
+          <span class="tool-feature-tag">Interest savings</span>
+          <span class="tool-feature-tag">Contextual tips</span>
+        </div>
+        <div class="tool-cta">Calculate payoff <span class="tool-cta-arrow">→</span></div>
+      </a>
+
+      <!-- Loan Payoff -->
+      <a href="/loan-payoff" class="tool-card" style="--card-accent:#36D399;">
+        <span class="tool-icon">🏦</span>
+        <div class="tool-badge badge-popular">High Demand</div>
+        <div class="tool-name">Free Loan Payoff Calculator</div>
+        <div class="tool-desc">Works for personal loans, auto loans, student loans, and any fixed-rate debt. Includes loan type tabs, extra payment field, and 3-scenario comparison showing the impact of paying more.</div>
+        <div class="tool-features">
+          <span class="tool-feature-tag">Personal · Auto · Student</span>
+          <span class="tool-feature-tag">Extra payment modeling</span>
+          <span class="tool-feature-tag">3 scenarios</span>
+        </div>
+        <div class="tool-cta">Calculate payoff <span class="tool-cta-arrow">→</span></div>
+      </a>
+
+    </div>
+
+    <!-- Planning Tools -->
+    <div class="section-divider">
+      <div class="section-divider-line"></div>
+      <div class="section-divider-label">Planning & Visualization</div>
+      <div class="section-divider-line"></div>
+    </div>
+
+    <div class="tools-grid">
+
+      <!-- Calendar -->
+      <a href="/calendar" class="tool-card" style="--card-accent:#F5A623;">
+        <span class="tool-icon">📅</span>
+        <div class="tool-badge badge-new">Unique Tool</div>
+        <div class="tool-name">Debt Repayment Calendar</div>
+        <div class="tool-desc">Turn your payoff plan into a visual month-by-month calendar. Every payment mapped out from today to your debt-free date — with principal vs interest split bars, progress percentages, and a 🎉 celebration on your final payment month.</div>
+        <div class="tool-features">
+          <span class="tool-feature-tag">Calendar grid view</span>
+          <span class="tool-feature-tag">Year summary table</span>
+          <span class="tool-feature-tag">Printable</span>
+          <span class="tool-feature-tag">CSV export</span>
+        </div>
+        <div class="tool-cta">Generate calendar <span class="tool-cta-arrow">→</span></div>
+      </a>
+
+      <!-- Debt Relief -->
+      <a href="/debt-relief" class="tool-card" style="--card-accent:#FB923C;">
+        <span class="tool-icon">🏛️</span>
+        <div class="tool-badge badge-new">All Options</div>
+        <div class="tool-name">Debt Relief Calculator</div>
+        <div class="tool-desc">Not sure which path out of debt is right for you? This calculator runs all 6 options simultaneously — paying it yourself, negotiating, balance transfer, consolidation loan, DMP, and settlement — and recommends the best one for your numbers.</div>
+        <div class="tool-features">
+          <span class="tool-feature-tag">6 scenarios</span>
+          <span class="tool-feature-tag">Side-by-side comparison</span>
+          <span class="tool-feature-tag">Credit impact rating</span>
+          <span class="tool-feature-tag">Smart recommendation</span>
+        </div>
+        <div class="tool-cta">Compare options <span class="tool-cta-arrow">→</span></div>
+      </a>
+
+    </div>
+
+    <!-- Financial Health -->
+    <div class="section-divider">
+      <div class="section-divider-line"></div>
+      <div class="section-divider-label">Financial Health</div>
+      <div class="section-divider-line"></div>
+    </div>
+
+    <div class="tools-grid">
+
+      <!-- Minimum Payment -->
+      <a href="/minimum-payment" class="tool-card" style="--card-accent:#FF4D68;">
+        <span class="tool-icon">⚠️</span>
+        <div class="tool-badge" style="background:var(--danger-dim);color:var(--danger);border:1px solid rgba(255,77,104,0.2);">Eye-Opening</div>
+        <div class="tool-name">Minimum Payment Trap Calculator</div>
+        <div class="tool-desc">See exactly what paying only the minimum really costs you — in years and in interest. Shows 4 side-by-side payment scenarios from minimum-only to aggressive payoff. Most users find this genuinely shocking.</div>
+        <div class="tool-features">
+          <span class="tool-feature-tag">4 scenarios</span>
+          <span class="tool-feature-tag">Visual comparison</span>
+          <span class="tool-feature-tag">Interest horror show</span>
+        </div>
+        <div class="tool-cta">See the real cost <span class="tool-cta-arrow">→</span></div>
+      </a>
+
+      <!-- DTI -->
+      <a href="/dti-calculator" class="tool-card" style="--card-accent:#22D3EE;">
+        <span class="tool-icon">📐</span>
+        <div class="tool-badge" style="background:rgba(34,211,238,0.1);color:#22D3EE;border:1px solid rgba(34,211,238,0.2);">Mortgage Ready</div>
+        <div class="tool-name">Debt-to-Income Ratio (DTI) Calculator</div>
+        <div class="tool-desc">Calculate your DTI ratio instantly with an animated gauge showing your qualification tier. Add multiple debt sources, see exactly how far you are from the 36% threshold lenders prefer, and get advice on what to reduce first.</div>
+        <div class="tool-features">
+          <span class="tool-feature-tag">Animated gauge</span>
+          <span class="tool-feature-tag">Multiple debt inputs</span>
+          <span class="tool-feature-tag">Lender thresholds</span>
+          <span class="tool-feature-tag">Improvement advice</span>
+        </div>
+        <div class="tool-cta">Calculate DTI <span class="tool-cta-arrow">→</span></div>
+      </a>
+
+    </div>
+
+    <!-- Not sure where to start -->
+    <div class="card card-glow" style="margin-top:60px;text-align:center;padding:40px;">
+      <div style="font-size:2rem;margin-bottom:16px;">🤔</div>
+      <h2 style="margin-bottom:12px;">Not sure which tool to use?</h2>
+      <p style="max-width:500px;margin:0 auto 24px;color:var(--text-secondary);">If you have one credit card or loan → <strong style="color:var(--text-primary);">start with the main calculator</strong>.<br>If you have multiple → <strong style="color:var(--text-primary);">go to the multi-debt planner</strong>.<br>If you're not sure which relief option is right → <strong style="color:var(--text-primary);">use the debt relief calculator</strong>.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="/" class="btn btn-primary">One Debt → Start Here</a>
+        <a href="/multi-debt" class="btn btn-outline">Multiple Debts →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Content section for SEO -->
+<section class="content-section" style="background:var(--bg-surface);border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="content-prose">
+      <div class="section-label">About These Tools</div>
+      <h2>Free Debt Calculators — No Sign-Up, No Paywalls, No Catch</h2>
+      <p>Every calculator on DebtFreeCalc is free, runs entirely in your browser, and requires no account or personal information. We don't collect your financial data, we don't upsell premium features, and we don't show different results based on your plan tier. You enter numbers, you get honest math.</p>
+      <p>These tools are built for the specific situations real people with real debt actually face — not hypothetical textbook scenarios. The multi-debt planner handles the messy reality of having 3 credit cards with different rates and minimum payments. The debt relief calculator gives you the honest math on settlement and bankruptcy alongside the more optimistic options, because sometimes you need to see the full picture. The minimum payment calculator shows you numbers most people haven't seen and find genuinely motivating.</p>
+
+      <h3>Which Calculator Should You Use?</h3>
+      <p><strong>If you have one credit card balance</strong> and want to know when you'll pay it off and how much interest you'll pay: use the <a href="/credit-card-payoff">credit card payoff calculator</a> or the <a href="/">main debt payoff calculator</a>. Both give you the same core calculation; the credit card version includes some credit-card-specific context.</p>
+      <p><strong>If you have multiple debts</strong> — two or more credit cards, or a mix of cards and loans — use the <a href="/multi-debt">multi-debt planner</a>. This is the tool that shows you the exact optimal payoff order and compares avalanche vs snowball side by side. Most people with multiple debts are leaving significant money on the table by not having a coordinated strategy.</p>
+      <p><strong>If you're a visual person</strong> and want to see your payoff schedule laid out as an actual calendar, use the <a href="/calendar">repayment calendar</a>. This is particularly useful for printing and putting somewhere you'll see daily — the behavioral research on visual goal tracking is compelling.</p>
+      <p><strong>If you're overwhelmed</strong> and not sure whether to just keep paying, consolidate, transfer a balance, or explore other options, use the <a href="/debt-relief">debt relief calculator</a>. It calculates all six options for your specific numbers and tells you which one saves the most.</p>
+      <p><strong>If you're applying for a mortgage or major loan</strong> in the near future, check your <a href="/dti-calculator">DTI ratio</a> first. Many people are surprised to discover their ratio is higher than lenders prefer, and knowing this 12–18 months before applying gives you time to fix it.</p>
+
+      <div class="stat-row">
+        <div class="stat-box"><span class="stat-number">8</span><div class="stat-label">Free debt calculators</div></div>
+        <div class="stat-box"><span class="stat-number">0</span><div class="stat-label">Sign-ups required</div></div>
+        <div class="stat-box"><span class="stat-number">0</span><div class="stat-label">Financial data collected</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="/" class="nav-logo" style="margin-bottom:12px;display:inline-flex;"><div class="logo-mark">$</div>Debt<em>Free</em>Calc</a><p>Free debt payoff tools — no sign-up, no data collection, no agenda.</p></div>
+      <div class="footer-col"><h4>Tools</h4><ul>
+        <li><a href="/">Debt Payoff Calculator</a></li>
+        <li><a href="/multi-debt">Multi-Debt Planner</a></li>
+        <li><a href="/calendar">Repayment Calendar</a></li>
+        <li><a href="/debt-relief">Debt Relief Calculator</a></li>
+        <li><a href="/credit-card-payoff">Credit Card Payoff</a></li>
+        <li><a href="/minimum-payment">Minimum Payment</a></li>
+        <li><a href="/dti-calculator">DTI Calculator</a></li>
+        <li><a href="/loan-payoff">Loan Payoff Calculator</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Learn</h4><ul>
+        <li><a href="/how-it-works">How It Works</a></li>
+        <li><a href="/tips">Debt Payoff Tips</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="/alternatives">Alternatives</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Company</h4><ul>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/privacy">Privacy Policy</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom"><p class="footer-disclaimer">For educational purposes only. Not financial advice.</p><span class="footer-copy">© 2025 DebtFreeCalc</span></div>
+  </div>
+</footer>
+<script>document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));</script>
+</body>
+</html>

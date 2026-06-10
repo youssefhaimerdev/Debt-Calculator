@@ -44,6 +44,16 @@
     .interest-bar-track{height:12px;background:var(--border);border-radius:6px;overflow:hidden;margin:8px 0;}
     .interest-bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--accent),var(--gold));transition:width 1s cubic-bezier(0.4,0,0.2,1);}
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://debtfreecalc.app/"},
+      {"@type":"ListItem","position":2,"name":"Minimum Payment Calculator","item":"https://debtfreecalc.app/minimum-payment"}
+    ]
+  }
+  </script>
 </head>
 <body>
 <header class="site-header">
@@ -52,10 +62,10 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="/">Calculator</a></li>
       <li><a href="/multi-debt" class="nav-cta">Multi-Debt ✦</a></li>
-      <li><a href="/calendar">Calendar</a></li>
-      <li><a href="/debt-relief">Debt Relief</a></li>
+      <li><a href="/tools">All Tools</a></li>
       <li><a href="/tips">Tips</a></li>
       <li><a href="/faq">FAQ</a></li>
+      <li><a href="/about">About</a></li>
     </ul>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
   </nav>
@@ -126,7 +136,37 @@
         <div class="stat-box"><span class="stat-number">80%</span><div class="stat-label">Of first minimum payment goes to interest</div></div>
         <div class="stat-box"><span class="stat-number">2x</span><div class="stat-label">What you end up paying vs what you borrowed</div></div>
       </div>
-      <div class="divider"></div>
+      
+      <h3>How Credit Card Issuers Actually Calculate Minimum Payments</h3>
+      <p>Different card issuers use different formulas, and understanding yours matters. The most common method is the <strong>percentage method</strong>: typically 1–2% of your current statement balance, with a floor of $25–$35. Some issuers use the <strong>interest-plus method</strong>: 1% of the balance plus the current month's full interest charge — this ensures you're always paying down at least 1% of principal regardless of how high your rate is.</p>
+      <p>A third method used by some issuers — particularly for promotional or deferred interest offers — is a flat dollar minimum regardless of balance. If you've ever seen a minimum payment that seems disconnected from your balance, this is likely why. Always check your cardholder agreement for the exact formula your issuer uses. It's buried in the fine print, but it directly determines how long you'll be in debt if you only pay minimums.</p>
+
+      <h3>Why Minimum Payments Were Designed to Be Low</h3>
+      <p>This isn't an accident. Prior to the 1970s, credit card minimum payments were commonly set at 5% of the balance — meaning cardholders typically paid off their balance within two years even paying only the minimum. Over the following decades, card issuers discovered that lowering the minimum payment dramatically increased long-term profitability. By the 1990s and 2000s, minimums had been reduced to 2% — and in some cases lower.</p>
+      <p>The logic is straightforward from the issuer's perspective: a customer who pays a 2% minimum on a $5,000 balance at 22% APR will pay interest for over a decade. A customer who pays a 5% minimum will pay interest for about 3 years. The revenue difference over that extended period is substantial. The minimum payment is, by design, the most expensive way to carry a credit card balance — and it's entirely legal.</p>
+
+      <h3>What to Do If You Can Only Afford the Minimum Right Now</h3>
+      <p>First: paying the minimum is always better than missing a payment entirely. A missed payment triggers late fees (typically $29–$40), can trigger a penalty APR of 29.99% that may apply to your entire balance, and damages your credit score significantly. If you're in a genuinely tight month, pay the minimum and don't miss it.</p>
+      <p>Second: call your issuer. Many credit card companies have hardship programs that temporarily lower your interest rate, waive fees, or reduce your minimum payment while you're experiencing financial difficulty. These programs exist and they're used — issuers would rather work with you than write off the debt. You typically need to ask proactively; they rarely offer unprompted.</p>
+      <p>Third: look for any budget line you can temporarily reduce — even $25–$50 extra per month applied to your minimum payment makes a significant difference in your total interest cost over time. Our <a href="/">debt payoff calculator</a> shows you exactly how much even small additional amounts save you.</p>
+
+      <h3>The Minimum Payment Trap: A Step-by-Step Escape Plan</h3>
+      <p><strong>Step 1 — Know your exact numbers.</strong> Use this calculator to see what minimum-only payments will actually cost you. Most people haven't done this calculation, and seeing the real number is the first step to changing behavior.</p>
+      <p><strong>Step 2 — Set a fixed payment above the minimum.</strong> Commit to a specific dollar amount — not a percentage of your balance, but a fixed number — and pay it every month regardless of what your minimum is. Even $50 above your minimum is a significant improvement. Use our <a href="/credit-card-payoff">credit card payoff calculator</a> to set a target that achieves payoff within 24–36 months.</p>
+      <p><strong>Step 3 — Automate it.</strong> Set up automatic payments from your checking account at that fixed amount. Remove the monthly decision from the equation entirely.</p>
+      <p><strong>Step 4 — Stop adding to the balance.</strong> New charges on a card you're trying to pay off work directly against your progress. If possible, stop using the card for new purchases until the balance is paid down to a manageable level.</p>
+      <p><strong>Step 5 — Apply windfalls.</strong> Any lump sum — tax refund, bonus, cash gift — applied directly to your credit card balance eliminates months from your payoff timeline. Even a single $500 payment can take years off a minimum-payment schedule.</p>
+
+      <h3>Minimum Payments and Your Credit Score</h3>
+      <p>Consistently paying at least the minimum on time is good for your credit score — it demonstrates on-time payment history, which is the most heavily weighted factor in FICO scoring at 35%. However, carrying a high balance relative to your credit limit (high utilization) hurts your score even when you pay on time. The minimum payment rarely reduces your balance fast enough to meaningfully improve your utilization ratio.</p>
+      <p>The ideal for credit score health is the same as the ideal for financial health: pay down the balance aggressively, reduce your utilization, and never miss a payment. The minimum payment handles the "never miss" part but does nothing for utilization. Paying significantly above the minimum addresses both simultaneously.</p>
+
+      <h3>Frequently Asked Questions About Minimum Payments</h3>
+      <p><strong>Does paying the minimum hurt my credit?</strong> Paying the minimum on time does not hurt your credit score — it's reported as a successful payment. What can hurt your score is high credit utilization (high balance relative to limit), which minimum payments do little to reduce. Paying only the minimum is financially costly but not directly credit-score damaging as long as the payment is made on time.</p>
+      <p><strong>What happens if I pay less than the minimum?</strong> Any payment below the required minimum is treated as a missed payment. You'll be charged a late fee, your credit score will be dinged, and your issuer may apply a penalty APR to your balance. Always pay at least the minimum — it's a hard floor, not a suggestion.</p>
+      <p><strong>Can I negotiate my minimum payment?</strong> Not typically as a standard ongoing arrangement, but during a genuine hardship period many issuers will temporarily lower minimums or defer payments through a hardship program. This is different from your permanent minimum — it's a temporary accommodation. See our <a href="/debt-relief">debt relief calculator</a> for a full comparison of hardship programs and other options.</p>
+
+<div class="divider"></div>
       <div class="related-links">
         <a href="/" class="related-link-card"><div class="rl-label">Calculator</div><div class="rl-title">Debt Payoff Calculator</div><div class="rl-desc">Model any fixed monthly payment and see your exact payoff date.</div></a>
         <a href="/credit-card-payoff" class="related-link-card"><div class="rl-label">Credit Cards</div><div class="rl-title">Credit Card Payoff Calculator</div><div class="rl-desc">Focused specifically on credit card debt payoff strategies.</div></a>
