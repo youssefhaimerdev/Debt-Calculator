@@ -58,12 +58,102 @@
       Debt<em>Free</em>Calc
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="/">Calculator</a></li>
-      <li><a href="/multi-debt" class="nav-cta">Multi-Debt ✦</a></li>
-      <li><a href="/tools">All Tools</a></li>
-      <li><a href="/tips">Tips</a></li>
-      <li><a href="/faq">FAQ</a></li>
-      <li><a href="/about">About</a></li>
+
+      <!-- Calculator — with explainer dropdown -->
+      <li class="nav-item-drop">
+        <a href="/" id="nav-calc">Calculator</a>
+        <div class="nav-dropdown nd-sm">
+          <div class="nd-head">
+            <span class="nd-emoji">📊</span>
+            <div>
+              <div class="nd-title">Debt Payoff Calculator</div>
+              <div class="nd-blurb">Enter your balance, APR, and monthly payment — get your exact debt-free date, total interest, visual chart, and full amortization schedule.</div>
+            </div>
+          </div>
+          <div class="nd-chips">
+            <span class="nd-chip">✓ Payoff date</span>
+            <span class="nd-chip">✓ What-if slider</span>
+            <span class="nd-chip">✓ Lump sum</span>
+            <span class="nd-chip">✓ Reverse calc</span>
+            <span class="nd-chip">✓ CSV export</span>
+          </div>
+          <a href="/" class="nd-action">Open Calculator →</a>
+        </div>
+      </li>
+
+      <!-- Multi-Debt — with explainer dropdown -->
+      <li class="nav-item-drop">
+        <a href="/multi-debt" class="nav-cta" id="nav-multi">Multi-Debt ✦</a>
+        <div class="nav-dropdown nd-sm">
+          <div class="nd-head">
+            <span class="nd-emoji">🗂️</span>
+            <div>
+              <div class="nd-title">Multi-Debt Planner</div>
+              <div class="nd-blurb">Multiple credit cards or loans? Enter all of them, set your budget, and get an optimized Avalanche vs Snowball payoff plan — side by side.</div>
+            </div>
+          </div>
+          <div class="nd-chips">
+            <span class="nd-chip">✓ Up to 8 debts</span>
+            <span class="nd-chip">✓ Avalanche method</span>
+            <span class="nd-chip">✓ Snowball method</span>
+            <span class="nd-chip">✓ Payoff timeline</span>
+            <span class="nd-chip">✓ CSV export</span>
+          </div>
+          <a href="/multi-debt" class="nd-action">Plan My Payoff →</a>
+        </div>
+      </li>
+
+      <!-- All Tools — mega dropdown grid -->
+      <li class="nav-item-drop">
+        <a href="/tools" id="nav-tools">All Tools</a>
+        <div class="nav-dropdown nd-lg">
+          <div class="nd-tools-label">All Free Calculators</div>
+          <div class="nd-tools-grid">
+            <a href="/" class="nd-tool-link">
+              <span class="nd-tool-icon-sm">📊</span>
+              <div><div class="nd-tool-name">Debt Payoff Calculator</div><div class="nd-tool-one">Payoff date, total interest & amortization</div></div>
+            </a>
+            <a href="/multi-debt" class="nd-tool-link">
+              <span class="nd-tool-icon-sm">🗂️</span>
+              <div><div class="nd-tool-name">Multi-Debt Planner</div><div class="nd-tool-one">Avalanche & snowball across all your debts</div></div>
+            </a>
+            <a href="/credit-card-payoff" class="nd-tool-link">
+              <span class="nd-tool-icon-sm">💳</span>
+              <div><div class="nd-tool-name">Credit Card Payoff</div><div class="nd-tool-one">Focused calculator for credit card debt</div></div>
+            </a>
+            <a href="/student-loan-payoff" class="nd-tool-link">
+              <span class="nd-tool-icon-sm">🎓</span>
+              <div><div class="nd-tool-name">Student Loan Payoff</div><div class="nd-tool-one">Federal & private loans with PSLF notes</div></div>
+            </a>
+            <a href="/loan-payoff" class="nd-tool-link">
+              <span class="nd-tool-icon-sm">🏦</span>
+              <div><div class="nd-tool-name">Loan Payoff Calculator</div><div class="nd-tool-one">Personal, auto & any fixed-rate loan</div></div>
+            </a>
+            <a href="/calendar" class="nd-tool-link">
+              <span class="nd-tool-icon-sm">📅</span>
+              <div><div class="nd-tool-name">Repayment Calendar</div><div class="nd-tool-one">Visual month-by-month payment calendar</div></div>
+            </a>
+            <a href="/debt-relief" class="nd-tool-link">
+              <span class="nd-tool-icon-sm">🏛️</span>
+              <div><div class="nd-tool-name">Debt Relief Calculator</div><div class="nd-tool-one">Compare all 6 debt relief options</div></div>
+            </a>
+            <a href="/minimum-payment" class="nd-tool-link">
+              <span class="nd-tool-icon-sm">⚠️</span>
+              <div><div class="nd-tool-name">Minimum Payment Trap</div><div class="nd-tool-one">See the true cost of minimum payments</div></div>
+            </a>
+            <a href="/dti-calculator" class="nd-tool-link">
+              <span class="nd-tool-icon-sm">📐</span>
+              <div><div class="nd-tool-name">DTI Calculator</div><div class="nd-tool-one">Calculate your debt-to-income ratio</div></div>
+            </a>
+          </div>
+          <a href="/tools" class="nd-view-all">View all tools with descriptions →</a>
+        </div>
+      </li>
+
+      <li><a href="/tips" id="nav-tips">Tips</a></li>
+      <li><a href="/faq" id="nav-faq">FAQ</a></li>
+      <li><a href="/about" id="nav-about">About</a></li>
+
     </ul>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
   </nav>
@@ -329,6 +419,55 @@
 <script>
 document.getElementById('navToggle').addEventListener('click', function() {
   document.getElementById('navLinks').classList.toggle('open');
+});
+</script>
+<script>
+// Auto-highlight active nav link based on current URL
+(function(){
+  const path = window.location.pathname.replace(/\/+$/, '') || '/';
+  const map = {
+    '/':                   'nav-calc',
+    '/multi-debt':         'nav-multi',
+    '/tools':              'nav-tools',
+    '/tips':               'nav-tips',
+    '/faq':                'nav-faq',
+    '/about':              'nav-about',
+    '/how-it-works':       null,
+    '/alternatives':       null,
+    '/calendar':           'nav-tools',
+    '/debt-relief':        'nav-tools',
+    '/credit-card-payoff': 'nav-tools',
+    '/student-loan-payoff':'nav-tools',
+    '/loan-payoff':        'nav-tools',
+    '/minimum-payment':    'nav-tools',
+    '/dti-calculator':     'nav-tools',
+    '/contact':            null,
+    '/privacy':            null,
+  };
+  const id = map[path];
+  if(id){ const el=document.getElementById(id); if(el) el.classList.add('active'); }
+})();
+
+// Dropdown hover — desktop: CSS handles it; mobile: click toggle
+document.querySelectorAll('.nav-item-drop > a').forEach(function(link){
+  link.addEventListener('click', function(e){
+    if(window.innerWidth <= 768){
+      const li = link.closest('.nav-item-drop');
+      const isOpen = li.classList.contains('dd-open');
+      document.querySelectorAll('.nav-item-drop').forEach(function(x){ x.classList.remove('dd-open'); });
+      if(!isOpen){
+        e.preventDefault();
+        li.classList.add('dd-open');
+      }
+    }
+  });
+});
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(e){
+  if(!e.target.closest('.nav-item-drop')){
+    document.querySelectorAll('.nav-item-drop').forEach(function(x){ x.classList.remove('dd-open'); });
+  }
 });
 </script>
 </body>
