@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Loan Payoff Calculator — Free Federal & Private Student Loan Planner</title>
+  <meta name="description" content="Free student loan payoff calculator: see your payoff date, total interest, and how extra payments save you thousands. Works for federal and private student loans. Compare repayment plans.">
+  <meta name="google-adsense-account" content="ca-pub-3379075069129713">
+  <link rel="canonical" href="https://debtfreecalc.app/student-loan-payoff">
+  <meta property="og:title" content="Student Loan Payoff Calculator — Free Federal & Private Loan Planner">
+  <meta property="og:description" content="Calculate exactly when you'll pay off your student loans and how much interest you'll pay. Compare standard vs aggressive payoff and see the impact of extra payments.">
+  <meta property="og:url" content="https://debtfreecalc.app/student-loan-payoff">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://debtfreecalc.app/og-image.svg">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="hreflang" hreflang="en" href="https://debtfreecalc.app/student-loan-payoff">
+  <link rel="stylesheet" href="/styles.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J2TL4H8H5R"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-J2TL4H8H5R');</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Student Loan Payoff Calculator",
+    "url": "https://debtfreecalc.app/student-loan-payoff",
+    "description": "Calculate exactly when you will pay off your student loans, how much interest you will pay, and how extra payments accelerate your payoff. Works for federal and private student loans.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "keywords": ["student loan payoff calculator", "student loan calculator", "federal student loan payoff", "private student loan calculator", "how long to pay off student loans"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://debtfreecalc.app/"},
+      {"@type":"ListItem","position":2,"name":"Student Loan Payoff Calculator","item":"https://debtfreecalc.app/student-loan-payoff"}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "DebtFreeCalc",
+    "url": "https://debtfreecalc.app",
+    "logo": "https://debtfreecalc.app/favicon.svg"
+  }
+  </script>
+  <style>
+    .loan-type-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--border);
+      border-radius: var(--radius-md);
+      padding: 2px;
+      margin-bottom: 24px;
+    }
+    .lt-btn {
+      padding: 12px 20px;
+      border: none;
+      border-radius: calc(var(--radius-md) - 2px);
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-align: center;
+    }
+    .lt-btn.active {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+    }
+    .rate-reference {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-top: 8px;
+    }
+    .rate-reference h4 {
+      font-size: 0.72rem;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .rate-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .rate-row:last-child { border-bottom: none; }
+    .rate-val { font-family: var(--font-mono); color: var(--accent); }
+
+    .plan-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 28px;
+    }
+    @media (max-width: 800px) { .plan-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 500px) { .plan-grid { grid-template-columns: 1fr; } }
+
+    .plan-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      transition: all var(--transition);
+    }
+    .plan-card:hover { background: var(--bg-card-hover); transform: translateY(-2px); }
+    .plan-card.best { border-color: rgba(0,214,122,0.3); background: rgba(0,214,122,0.04); }
+    .plan-name { font-size: 0.82rem; font-weight: 600; color: var(--text-primary); margin-bottom: 10px; }
+    .plan-payment { font-family: var(--font-mono); font-size: 1.25rem; color: var(--accent); margin-bottom: 8px; }
+    .plan-stat { font-size: 0.78rem; color: var(--text-secondary); font-family: var(--font-mono); margin-bottom: 4px; }
+    .plan-save { font-size: 0.72rem; color: var(--gold); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+
+    .pslf-box {
+      background: var(--gold-dim);
+      border: 1px solid rgba(245,166,35,0.25);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-top: 20px;
+      display: none;
+    }
+    .pslf-box.show { display: block; }
+    .pslf-box h4 { color: var(--gold); font-size: 0.85rem; margin-bottom: 6px; }
+    .pslf-box p { font-size: 0.82rem; color: var(--text-secondary); margin: 0; }
+
+    .grace-note {
+      background: var(--accent-dim);
+      border: 1px solid rgba(0,214,122,0.15);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      margin-top: 12px;
+      display: none;
+    }
+    .grace-note.show { display: block; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav-container">
+    <a href="/" class="nav-logo"><div class="logo-mark">$</div>Debt<em>Free</em>Calc</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/multi-debt" class="nav-cta">Multi-Debt ✦</a></li>
+      <li><a href="/tools">All Tools</a></li>
+      <li><a href="/tips">Tips</a></li>
+      <li><a href="/faq">FAQ</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+  </nav>
+</header>
+
+<section class="hero" style="padding-bottom:40px;">
+  <div class="container">
+    <div class="hero-eyebrow animate-in"><span>🎓</span> Student Loan Payoff Calculator</div>
+    <h1 class="animate-in delay-1">Pay off your student loans.<br><em>Know exactly when.</em></h1>
+    <p class="hero-sub animate-in delay-2">The free student loan payoff calculator for federal and private loans. Enter your balance, interest rate, and payment — get your payoff date, total interest, and a side-by-side comparison of 3 repayment strategies.</p>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container">
+    <div class="calc-grid">
+
+      <!-- INPUTS -->
+      <div class="calc-inputs-panel">
+        <div class="panel-title">Your Student Loan</div>
+
+        <div class="loan-type-toggle">
+          <button class="lt-btn active" id="btnFederal" onclick="setLoanType('federal')">🏛 Federal Loan</button>
+          <button class="lt-btn" id="btnPrivate" onclick="setLoanType('private')">🏦 Private Loan</button>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="sl-balance">Current Loan Balance</label>
+          <div class="input-wrap"><span class="input-prefix">$</span>
+            <input type="number" id="sl-balance" class="has-prefix" placeholder="35,000" min="1" step="100" oninput="runSL()">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="sl-apr">Interest Rate (APR)</label>
+          <div class="input-wrap">
+            <input type="number" id="sl-apr" class="has-suffix" placeholder="6.54" min="0" max="30" step="0.01" oninput="runSL()">
+            <span class="input-suffix">%</span>
+          </div>
+          <div class="rate-reference" id="rateRef">
+            <h4>2024–25 Federal Loan Rates</h4>
+            <div class="rate-row"><span>Undergrad (Direct Subsidized/Unsubsidized)</span><span class="rate-val">6.53%</span></div>
+            <div class="rate-row"><span>Graduate (Direct Unsubsidized)</span><span class="rate-val">8.08%</span></div>
+            <div class="rate-row"><span>Parent & Grad PLUS Loans</span><span class="rate-val">9.08%</span></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="sl-payment">Monthly Payment</label>
+          <div class="input-wrap"><span class="input-prefix">$</span>
+            <input type="number" id="sl-payment" class="has-prefix" placeholder="380" min="1" step="10" oninput="runSL()">
+          </div>
+          <p class="form-hint">Standard 10-year repayment: divide your balance by 120 as a rough guide</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="sl-grace">Grace Period Remaining (months)</label>
+          <div class="input-wrap">
+            <input type="number" id="sl-grace" class="has-suffix" placeholder="0" min="0" max="12" step="1" value="0" oninput="runSL()">
+            <span class="input-suffix">mo</span>
+          </div>
+          <p class="form-hint">Most federal loans have a 6-month grace period after graduation</p>
+        </div>
+
+        <div class="grace-note" id="graceNote">
+          ⏳ Your first payment starts after the grace period. Interest still accrues during this time on unsubsidized loans.
+        </div>
+
+        <div class="calc-error" id="slError"><span>⚠</span><span id="slErrorMsg"></span></div>
+        <button class="btn btn-primary btn-full" style="margin-top:16px;" onclick="runSL()">Calculate My Payoff →</button>
+      </div>
+
+      <!-- RESULTS -->
+      <div class="calc-results-panel">
+        <div class="panel-title">Your Payoff Results</div>
+        <div class="results-empty" id="slEmpty">
+          <div class="empty-icon">🎓</div>
+          <p>Enter your loan details to see your personalized student loan payoff plan.</p>
+        </div>
+        <div id="slResults" style="display:none;">
+          <div class="metric">
+            <div class="metric-label">Loan Paid Off</div>
+            <div class="metric-value accent" id="sl-res-date">—</div>
+            <div class="metric-sub" id="sl-res-months">—</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Total Interest Paid</div>
+            <div class="metric-value danger" id="sl-res-interest">—</div>
+            <div class="metric-sub" id="sl-res-int-pct">—</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Total Amount Paid</div>
+            <div class="metric-value" id="sl-res-total">—</div>
+            <div class="breakdown-bar"><div class="breakdown-fill" id="sl-bar"></div></div>
+            <div class="breakdown-labels"><span id="sl-bar-p">Principal</span><span id="sl-bar-i">Interest</span></div>
+          </div>
+          <div class="metric" style="border-bottom:none;">
+            <div class="metric-label">Interest Accruing Daily</div>
+            <div class="metric-value gold" id="sl-res-daily">—</div>
+            <div class="metric-sub">every single day while your balance exists</div>
+          </div>
+
+          <div class="pslf-box" id="pslfBox">
+            <h4>💼 PSLF Note</h4>
+            <p>If you work for a qualifying government or nonprofit employer and make 120 qualifying payments on an Income-Driven Repayment plan, your remaining balance may be forgiven tax-free. Visit <a href="https://studentaid.gov/manage-loans/forgiveness-cancellation/public-service" target="_blank" rel="noopener" style="color:var(--gold);">studentaid.gov/pslf</a> to check eligibility.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 REPAYMENT PLANS -->
+    <div id="plansSection" style="display:none;margin-top:8px;">
+      <div style="margin-bottom:16px;">
+        <div class="section-label">Repayment Comparison</div>
+        <h2 style="margin:0;">Three ways to pay off your student loan</h2>
+        <p style="color:var(--text-muted);font-size:0.88rem;margin-top:6px;">See how your timeline and total interest change based on how aggressively you pay.</p>
+      </div>
+      <div class="plan-grid" id="planGrid"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SEO CONTENT -->
+<section class="content-section" style="background:var(--bg-surface);border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="content-prose">
+      <div class="section-label">Student Loan Payoff Guide</div>
+      <h2>Student Loan Payoff Calculator — Federal & Private Loans</h2>
+      <p>This free student loan payoff calculator works for both federal and private student loans. Enter your current balance, your interest rate, and your monthly payment — and you'll instantly see your exact payoff date, total interest cost, how much interest accrues every single day, and a three-plan comparison showing how paying more accelerates your freedom from student debt.</p>
+      <p>Student loan debt is the second largest category of consumer debt in the United States, behind only mortgage debt. As of 2024, Americans owe over $1.7 trillion in student loans across more than 43 million borrowers. The average federal student loan borrower owes approximately $37,000 — and at 6.53% interest (the 2024–25 undergraduate rate), that's over $6 in interest accruing every single day. Over a standard 10-year repayment, that borrower will pay nearly $14,000 in interest on a $37,000 loan.</p>
+
+      <h3>Federal Student Loans vs Private Student Loans</h3>
+      <p>Federal and private student loans are fundamentally different products with different rules, protections, and payoff strategies. Understanding which type you have changes which options are available to you.</p>
+      <p><strong>Federal student loans</strong> are issued by the U.S. Department of Education. They carry fixed interest rates set annually by Congress, offer income-driven repayment options, qualify for Public Service Loan Forgiveness, can be consolidated through the federal direct consolidation program, and offer deferment and forbearance options during hardship. The 2024–25 rates are 6.53% for undergraduate loans, 8.08% for graduate unsubsidized loans, and 9.08% for PLUS loans.</p>
+      <p><strong>Private student loans</strong> are issued by banks, credit unions, and online lenders. They may have fixed or variable rates, typically don't offer income-driven repayment, don't qualify for federal forgiveness programs, and have fewer hardship protections. However, private loans can sometimes be refinanced to significantly lower rates for borrowers with strong credit and income — something that makes sense for many borrowers once they're employed.</p>
+
+      <div class="callout callout-tip">
+        <div class="callout-title">💡 Find Your Federal Loan Details</div>
+        <p>Log in to <a href="https://studentaid.gov" target="_blank" rel="noopener">studentaid.gov</a> with your FSA ID to see all your federal loan balances, interest rates, servicer information, and payment history in one place. This is the official source — use it before entering numbers into any calculator.</p>
+      </div>
+
+      <h3>Standard 10-Year Repayment — The Default and Its Cost</h3>
+      <p>Federal student loan borrowers are automatically enrolled in the Standard Repayment Plan: a fixed monthly payment that pays off the loan in exactly 10 years (120 payments). For most borrowers, this is the fastest federal repayment plan and results in the lowest total interest paid among federal options. The monthly payment on the standard plan is calculated using the standard amortization formula, which this calculator uses.</p>
+      <p>However, the standard payment can be a significant burden for recent graduates whose income hasn't yet grown to match their debt. This is where income-driven repayment plans become relevant — though they come with trade-offs our calculator can't model because they depend on your income, family size, and tax filing status.</p>
+
+      <h3>Income-Driven Repayment (IDR) Plans — What They Are and What They Cost</h3>
+      <p>The federal government offers several income-driven repayment plans that cap your monthly payment as a percentage of your discretionary income. The current plans include SAVE (Saving on a Valuable Education), PAYE (Pay As You Earn), IBR (Income-Based Repayment), and ICR (Income-Contingent Repayment). Monthly payments under IDR can be as low as $0 for borrowers with very low income.</p>
+      <p>The trade-off is time and total cost. IDR plans extend your repayment to 20 or 25 years, during which interest accrues — potentially dramatically increasing the total amount paid. The remaining balance at the end of the IDR period may be forgiven, but that forgiveness is generally treated as taxable income (creating a potential "tax bomb"). This calculator models standard fixed-payment repayment, not IDR — for IDR projections, use the official <a href="https://studentaid.gov/loan-simulator/" target="_blank" rel="noopener">Federal Student Aid Loan Simulator</a>.</p>
+
+      <h3>Public Service Loan Forgiveness (PSLF)</h3>
+      <p>PSLF forgives the remaining balance on federal Direct Loans after 120 qualifying monthly payments while working full-time for a qualifying government or nonprofit employer. The forgiveness under PSLF is tax-free — unlike the forgiveness at the end of IDR periods. For borrowers in qualifying employment, PSLF can be extraordinarily valuable, particularly for those with high balances relative to income.</p>
+      <p>PSLF requires enrollment in an income-driven repayment plan to make qualifying payments. If you're pursuing PSLF, deliberately paying off your loan faster is counterproductive — you're leaving forgiveness money on the table. This is one of the few scenarios where our standard payoff calculator isn't the right tool: the goal is to maximize forgiveness, not minimize interest. Check your PSLF eligibility at <a href="https://studentaid.gov/manage-loans/forgiveness-cancellation/public-service" target="_blank" rel="noopener">studentaid.gov</a>.</p>
+
+      <h3>How Extra Payments Work Differently for Student Loans</h3>
+      <p>Extra payments on student loans work the same mathematically as on any other installment debt — they reduce your principal balance, which reduces future interest charges, which accelerates your payoff. However, student loan servicers sometimes apply extra payments as a prepayment of future months rather than as principal reduction. Always contact your servicer and specify that extra payments should be applied to principal, not to future months' payments.</p>
+      <p>For federal loan borrowers with multiple loans, extra payments should ideally be directed to the highest-rate loan first (avalanche method). Contact your servicer to specify which loan an extra payment should go toward — they won't automatically apply it optimally. Use our <a href="/multi-debt">multi-debt planner</a> if you have multiple student loans with different rates to model the optimal payoff order.</p>
+
+      <h3>Should You Refinance Your Student Loans?</h3>
+      <p>Refinancing replaces your existing loan(s) with a new private loan at a potentially lower interest rate. For federal loan borrowers, this is an irreversible decision: once you refinance federal loans into a private loan, you permanently lose access to income-driven repayment, PSLF eligibility, federal deferment and forbearance options, and any future federal relief programs. This is a significant trade-off that should not be made lightly.</p>
+      <p>Refinancing makes the most sense when: you have private loans already (no federal protections to lose), you're confident in your income stability, you don't work for a qualifying PSLF employer, and you can qualify for a meaningfully lower rate (1.5+ percentage points). For most borrowers with federal loans, the protections are too valuable to trade for a lower rate — especially given the uncertainty around income-driven repayment and forgiveness program changes.</p>
+
+      <div class="callout callout-warning">
+        <div class="callout-title">⚠ Refinancing Federal Loans Loses PSLF Eligibility Forever</div>
+        <p>If you work or plan to work in public service, government, or at a nonprofit, do not refinance federal student loans into private loans. PSLF eligibility cannot be restored once lost. The potential for tax-free forgiveness of tens of thousands of dollars is worth far more than a lower interest rate for most public service workers.</p>
+      </div>
+
+      <h3>The Grace Period — What Happens to Interest</h3>
+      <p>Most federal student loans have a 6-month grace period after you graduate, leave school, or drop below half-time enrollment before payments are required. However, what happens to interest during this period depends on your loan type. For <strong>subsidized loans</strong>, the government pays the interest during the grace period — your balance doesn't grow. For <strong>unsubsidized loans and PLUS loans</strong>, interest accrues during the grace period and capitalizes (gets added to your principal) when repayment begins, increasing the balance you start repaying.</p>
+      <p>This means the interest accrual field in our calculator matters — if you have unsubsidized loans in a grace period, your starting repayment balance will be higher than your current balance by the amount of interest that accrued. Account for this when entering your balance.</p>
+
+      <h3>Student Loan Payoff Tips</h3>
+      <p><strong>Make payments during the grace period.</strong> Even though federal loans don't require payments for 6 months, you can choose to pay — and any payments during this time go directly to principal with no interest having accrued yet (for subsidized loans) or reduce the interest that will capitalize (for unsubsidized loans).</p>
+      <p><strong>Set up autopay for a 0.25% rate reduction.</strong> Federal loan servicers offer a 0.25 percentage point interest rate reduction when you enroll in automatic payments. Many private lenders offer similar reductions. On a $35,000 loan over 10 years, this saves approximately $600. It's free money for something you should be doing anyway.</p>
+      <p><strong>Apply any windfalls to student loans.</strong> Tax refunds, bonuses, gifts — any lump sum applied to your student loan principal directly accelerates your payoff date. Our calculator shows your current payoff date; imagine how much that date moves when you apply an extra $1,000 or $2,000 at once.</p>
+      <p><strong>Consider biweekly payments.</strong> Making half your monthly payment every two weeks results in 26 half-payments (13 full payments) per year. That one extra payment annually reduces a 10-year loan by about 8 months and saves meaningful interest with no real budget impact.</p>
+
+      <div class="stat-row">
+        <div class="stat-box"><span class="stat-number">$1.7T</span><div class="stat-label">Total US student loan debt (2024)</div></div>
+        <div class="stat-box"><span class="stat-number">$37,000</span><div class="stat-label">Average federal student loan balance</div></div>
+        <div class="stat-box"><span class="stat-number">6.53%</span><div class="stat-label">2024–25 undergraduate federal rate</div></div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="related-links">
+        <a href="/loan-payoff" class="related-link-card">
+          <div class="rl-label">General</div>
+          <div class="rl-title">Loan Payoff Calculator</div>
+          <div class="rl-desc">Works for any loan type including personal, auto, and student loans.</div>
+        </a>
+        <a href="/multi-debt" class="related-link-card">
+          <div class="rl-label">Multiple Loans</div>
+          <div class="rl-title">Multi-Debt Planner</div>
+          <div class="rl-desc">Multiple student loans with different rates? Build an optimized payoff plan.</div>
+        </a>
+        <a href="/" class="related-link-card">
+          <div class="rl-label">Main Tool</div>
+          <div class="rl-title">Debt Payoff Calculator</div>
+          <div class="rl-desc">Full amortization, what-if slider, reverse calculator, and CSV export.</div>
+        </a>
+        <a href="/calendar" class="related-link-card">
+          <div class="rl-label">Visual</div>
+          <div class="rl-title">Repayment Calendar</div>
+          <div class="rl-desc">See your loan payments laid out as a month-by-month calendar.</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="/" class="nav-logo" style="margin-bottom:12px;display:inline-flex;"><div class="logo-mark">$</div>Debt<em>Free</em>Calc</a><p>Free debt payoff tools — no sign-up, no data collection, no agenda.</p></div>
+      <div class="footer-col"><h4>Tools</h4><ul>
+        <li><a href="/">Debt Payoff Calculator</a></li>
+        <li><a href="/multi-debt">Multi-Debt Planner</a></li>
+        <li><a href="/calendar">Repayment Calendar</a></li>
+        <li><a href="/debt-relief">Debt Relief Calculator</a></li>
+        <li><a href="/credit-card-payoff">Credit Card Payoff</a></li>
+        <li><a href="/student-loan-payoff">Student Loan Payoff</a></li>
+        <li><a href="/loan-payoff">Loan Payoff Calculator</a></li>
+        <li><a href="/minimum-payment">Minimum Payment</a></li>
+        <li><a href="/dti-calculator">DTI Calculator</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Learn</h4><ul>
+        <li><a href="/how-it-works">How It Works</a></li>
+        <li><a href="/tips">Debt Payoff Tips</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="/alternatives">Alternatives</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Company</h4><ul>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/privacy">Privacy Policy</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom"><p class="footer-disclaimer">For educational purposes only. Not financial advice. Results are estimates based on inputs provided.</p><span class="footer-copy">© 2025 DebtFreeCalc</span></div>
+  </div>
+</footer>
+
+<script>
+let loanType = 'federal';
+
+function setLoanType(type) {
+  loanType = type;
+  document.getElementById('btnFederal').classList.toggle('active', type === 'federal');
+  document.getElementById('btnPrivate').classList.toggle('active', type === 'private');
+  document.getElementById('rateRef').style.display = type === 'federal' ? 'block' : 'none';
+  document.getElementById('pslfBox').classList.toggle('show', type === 'federal');
+  runSL();
+}
+
+function fmt$(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+function fmtEx$(n){ return '$' + n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtDate(m){ const d=new Date(); d.setMonth(d.getMonth()+m); return d.toLocaleDateString('en-US',{month:'long',year:'numeric'}); }
+function fmtMo(m){ const y=Math.floor(m/12),mo=m%12; if(!y) return mo+'mo'; if(!mo) return y+'yr'; return y+'yr '+mo+'mo'; }
+
+function calcLoan(bal, apr, pmt) {
+  const r = apr / 100 / 12;
+  if (r > 0 && pmt <= bal * r) return { error: true, min: bal * r };
+  let b = bal, ti = 0, mo = 0;
+  while (b > 0.005 && mo < 600) {
+    mo++;
+    const interest = b * r;
+    b = Math.max(0, b - Math.min(pmt - interest, b));
+    ti += interest;
+  }
+  return { months: mo, totalInterest: ti, totalPaid: bal + ti };
+}
+
+function runSL() {
+  const bal     = parseFloat(document.getElementById('sl-balance').value);
+  const apr     = parseFloat(document.getElementById('sl-apr').value);
+  const pmt     = parseFloat(document.getElementById('sl-payment').value);
+  const grace   = parseInt(document.getElementById('sl-grace').value) || 0;
+  const err     = document.getElementById('slError');
+
+  // Grace period note
+  document.getElementById('graceNote').classList.toggle('show', grace > 0);
+
+  if (!bal || !apr || !pmt) { err.classList.remove('show'); return; }
+
+  const r = apr / 100 / 12;
+  // Interest accrues during grace on unsubsidized — approximate
+  const adjustedBal = loanType === 'federal' ? bal + (bal * r * grace * 0.5) : bal + (bal * r * grace);
+
+  if (r > 0 && pmt <= adjustedBal * r) {
+    err.classList.add('show');
+    document.getElementById('slErrorMsg').textContent =
+      `Payment of ${fmtEx$(pmt)} too low. Monthly interest alone is ${fmtEx$(adjustedBal * r)}. Increase to at least ${fmtEx$(adjustedBal * r + 1)}.`;
+    document.getElementById('slEmpty').style.display = 'flex';
+    document.getElementById('slResults').style.display = 'none';
+    document.getElementById('plansSection').style.display = 'none';
+    return;
+  }
+  err.classList.remove('show');
+
+  const result = calcLoan(adjustedBal, apr, pmt);
+  const totalMonths = result.months + grace;
+  const iPct = Math.round((result.totalInterest / result.totalPaid) * 100);
+  const dailyInterest = (adjustedBal * apr / 100) / 365;
+
+  document.getElementById('slEmpty').style.display = 'none';
+  document.getElementById('slResults').style.display = 'block';
+  document.getElementById('sl-res-date').textContent = fmtDate(totalMonths);
+  document.getElementById('sl-res-months').textContent = fmtMo(totalMonths) + ' from today' + (grace > 0 ? ` (including ${grace}-month grace period)` : '');
+  document.getElementById('sl-res-interest').textContent = fmt$(result.totalInterest);
+  document.getElementById('sl-res-int-pct').textContent = iPct + '% of total payments go to interest';
+  document.getElementById('sl-res-total').textContent = fmt$(result.totalPaid);
+  setTimeout(() => { document.getElementById('sl-bar').style.width = iPct + '%'; }, 200);
+  document.getElementById('sl-bar-p').textContent = 'Principal ' + (100-iPct) + '%';
+  document.getElementById('sl-bar-i').textContent = 'Interest ' + iPct + '%';
+  document.getElementById('sl-res-daily').textContent = fmtEx$(dailyInterest);
+
+  // PSLF box — show for federal only after 10yr check
+  if (loanType === 'federal') {
+    document.getElementById('pslfBox').classList.add('show');
+  }
+
+  // Build 3 repayment plans
+  const plans = [
+    { name: 'Current Payment', pmt: pmt, note: 'Your plan as entered' },
+    { name: 'Pay $100 Extra/mo', pmt: pmt + 100, note: 'Small boost, big impact' },
+    { name: 'Standard 10-Year', pmt: calcStandard10(adjustedBal, r), note: 'Typical federal repayment' },
+  ];
+
+  document.getElementById('plansSection').style.display = 'block';
+  const grid = document.getElementById('planGrid');
+  grid.innerHTML = '';
+  const totalCosts = plans.map(p => calcLoan(adjustedBal, apr, Math.max(p.pmt, adjustedBal * r + 0.01)));
+  const minCost = Math.min(...totalCosts.filter(r => !r.error).map(r => r.totalPaid));
+
+  plans.forEach((plan, i) => {
+    const r2 = calcLoan(adjustedBal, apr, Math.max(plan.pmt, adjustedBal * r + 0.01));
+    if (r2.error) return;
+    const isBest = Math.abs(r2.totalPaid - minCost) < 1;
+    const savings = totalCosts[0] && !totalCosts[0].error ? totalCosts[0].totalPaid - r2.totalPaid : 0;
+    const div = document.createElement('div');
+    div.className = 'plan-card' + (isBest ? ' best' : '');
+    div.innerHTML = `
+      <div class="plan-name">${plan.name}</div>
+      <div class="plan-payment">${fmtEx$(plan.pmt)}/mo</div>
+      <div class="plan-stat">⏱ ${fmtMo(r2.months + grace)}</div>
+      <div class="plan-stat">💰 ${fmt$(r2.totalInterest)} interest</div>
+      <div class="plan-stat">📅 Free by ${fmtDate(r2.months + grace)}</div>
+      <div class="plan-stat" style="color:var(--text-muted);font-size:0.72rem;margin-top:6px;">${plan.note}</div>
+      ${i > 0 && savings > 1 ? `<div class="plan-save">↑ Saves ${fmt$(savings)} vs current</div>` : ''}`;
+    grid.appendChild(div);
+  });
+}
+
+function calcStandard10(bal, r) {
+  if (r === 0) return bal / 120;
+  return bal * (r * Math.pow(1+r, 120)) / (Math.pow(1+r, 120) - 1);
+}
+
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+</script>
+</body>
+</html>
