@@ -962,51 +962,64 @@ input[type="range"]:focus { background: rgba(0,214,122,0.2); box-shadow: none; }
 }
 .nav-item-drop:hover > a::after { transform: rotate(180deg); opacity: 1; }
 
-/* Base dropdown */
+/* Base dropdown — HIDDEN by default using display:none (cache-safe) */
 .nav-dropdown {
+  display: none;
   position: absolute;
   top: calc(100% + 10px);
   left: 50%;
-  transform: translateX(-50%) translateY(6px);
+  transform: translateX(-50%);
   background: rgba(7,16,30,0.97);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: var(--radius-lg);
   box-shadow: 0 24px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.18s ease, transform 0.18s ease;
   z-index: 500;
+  animation: ddFadeIn 0.16s ease both;
 }
+
+@keyframes ddFadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
 /* Invisible bridge — prevents gap-flicker when cursor moves down */
 .nav-dropdown::before {
   content: '';
   position: absolute;
-  top: -16px; left: 0; right: 0;
-  height: 16px;
+  top: -14px; left: 0; right: 0;
+  height: 14px;
 }
 
-.nav-item-drop:hover .nav-dropdown,
-.nav-item-drop.dd-open .nav-dropdown {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+/* SHOW on hover or JS-toggled open */
+.nav-item-drop:hover > .nav-dropdown,
+.nav-item-drop.dd-open > .nav-dropdown {
+  display: block;
 }
 
 /* Small explainer dropdown (Calculator & Multi-Debt) */
 .nd-sm { width: 300px; padding: 20px; }
 
-/* Large tools dropdown */
+/* Large tools dropdown — right-aligned so it doesn't overflow */
 .nd-lg {
   width: 500px;
   padding: 16px;
   left: auto;
   right: 0;
-  transform: translateY(6px);
+  transform: none;
 }
-.nav-item-drop:hover .nd-lg,
-.nav-item-drop.dd-open .nd-lg { transform: translateY(0); }
+
+@keyframes ddFadeInRight {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.nav-item-drop:hover > .nd-lg,
+.nav-item-drop.dd-open > .nd-lg {
+  display: block;
+  animation: ddFadeInRight 0.16s ease both;
+}
 
 /* Dropdown content — explainer card */
 .nd-head {
@@ -1112,24 +1125,23 @@ input[type="range"]:focus { background: rgba(0,214,122,0.2); box-shadow: none; }
 
 /* Mobile — dropdowns become inline accordions */
 @media (max-width: 768px) {
+  .nav-item-drop:hover > .nav-dropdown { display: none; }
+  .nav-item-drop.dd-open > .nav-dropdown { display: block !important; }
   .nav-dropdown {
-    position: static;
+    position: static !important;
     transform: none !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    border: none;
-    border-top: 1px solid var(--border);
-    background: rgba(255,255,255,0.03);
-    border-radius: 0;
-    box-shadow: none;
-    backdrop-filter: none;
-    display: none;
-    width: 100%;
+    border: none !important;
+    border-top: 1px solid var(--border) !important;
+    background: rgba(255,255,255,0.03) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    width: 100% !important;
+    animation: none !important;
   }
   .nav-dropdown::before { display: none; }
-  .nav-item-drop.dd-open .nav-dropdown { display: block; }
   .nd-sm, .nd-lg { width: 100%; padding: 14px 16px; }
   .nd-tools-grid { grid-template-columns: 1fr; }
-  .nd-lg { right: auto; }
+  .nd-lg { right: auto !important; }
   .nav-item-drop > a::after { float: right; margin-top: 4px; }
 }
